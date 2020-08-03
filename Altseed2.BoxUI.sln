@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{34627D61-8EB1-4423-8D64-46B07869D7A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Altseed2.BoxUI", "src\Altseed2.BoxUI\Altseed2.BoxUI.csproj", "{1349392B-C578-40E2-8DF0-C8395F09CB00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Altseed2.BoxUI", "src\Altseed2.BoxUI\Altseed2.BoxUI.csproj", "{1349392B-C578-40E2-8DF0-C8395F09CB00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1349392B-C578-40E2-8DF0-C8395F09CB00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -33,7 +30,13 @@ Global
 		{1349392B-C578-40E2-8DF0-C8395F09CB00}.Release|x86.ActiveCfg = Release|Any CPU
 		{1349392B-C578-40E2-8DF0-C8395F09CB00}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1349392B-C578-40E2-8DF0-C8395F09CB00} = {34627D61-8EB1-4423-8D64-46B07869D7A0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51839C07-5508-4BDD-B29D-DEC995FE4E6E}
 	EndGlobalSection
 EndGlobal
