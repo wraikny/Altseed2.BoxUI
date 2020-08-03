@@ -1,3 +1,4 @@
+[![](https://github.com/wraikny/Altseed2.BoxUI/workflows/CI/badge.svg)](https://github.com/wraikny/Altseed2.BoxUI/actions?workflow=CI)
 # Altseed2.BoxUI
 
 ## Dependencies
