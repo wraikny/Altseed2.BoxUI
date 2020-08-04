@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
@@ -11,10 +10,7 @@ namespace Altseed2.BoxUI.Builtin
 
         public static ColumnElement Create(UIDir dir = UIDir.Y)
         {
-            if(dir != UIDir.X && dir != UIDir.Y)
-            {
-                throw new InvalidEnumArgumentException("dir", (int)dir, typeof(UIDir));
-            }
+            FlagsValidater.Validate(dir);
 
             var elem = Rent<ColumnElement>();
             elem.dir_ = dir;
@@ -24,7 +20,6 @@ namespace Altseed2.BoxUI.Builtin
         protected override void ReturnToCache()
         {
             Return(this);
-            dir_ = default;
         }
 
         protected override void OnResize(RectF area)

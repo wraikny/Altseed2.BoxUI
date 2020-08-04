@@ -25,7 +25,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void OnAdded()
         {
-            node_ = Root.Rent<RectangleNode>() ?? new RectangleNode();
+            node_ = Root.Rent<RectangleNode>();
             initializer_?.Invoke(node_);
             initializer_ = null;
         }

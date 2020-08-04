@@ -27,7 +27,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void OnAdded()
         {
-            node_ = Root.Rent<SpriteNode>() ?? new SpriteNode();
+            node_ = Root.Rent<SpriteNode>();
             initializer_?.Invoke(node_);
             initializer_ = null;
         }
@@ -45,6 +45,8 @@ namespace Altseed2.BoxUI.Builtin
                     node_.Scale = Vector2FExt.One * MathF.Min(node_.Scale.X, node_.Scale.Y);
                     var size = texSize * node_.Scale;
                     node_.Position += (area.Size + size) * 0.5f;
+
+                    area = new RectF(node_.Position, size);
                 }
             }
 
