@@ -11,7 +11,7 @@ namespace Altseed2.BoxUI
         void OnRemoved(BoxUIRootNode root);
     }
 
-    public sealed class BoxUIRootNode : TransformNode
+    public sealed class BoxUIRootNode : Node
     {
         private Element element_;
         private readonly List<IBoxUICursor> cursors_;
@@ -31,13 +31,14 @@ namespace Altseed2.BoxUI
             element_ = null;
         }
 
-        public void SetElement(Element element)
+        public void SetElement<T>(T absoluteSizeElement)
+            where T : Element, IAbsoluteSizeElement
         {
             element_?.Clear();
-            element_ = element;
-            element.Root = this;
-            element.Added();
-            element.RequireResize();
+            element_ = absoluteSizeElement;
+            absoluteSizeElement.Root = this;
+            absoluteSizeElement.Added();
+            absoluteSizeElement.Resize();
         }
 
         public void RegisterPool<T>(int count)

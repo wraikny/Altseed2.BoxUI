@@ -5,16 +5,18 @@ using System.ComponentModel;
 
 namespace Altseed2.BoxUI.Builtin
 {
-    public enum UIDir
+    public enum Column
     {
         X,
         Y,
     }
 
-    public enum UIScale
+    public enum Mergin
     {
         Fixed,
         Relative,
+        RelativeMin,
+        RelativeMax,
     }
 
     public enum Align
@@ -26,16 +28,23 @@ namespace Altseed2.BoxUI.Builtin
 
     public static class FlagsValidater
     {
-        public static void Validate(UIDir dir)
+        public static void Validate(Column dir)
         {
-            if (dir == UIDir.X || dir == UIDir.Y) return;
-            throw new InvalidEnumArgumentException(nameof(dir), (int)dir, typeof(UIDir));
+            if (dir == Column.X || dir == Column.Y) return;
+            throw new InvalidEnumArgumentException(nameof(dir), (int)dir, typeof(Column));
         }
 
-        public static void Validate(UIScale scale)
+        public static void Validate(Mergin scale)
         {
-            if (scale == UIScale.Fixed || scale == UIScale.Relative) return;
-            throw new InvalidEnumArgumentException(nameof(scale), (int)scale, typeof(UIScale));
+            switch(scale)
+            {
+                case Mergin.Fixed: return;
+                case Mergin.Relative: return;
+                case Mergin.RelativeMin: return;
+                case Mergin.RelativeMax: return;
+                default:
+                    throw new InvalidEnumArgumentException(nameof(scale), (int)scale, typeof(Mergin));
+            }
         }
 
         public static void Validate(Align align)

@@ -6,11 +6,11 @@ namespace Altseed2.BoxUI.Builtin
 {
     public sealed class ColumnElement : Element
     {
-        UIDir dir_;
+        Column dir_;
 
         private ColumnElement() { }
 
-        public static ColumnElement Create(UIDir dir)
+        public static ColumnElement Create(Column dir)
         {
             FlagsValidater.Validate(dir);
 
@@ -36,11 +36,11 @@ namespace Altseed2.BoxUI.Builtin
 
             switch(dir_)
             {
-                case UIDir.X:
+                case Column.X:
                     size.X /= count;
                     offset = new Vector2F(size.X, 0.0f);
                     break;
-                case UIDir.Y:
+                case Column.Y:
                     size.Y /= count;
                     offset = new Vector2F(0.0f, size.Y);
                     break;

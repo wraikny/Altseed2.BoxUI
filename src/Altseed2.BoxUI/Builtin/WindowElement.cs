@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
-    public sealed class WindowElement : Element
+    public sealed class WindowElement : Element, IAbsoluteSizeElement
     {
         private Vector2F windowSize_;
 
@@ -31,11 +31,15 @@ namespace Altseed2.BoxUI.Builtin
             if(windowSize_ != currentSize)
             {
                 windowSize_ = currentSize;
+                RequireResize();
+            }
+        }
 
-                foreach (var child in Children)
-                {
-                    child.Resize(new RectF(Vector2FExt.Zero, windowSize_));
-                }
+        void IAbsoluteSizeElement.Resize()
+        {
+            foreach (var child in Children)
+            {
+                child.Resize(new RectF(Vector2FExt.Zero, Engine.WindowSize));
             }
         }
     }

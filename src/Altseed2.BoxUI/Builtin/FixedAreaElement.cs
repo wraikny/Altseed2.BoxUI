@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
-    public sealed class FixedAreaElement : Element
+    public sealed class FixedAreaElement : Element, IAbsoluteSizeElement
     {
         private RectF area_;
         public RectF Area
@@ -35,9 +35,11 @@ namespace Altseed2.BoxUI.Builtin
 
         public override Vector2F CalcSize(Vector2F _) => area_.Size;
 
-        protected override void OnResize(RectF _)
+        protected override void OnResize(RectF _) { }
+
+        void IAbsoluteSizeElement.Resize()
         {
-            foreach(var c in Children)
+            foreach (var c in Children)
             {
                 c.Resize(area_);
             }

@@ -7,11 +7,11 @@ namespace Altseed2.BoxUI.Builtin
     public sealed class MerginElement : Element
     {
         private Vector2F mergin_;
-        private UIScale uiScale_;
+        private Mergin uiScale_;
 
         private MerginElement() { }
 
-        public static MerginElement Create(Vector2F mergin, UIScale uiScale = default)
+        public static MerginElement Create(Vector2F mergin, Mergin uiScale = default)
         {
             FlagsValidater.Validate(uiScale);
 
@@ -30,8 +30,10 @@ namespace Altseed2.BoxUI.Builtin
         {
             var mergin = uiScale_ switch
             {
-                UIScale.Fixed => mergin_,
-                UIScale.Relative => mergin_ * size,
+                Mergin.Fixed => mergin_,
+                Mergin.Relative => mergin_ * size,
+                Mergin.RelativeMin => (mergin_ * size).Min() * Vector2FExt.One,
+                Mergin.RelativeMax => (mergin_ * size).Max() * Vector2FExt.One,
                 _ => Vector2FExt.Zero,
             };
 
