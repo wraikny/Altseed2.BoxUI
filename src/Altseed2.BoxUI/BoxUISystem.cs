@@ -56,6 +56,9 @@ namespace Altseed2.BoxUI
             {
                 foreach(var h in handlers_)
                 {
+#if DEBUG
+                    Console.WriteLine($"Terminate: {h.GetType()}");
+#endif
                     h.Terminate();
                 }
 

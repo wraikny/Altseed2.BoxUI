@@ -27,13 +27,17 @@ namespace Altseed2.BoxUI.Sample
 
             while(Engine.DoEvents())
             {
+                if(Engine.Keyboard.GetKeyState(Key.Escape) == ButtonState.Push)
+                {
+                    BoxUISystem.Termiante();
+                }
 
-                // Update BoxUISystem before Engine.Update
+                // 必ず更新処理をする。
                 BoxUISystem.Update();
                 Engine.Update();
             }
 
-            // Terminate BoxUISystem before Engine.Terminate
+            // 必ず終了処理をする
             BoxUISystem.Termiante();
             Engine.Terminate();
         }
