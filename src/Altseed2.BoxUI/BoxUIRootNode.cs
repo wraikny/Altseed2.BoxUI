@@ -35,18 +35,26 @@ namespace Altseed2.BoxUI
             element.Added();
         }
 
-        public void AddCache<T>(T node)
-            where T : Node => NodePool<T>.Return(this, node);
+        public void RegisterPool<T>(int count)
+            where T : Node, new()
+        {
+            if (count < 1) return;
+
+            for(int i = 0; i < count; i++)
+            {
+                NodePool<T>.Return(this, new T());
+            }
+        }
 
         public T Rent<T>()
-            where T : Node
+            where T : Node, new()
         {
             var elem = NodePool<T>.Rent(this);
             return elem;
         }
 
         public void Return<T>(T node)
-            where T : Node
+            where T : Node, new()
         {
             NodePool<T>.Return(this, node);
         }

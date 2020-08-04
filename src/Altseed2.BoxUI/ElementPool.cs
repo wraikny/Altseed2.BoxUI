@@ -6,14 +6,14 @@ using System.Text;
 namespace Altseed2.BoxUI
 {
     internal static class ElementPool<T>
-        where T : Element
+        where T : Element, new()
     {
         private static bool registered_ = false;
         private static Stack<T> pool_ = null;
 
         public static T Rent()
         {
-            if (pool_ is null) return null;
+            if (pool_ is null) return new T();
 
             if(pool_.TryPop(out T result))
             {
@@ -21,7 +21,7 @@ namespace Altseed2.BoxUI
             }
             else
             {
-                return null;
+                return new T();
             }
         }
 

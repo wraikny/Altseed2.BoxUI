@@ -12,7 +12,7 @@ namespace Altseed2.BoxUI.Builtin
 
         public static RectangleElement<T> Create(Action<T> initializer)
         {
-            var elem = Rent<RectangleElement<T>>() ?? new RectangleElement<T>();
+            var elem = Rent<RectangleElement<T>>();
             elem.initializer_ = initializer;
             return elem;
         }

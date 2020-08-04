@@ -10,7 +10,7 @@ namespace Altseed2.BoxUI.Builtin
 
         public static WindowElement Create()
         {
-            return Rent<WindowElement>() ?? new WindowElement();
+            return Rent<WindowElement>();
         }
 
         protected override void ReturnToCache()

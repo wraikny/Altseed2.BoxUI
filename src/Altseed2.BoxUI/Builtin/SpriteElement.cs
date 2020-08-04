@@ -12,7 +12,7 @@ namespace Altseed2.BoxUI.Builtin
 
         public static SpriteElement<T> Create(Action<T> initializer)
         {
-            var elem = Rent<SpriteElement<T>>() ?? new SpriteElement<T>();
+            var elem = Rent<SpriteElement<T>>();
             elem.initializer_ = initializer;
             return elem;
         }

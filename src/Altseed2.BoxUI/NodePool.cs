@@ -5,7 +5,7 @@ using System.Text;
 namespace Altseed2.BoxUI
 {
     internal static class NodePool<T>
-        where T : Node
+        where T : Node, new()
     {
         private static bool registered_ = false;
 
@@ -29,7 +29,10 @@ namespace Altseed2.BoxUI
                 return res;
             }
 
-            return null;
+            var node = new T();
+            root.AddChildNode(node);
+
+            return node;
         }
 
         internal static void Return(BoxUIRootNode root, T node)
