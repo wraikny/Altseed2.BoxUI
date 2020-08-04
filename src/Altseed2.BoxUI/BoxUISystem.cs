@@ -17,11 +17,14 @@ namespace Altseed2.BoxUI
         internal static void Register(IPoolHandler handler)
         {
             handlers_ ??= new List<IPoolHandler>();
+
             handlers_.Add(handler);
         }
 
         public static void Update()
         {
+            if (handlers_ is null) return;
+
             foreach(var h in handlers_)
             {
                 h.Update();
@@ -30,6 +33,8 @@ namespace Altseed2.BoxUI
 
         public static void Termiante()
         {
+            if (handlers_ is null) return;
+
             foreach(var h in handlers_)
             {
                 h.Terminate();
