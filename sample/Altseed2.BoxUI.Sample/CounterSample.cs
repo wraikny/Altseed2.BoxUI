@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Altseed2.BoxUI.Builtin;
 
-namespace Altseed2.BoxUI.Test
+namespace Altseed2.BoxUI.Sample
 {
-    class Counter : Node
+    sealed class CounterSample : Node
     {
         private int count_;
 
@@ -14,7 +14,7 @@ namespace Altseed2.BoxUI.Test
 
         bool updateView;
 
-        public Counter()
+        public CounterSample()
         {
             uiRoot_ = new BoxUIRootNode();
             AddChildNode(uiRoot_);
@@ -32,16 +32,10 @@ namespace Altseed2.BoxUI.Test
             if (updateView)
             {
                 // Don't call SetElement directly from Element
-                View();
+                View(count_);
                 updateView = false;
             }
         }
-
-        private static readonly Color backgroundColor = new Color(180, 180, 220);
-        private static readonly Color defaultColor = new Color(200, 200, 200);
-        private static readonly Color hoverColor = new Color(180, 180, 180);
-        private static readonly Color holdColor = new Color(150, 150, 150);
-        private static readonly Color textColor = new Color(0, 0, 0);
 
         void Decrement(IBoxUICursor _)
         {
@@ -59,8 +53,30 @@ namespace Altseed2.BoxUI.Test
             Console.WriteLine(count_);
         }
 
-        void View()
+        private static readonly Color backgroundColor = new Color(180, 180, 220);
+        private static readonly Color defaultColor = new Color(200, 200, 200);
+        private static readonly Color hoverColor = new Color(180, 180, 180);
+        private static readonly Color holdColor = new Color(150, 150, 150);
+        private static readonly Color textColor = new Color(0, 0, 0);
+        void View(int count)
         {
+            Element CreateButton(Font font, string text, Action<IBoxUICursor> action)
+            {
+                var background = RectangleElement.Create(color: defaultColor);
+
+                return MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.Relative)
+                    .With(background)
+                    .With(AlignElement.Create(Align.Center, Align.Center)
+                        .With(TextElement.Create(color: textColor, text: text, font: font))
+                    )
+                    .With(ButtonElement.CreateRectangle()
+                        .OnRelease(action)
+                        .OnFree(_ => { background.Node.Color = hoverColor; })
+                        .OnHold(_ => { background.Node.Color = holdColor; })
+                        .WhileNotCollided(() => { background.Node.Color = defaultColor; })
+                    )
+                ;
+            }
 
             // Call ClearElement before Create Element
             uiRoot_.ClearElement();
@@ -70,34 +86,16 @@ namespace Altseed2.BoxUI.Test
                     .With(MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.RelativeMin)
                         .With(ColumnElement.Create(Column.Y)
                             .With(AlignElement.Center()
-                                .With(TextElement.Create(color: textColor, text: $"{count_}", font: font_))
+                                .With(TextElement.Create(color: textColor, text: $"{count}", font: font_))
                             )
                             .With(ColumnElement.Create(Column.X)
-                                .With(CreateButton("-", Decrement))
-                                .With(CreateButton("+", Increment))
+                                .With(CreateButton(font_, "-", Decrement))
+                                .With(CreateButton(font_, "+", Increment))
                             )
                         )
                     )
                 )
             );
-        }
-
-        private Element CreateButton(string text, Action<IBoxUICursor> action)
-        {
-            var background = RectangleElement.Create(color: defaultColor);
-
-            return MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.Relative)
-                .With(background)
-                .With(AlignElement.Create(Align.Center, Align.Center)
-                    .With(TextElement.Create(color: textColor, text: text, font: font_))
-                )
-                .With(ButtonElement.CreateRectangle()
-                    .OnRelease(action)
-                    .OnFree(_ => { background.Node.Color = hoverColor; })
-                    .OnHold(_ => { background.Node.Color = holdColor; })
-                    .WhileNotCollided(() => { background.Node.Color = defaultColor; })
-                )
-            ;
         }
     }
 }

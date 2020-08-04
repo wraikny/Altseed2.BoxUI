@@ -21,14 +21,14 @@ Target.initEnvironment ()
 Target.create "Clean" (fun _ ->
     !! "src/**/bin"
     ++ "src/**/obj"
-    ++ "test/**/bin"
-    ++ "test/**/obj"
+    ++ "sample/**/bin"
+    ++ "sample/**/obj"
     |> Shell.cleanDirs 
 )
 
 Target.create "Build" (fun _ ->
     !! "src/**/*.*proj"
-    ++ "test/**/*.*proj"
+    ++ "sample/**/*.*proj"
     |> Seq.iter (DotNet.build id)
 )
 

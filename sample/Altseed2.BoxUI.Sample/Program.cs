@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Altseed2.BoxUI.Test
+namespace Altseed2.BoxUI.Sample
 {
     class Program
     {
@@ -14,7 +14,7 @@ namespace Altseed2.BoxUI.Test
                 return;
             }
 
-            Engine.AddNode(new Counter());
+            Engine.AddNode(new CounterSample());
 
             while(Engine.DoEvents())
             {
