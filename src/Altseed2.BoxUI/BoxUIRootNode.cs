@@ -47,17 +47,10 @@ namespace Altseed2.BoxUI
         }
 
         public T Rent<T>()
-            where T : Node, new()
-        {
-            var elem = NodePool<T>.Rent(this);
-            return elem;
-        }
+            where T : Node, new() => NodePool<T>.Rent(this);
 
         public void Return<T>(T node)
-            where T : Node, new()
-        {
-            NodePool<T>.Return(this, node);
-        }
+            where T : Node, new() => NodePool<T>.Return(this, node);
 
         protected override void OnUpdate()
         {
