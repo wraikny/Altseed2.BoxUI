@@ -4,15 +4,14 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
-    public sealed class RectangleElement<T> : Element
-        where T : RectangleNode, new()
+    public sealed class RectangleElement : Element
     {
-        Action<T> initializer_;
-        T node_;
+        Action<RectangleNode> initializer_;
+        RectangleNode node_;
 
-        public static RectangleElement<T> Create(Action<T> initializer)
+        public static RectangleElement Create(Action<RectangleNode> initializer)
         {
-            var elem = Rent<RectangleElement<T>>();
+            var elem = Rent<RectangleElement>();
             elem.initializer_ = initializer;
             return elem;
         }
@@ -26,7 +25,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void OnAdded()
         {
-            node_ = Root.Rent<T>() ?? new T();
+            node_ = Root.Rent<RectangleNode>() ?? new RectangleNode();
             initializer_?.Invoke(node_);
             initializer_ = null;
         }

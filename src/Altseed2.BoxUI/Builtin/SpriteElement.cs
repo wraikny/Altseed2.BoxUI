@@ -4,15 +4,16 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
-    public sealed class SpriteElement<T> : Element
-        where T : SpriteNode, new()
+    public sealed class SpriteElement : Element
     {
-        Action<T> initializer_;
-        T node_;
+        bool keepAspect_;
+        Action<SpriteNode> initializer_;
+        SpriteNode node_;
 
-        public static SpriteElement<T> Create(Action<T> initializer)
+        public static SpriteElement Create(bool keepAspect = true, Action<SpriteNode> initializer = null)
         {
-            var elem = Rent<SpriteElement<T>>();
+            var elem = Rent<SpriteElement>();
+            elem.keepAspect_ = keepAspect;
             elem.initializer_ = initializer;
             return elem;
         }
@@ -26,7 +27,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void OnAdded()
         {
-            node_ = Root.Rent<T>() ?? new T();
+            node_ = Root.Rent<SpriteNode>() ?? new SpriteNode();
             initializer_?.Invoke(node_);
             initializer_ = null;
         }
@@ -37,7 +38,14 @@ namespace Altseed2.BoxUI.Builtin
 
             if(node_.Texture != null)
             {
-                node_.Scale = area.Size / node_.Texture.Size;
+                var texSize = node_.Texture.Size;
+                node_.Scale = area.Size / texSize;
+                if(keepAspect_)
+                {
+                    node_.Scale = Vector2FExt.One * MathF.Min(node_.Scale.X, node_.Scale.Y);
+                    var size = texSize * node_.Scale;
+                    node_.Position += (area.Size + size) * 0.5f;
+                }
             }
 
             foreach (var c in Children)
