@@ -9,23 +9,23 @@ namespace Altseed2.BoxUI
     {
         private static bool registered_ = false;
 
-        private static Stack<T> sharedPool_;
-        private static Stack<T> sharedRemovedPool_;
+        private static Queue<T> sharedPool_;
+        private static Queue<T> sharedRemovedPool_;
 
-        private static Dictionary<BoxUIRootNode, Stack<T>> returnedPool_;
+        private static Dictionary<BoxUIRootNode, Queue<T>> returnedPool_;
 
         public static T Rent(BoxUIRootNode root)
         {
             if (root is null) return null;
 
-            if(returnedPool_ != null && returnedPool_.TryGetValue(root, out var stack))
+            if(returnedPool_ != null && returnedPool_.TryGetValue(root, out var queue))
             {
-                if(stack.TryPop(out T res))
+                if(queue.TryDequeue(out T res))
                 {
                     return res;
                 }
             }
-            else if(sharedPool_ != null && sharedPool_.TryPop(out T res))
+            else if(sharedPool_ != null && sharedPool_.TryDequeue(out T res))
             {
                 root.AddChildNode(res);
                 return res;
@@ -41,16 +41,16 @@ namespace Altseed2.BoxUI
         {
             if (root is null || node is null) return;
 
-            returnedPool_ ??= new Dictionary<BoxUIRootNode, Stack<T>>();
+            returnedPool_ ??= new Dictionary<BoxUIRootNode, Queue<T>>();
 
-            if(!returnedPool_.TryGetValue(root, out var stack))
+            if(!returnedPool_.TryGetValue(root, out var queue))
             {
-                stack = new Stack<T>();
-                returnedPool_[root] = stack;
+                queue = new Queue<T>();
+                returnedPool_[root] = queue;
                 root.RegisterHandler(new NodePoolHandler());
             }
 
-            stack.Push(node);
+            queue.Enqueue(node);
 
             if (!registered_)
             {
@@ -65,12 +65,12 @@ namespace Altseed2.BoxUI
             {
                 var pool = returnedPool_[root];
 
-                sharedRemovedPool_ ??= new Stack<T>();
+                sharedRemovedPool_ ??= new Queue<T>();
 
                 foreach (var item in pool)
                 {
                     root.RemoveChildNode(item);
-                    sharedRemovedPool_.Push(item);
+                    sharedRemovedPool_.Enqueue(item);
                 }
 
                 pool.Clear();
@@ -95,11 +95,11 @@ namespace Altseed2.BoxUI
             {
                 if (sharedRemovedPool_ is null) return;
 
-                sharedPool_ ??= new Stack<T>();
+                sharedPool_ ??= new Queue<T>();
 
                 foreach (var item in sharedRemovedPool_)
                 {
-                    sharedPool_.Push(item);
+                    sharedPool_.Enqueue(item);
                 }
 
                 sharedRemovedPool_.Clear();

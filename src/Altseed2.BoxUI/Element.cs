@@ -27,9 +27,9 @@ namespace Altseed2.BoxUI
 
         private RectF? lastArea_;
 
-        private bool resizeRequired_;
+        private bool resizeRequired_ = false;
 
-        protected void RequireResize()
+        public void RequireResize()
         {
             resizeRequired_ = true;
         }
@@ -37,7 +37,7 @@ namespace Altseed2.BoxUI
 
         public abstract Vector2F CalcSize(Vector2F size);
         protected abstract void OnResize(RectF area);
-        protected abstract void ReturnToCache();
+        protected abstract void ReturnToPool();
 
         protected virtual void OnAdded() { }
         protected virtual void OnUpdate() { }
@@ -113,7 +113,7 @@ namespace Altseed2.BoxUI
             }
             children_.Clear();
 
-            ReturnToCache();
+            ReturnToPool();
             Root = null;
         }
     }

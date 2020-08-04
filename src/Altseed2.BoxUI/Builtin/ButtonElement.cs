@@ -30,14 +30,25 @@ namespace Altseed2.BoxUI.Builtin
             return elem;
         }
 
-        protected override void ReturnToCache()
+        protected override void ReturnToPool()
         {
+            switch (collider_)
+            {
+                case RectangleCollider rect:
+                    Return(rect);
+                    break;
+                case CircleCollider circle:
+                    Return(circle);
+                    break;
+                default:
+                    break;
+            }
+            collider_ = null;
             onFree_ = null;
             onPush_ = null;
             onHold_ = null;
             onRelease_ = null;
             whileNotCollided_ = null;
-            collider_ = null;
             Return(this);
         }
 

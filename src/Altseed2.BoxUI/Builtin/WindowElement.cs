@@ -15,7 +15,7 @@ namespace Altseed2.BoxUI.Builtin
             return RentOrNull<WindowElement>() ?? new WindowElement();
         }
 
-        protected override void ReturnToCache()
+        protected override void ReturnToPool()
         {
             windowSize_ = default;
             Return(this);

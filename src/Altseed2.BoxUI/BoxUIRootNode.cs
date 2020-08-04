@@ -37,6 +37,7 @@ namespace Altseed2.BoxUI
             element_ = element;
             element.Root = this;
             element.Added();
+            element.RequireResize();
         }
 
         public void RegisterPool<T>(int count)

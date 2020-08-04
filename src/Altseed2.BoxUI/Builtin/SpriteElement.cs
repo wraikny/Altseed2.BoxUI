@@ -22,7 +22,7 @@ namespace Altseed2.BoxUI.Builtin
             return elem;
         }
 
-        protected override void ReturnToCache()
+        protected override void ReturnToPool()
         {
             Root.Return(node_);
             node_ = null;

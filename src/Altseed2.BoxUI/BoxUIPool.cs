@@ -9,13 +9,13 @@ namespace Altseed2.BoxUI
         where T : class
     {
         private static bool registered_ = false;
-        private static Stack<T> pool_ = null;
+        private static Queue<T> pool_ = null;
 
         public static T Rent()
         {
             if (pool_ is null) return null;
 
-            if(pool_.TryPop(out T result))
+            if(pool_.TryDequeue(out T result))
             {
                 return result;
             }
@@ -29,9 +29,9 @@ namespace Altseed2.BoxUI
         {
             if (element is null) return;
 
-            pool_ ??= new Stack<T>();
+            pool_ ??= new Queue<T>();
 
-            pool_.Push(element);
+            pool_.Enqueue(element);
             
             if(!registered_)
             {

@@ -25,7 +25,7 @@ namespace Altseed2.BoxUI.Builtin
 
         public static AlignElement Center() => Create(Align.Center, Align.Center);
 
-        protected override void ReturnToCache()
+        protected override void ReturnToPool()
         {
             Return(this);
         }
