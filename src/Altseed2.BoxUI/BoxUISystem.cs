@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Altseed2.BoxUI
 {
-    internal interface ICacheHandler
+    internal interface IPoolHandler
     {
         void Update();
         void Terminate();
@@ -12,11 +12,11 @@ namespace Altseed2.BoxUI
 
     public static class BoxUISystem
     {
-        private static List<ICacheHandler> handlers_;
+        private static List<IPoolHandler> handlers_;
 
-        internal static void Register(ICacheHandler handler)
+        internal static void Register(IPoolHandler handler)
         {
-            handlers_ ??= new List<ICacheHandler>();
+            handlers_ ??= new List<IPoolHandler>();
             handlers_.Add(handler);
         }
 

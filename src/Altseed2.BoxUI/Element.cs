@@ -84,10 +84,10 @@ namespace Altseed2.BoxUI
         }
 
         public static T Rent<T>()
-            where T : Element => ElementCacher<T>.Rent();
+            where T : Element => ElementPool<T>.Rent();
 
         public static void Return<T>(T element)
-            where T : Element => ElementCacher<T>.Return(element);
+            where T : Element => ElementPool<T>.Return(element);
 
         internal void Clear()
         {
