@@ -9,6 +9,8 @@ namespace Altseed2.BoxUI.Builtin
         TextNode node_;
         Action<TextNode> initializer_;
 
+        public TextNode Node => node_;
+
         public static TextElement Create(Action<TextNode> initializer)
         {
             var elem = Rent<TextElement>();
@@ -19,8 +21,8 @@ namespace Altseed2.BoxUI.Builtin
         protected override void ReturnToCache()
         {
             Root.Return(node_);
-            Return(this);
             node_ = null;
+            Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F _) => node_.ContentSize;
@@ -34,7 +36,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void OnResize(RectF area)
         {
-            throw new NotImplementedException();
+            node_.Position = area.Position;
         }
     }
 }

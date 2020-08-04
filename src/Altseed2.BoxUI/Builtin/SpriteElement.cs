@@ -9,7 +9,8 @@ namespace Altseed2.BoxUI.Builtin
         bool keepAspect_;
         Action<SpriteNode> initializer_;
         SpriteNode node_;
-        Vector2F contentSize_;
+
+        public SpriteNode Node => node_;
 
         public static SpriteElement Create(bool keepAspect = true, Action<SpriteNode> initializer = null)
         {
@@ -22,9 +23,8 @@ namespace Altseed2.BoxUI.Builtin
         protected override void ReturnToCache()
         {
             Root.Return(node_);
-            Return(this);
             node_ = null;
-            contentSize_ = default;
+            Return(this);
         }
 
         protected override void OnAdded()
@@ -32,34 +32,31 @@ namespace Altseed2.BoxUI.Builtin
             node_ = Root.Rent<SpriteNode>();
             initializer_?.Invoke(node_);
             initializer_ = null;
-            contentSize_ = node_.ContentSize;
         }
 
-        public override Vector2F CalcSize(Vector2F _) => contentSize_;
+        public override Vector2F CalcSize(Vector2F size)
+        {
+            if (node_.Texture is null) return Vector2FExt.Zero;
+
+            var srcSize = node_.ContentSize;
+            var scale = size / srcSize;
+            if (keepAspect_)
+            {
+                return srcSize * Vector2FExt.One * MathF.Min(scale.X, scale.Y);
+            }
+
+            return size;
+        }
 
         protected override void OnResize(RectF area)
         {
             var pos = area.Position;
+            var size = CalcSize(area.Size);
 
-            if(node_.Texture != null)
-            {
-                var srcSize = node_.ContentSize;
-                var scale = area.Size / srcSize;
-                if(keepAspect_)
-                {
-                    node_.Scale = Vector2FExt.One * MathF.Min(scale.X, scale.Y);
-                    var size = srcSize * node_.Scale;
-                    pos += (area.Size + size) * 0.5f;
-
-                    area = new RectF(node_.Position, size);
-
-                    contentSize_ = size;
-                }
-
-                node_.Scale = scale;
-            }
+            area = new RectF(pos, size);
 
             node_.Position = pos;
+            node_.Scale = size / node_.ContentSize;
 
             foreach (var c in Children)
             {

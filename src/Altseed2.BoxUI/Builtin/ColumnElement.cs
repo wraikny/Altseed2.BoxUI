@@ -8,7 +8,7 @@ namespace Altseed2.BoxUI.Builtin
     {
         UIDir dir_;
 
-        public static ColumnElement Create(UIDir dir = UIDir.Y)
+        public static ColumnElement Create(UIDir dir)
         {
             FlagsValidater.Validate(dir);
 

@@ -9,6 +9,8 @@ namespace Altseed2.BoxUI.Builtin
         Action<RectangleNode> initializer_;
         RectangleNode node_;
 
+        public RectangleNode Node => node_;
+
         public static RectangleElement Create(Action<RectangleNode> initializer)
         {
             var elem = Rent<RectangleElement>();
@@ -19,8 +21,8 @@ namespace Altseed2.BoxUI.Builtin
         protected override void ReturnToCache()
         {
             Root.Return(node_);
-            Return(this);
             node_ = null;
+            Return(this);
         }
 
         protected override void OnAdded()

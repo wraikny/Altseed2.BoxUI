@@ -27,8 +27,8 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void ReturnToCache()
         {
-            Return(this);
             area_ = default;
+            Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F _) => area_.Size;
