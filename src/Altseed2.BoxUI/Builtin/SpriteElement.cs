@@ -7,40 +7,64 @@ namespace Altseed2.BoxUI.Builtin
     public sealed class SpriteElement : Element
     {
         bool keepAspect_;
-        Action<SpriteNode> initializer_;
-        SpriteNode node_;
+        bool horizontalFlip_;
+        bool verticalFlip_;
+        Color color_;
+        int zOrder_;
+        Material material_;
+        TextureBase texture_;
 
-        public SpriteNode Node => node_;
+        public SpriteNode Node { get; private set; }
 
         private SpriteElement() { }
 
-        public static SpriteElement Create(bool keepAspect = true, Action<SpriteNode> initializer = null)
+        public static SpriteElement Create(
+            bool keepAspect = true,
+            bool horizontalFlip = false,
+            bool verticalFlip = false,
+            Color? color = null,
+            int zOrder = 0,
+            Material material = null,
+            TextureBase texture = null
+        )
         {
             var elem = RentOrNull<SpriteElement>() ?? new SpriteElement();
             elem.keepAspect_ = keepAspect;
-            elem.initializer_ = initializer;
+            elem.horizontalFlip_ = horizontalFlip;
+            elem.verticalFlip_ = verticalFlip;
+            elem.color_ = color ?? new Color(255, 255, 255, 255);
+            elem.zOrder_ = zOrder;
+            elem.material_ = material;
+            elem.texture_ = texture;
             return elem;
         }
 
         protected override void ReturnToPool()
         {
-            Root.Return(node_);
-            node_ = null;
+            Root.Return(Node);
+            Node = null;
             Return(this);
         }
 
         protected override void OnAdded()
         {
-            node_ = Root.RentOrCreate<SpriteNode>();
-            initializer_?.Invoke(node_);
-            initializer_ = null;
+            Node = Root.RentOrCreate<SpriteNode>();
+            Node.HorizontalFlip = horizontalFlip_;
+            Node.VerticalFlip = verticalFlip_;
+            Node.Color = color_;
+            Node.ZOrder = zOrder_;
+            Node.Material = material_;
+            Node.Texture = texture_;
+
+            material_ = null;
+            texture_ = null;
         }
 
         public override Vector2F CalcSize(Vector2F size)
         {
-            if (node_.Texture is null) return Vector2FExt.Zero;
+            if (Node.Texture is null) return Vector2FExt.Zero;
 
-            var srcSize = node_.ContentSize;
+            var srcSize = Node.ContentSize;
             var scale = size / srcSize;
             if (keepAspect_)
             {
@@ -57,8 +81,8 @@ namespace Altseed2.BoxUI.Builtin
 
             area = new RectF(pos, size);
 
-            node_.Position = pos;
-            node_.Scale = size / node_.ContentSize;
+            Node.Position = pos;
+            Node.Scale = size / Node.ContentSize;
 
             foreach (var c in Children)
             {

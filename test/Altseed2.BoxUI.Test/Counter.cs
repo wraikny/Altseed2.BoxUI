@@ -43,38 +43,38 @@ namespace Altseed2.BoxUI.Test
         private static readonly Color holdColor = new Color(150, 150, 150);
         private static readonly Color textColor = new Color(0, 0, 0);
 
+        void Decrement(IBoxUICursor _)
+        {
+            count_--;
+            // Don't call SetElement directly from Element
+            updateView = true;
+            Console.WriteLine(count_);
+        }
+
+        void Increment(IBoxUICursor _)
+        {
+            count_++;
+            // Don't call SetElement directly from Element
+            updateView = true;
+            Console.WriteLine(count_);
+        }
+
         void View()
         {
+
             // Call ClearElement before Create Element
             uiRoot_.ClearElement();
             uiRoot_.SetElement(WindowElement.Create()
-            //uiRoot_.SetElement(FixedAreaElement.Create(new RectF(new Vector2F(0.0f, 0.0f), Engine.WindowSize.To2F()))
                 .With(MerginElement.Create(new Vector2F(0.25f, 0.25f), Mergin.RelativeMin)
-                    .With(RectangleElement.Create(rect => {
-                        rect.Color = backgroundColor;
-                    }))
+                    .With(RectangleElement.Create(color:backgroundColor))
                     .With(MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.RelativeMin)
                         .With(ColumnElement.Create(Column.Y)
                             .With(AlignElement.Center()
-                                .With(TextElement.Create(t => {
-                                    t.Font = font_;
-                                    t.Text = $"{count_}";
-                                    t.Color = textColor;
-                                }))
+                                .With(TextElement.Create(color: textColor, text: $"{count_}", font: font_))
                             )
                             .With(ColumnElement.Create(Column.X)
-                                .With(CreateButton("-", _ => {
-                                    count_--;
-                                    // Don't call SetElement directly from Element
-                                    updateView = true;
-                                    Console.WriteLine(count_);
-                                }))
-                                .With(CreateButton("+", _ => {
-                                    count_++;
-                                    // Don't call SetElement directly from Element
-                                    updateView = true;
-                                    Console.WriteLine(count_);
-                                }))
+                                .With(CreateButton("-", Decrement))
+                                .With(CreateButton("+", Increment))
                             )
                         )
                     )
@@ -84,20 +84,12 @@ namespace Altseed2.BoxUI.Test
 
         private Element CreateButton(string text, Action<IBoxUICursor> action)
         {
-            var background = RectangleElement.Create(r =>
-            {
-                r.Color = defaultColor;
-            });
+            var background = RectangleElement.Create(color: defaultColor);
 
             return MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.Relative)
                 .With(background)
                 .With(AlignElement.Create(Align.Center, Align.Center)
-                    .With(TextElement.Create(t =>
-                    {
-                        t.Font = font_;
-                        t.Text = text;
-                        t.Color = textColor;
-                    }))
+                    .With(TextElement.Create(color: textColor, text: text, font: font_))
                 )
                 .With(ButtonElement.CreateRectangle()
                     .OnRelease(action)
