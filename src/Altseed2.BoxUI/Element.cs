@@ -83,6 +83,12 @@ namespace Altseed2.BoxUI
             }
         }
 
+        public Element With(Element child)
+        {
+            AddChild(child);
+            return this;
+        }
+
         public static T Rent<T>()
             where T : Element, new() => ElementPool<T>.Rent();
 
