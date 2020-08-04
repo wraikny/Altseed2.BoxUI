@@ -22,6 +22,8 @@ namespace Altseed2.BoxUI.Builtin
             Return(this);
         }
 
+        public override Vector2F CalcSize(Vector2F size) => size;
+
         protected override void OnResize(RectF area)
         {
             var count = Children.Count;

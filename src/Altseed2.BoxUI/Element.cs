@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace Altseed2.BoxUI
@@ -33,11 +34,13 @@ namespace Altseed2.BoxUI
             resizeRequired_ = true;
         }
 
-        abstract protected void OnResize(RectF area);
-        abstract protected void ReturnToCache();
 
-        virtual protected void OnAdded() { }
-        virtual protected void OnUpdate() { }
+        public abstract Vector2F CalcSize(Vector2F size);
+        protected abstract void OnResize(RectF area);
+        protected abstract void ReturnToCache();
+
+        protected virtual void OnAdded() { }
+        protected virtual void OnUpdate() { }
 
         public void Resize(RectF area)
         {

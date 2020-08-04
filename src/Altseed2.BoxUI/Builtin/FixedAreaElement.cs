@@ -31,6 +31,8 @@ namespace Altseed2.BoxUI.Builtin
             area_ = default;
         }
 
+        public override Vector2F CalcSize(Vector2F _) => area_.Size;
+
         protected override void OnResize(RectF _)
         {
             foreach(var c in Children)

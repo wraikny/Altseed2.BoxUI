@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
-    public sealed class RectangleElement : Element
+    public sealed class TextElement : Element
     {
-        Action<RectangleNode> initializer_;
-        RectangleNode node_;
+        TextNode node_;
+        Action<TextNode> initializer_;
 
-        public static RectangleElement Create(Action<RectangleNode> initializer)
+        public static TextElement Create(Action<TextNode> initializer)
         {
-            var elem = Rent<RectangleElement>();
+            var elem = Rent<TextElement>();
             elem.initializer_ = initializer;
             return elem;
         }
@@ -23,24 +23,18 @@ namespace Altseed2.BoxUI.Builtin
             node_ = null;
         }
 
+        public override Vector2F CalcSize(Vector2F _) => node_.ContentSize;
+
         protected override void OnAdded()
         {
-            node_ = Root.Rent<RectangleNode>();
+            node_ = Root.Rent<TextNode>();
             initializer_?.Invoke(node_);
             initializer_ = null;
         }
 
-        public override Vector2F CalcSize(Vector2F _) => node_.ContentSize;
-
         protected override void OnResize(RectF area)
         {
-            node_.Position = area.Position;
-            node_.RectangleSize = area.Size;
-
-            foreach(var c in Children)
-            {
-                c.Resize(area);
-            }
+            throw new NotImplementedException();
         }
     }
 }

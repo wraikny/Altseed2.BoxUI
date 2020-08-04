@@ -9,6 +9,7 @@ namespace Altseed2.BoxUI.Builtin
         bool keepAspect_;
         Action<SpriteNode> initializer_;
         SpriteNode node_;
+        Vector2F contentSize_;
 
         public static SpriteElement Create(bool keepAspect = true, Action<SpriteNode> initializer = null)
         {
@@ -23,6 +24,7 @@ namespace Altseed2.BoxUI.Builtin
             Root.Return(node_);
             Return(this);
             node_ = null;
+            contentSize_ = default;
         }
 
         protected override void OnAdded()
@@ -30,25 +32,34 @@ namespace Altseed2.BoxUI.Builtin
             node_ = Root.Rent<SpriteNode>();
             initializer_?.Invoke(node_);
             initializer_ = null;
+            contentSize_ = node_.ContentSize;
         }
+
+        public override Vector2F CalcSize(Vector2F _) => contentSize_;
 
         protected override void OnResize(RectF area)
         {
-            node_.Position = area.Position;
+            var pos = area.Position;
 
             if(node_.Texture != null)
             {
-                var texSize = node_.Texture.Size;
-                node_.Scale = area.Size / texSize;
+                var srcSize = node_.ContentSize;
+                var scale = area.Size / srcSize;
                 if(keepAspect_)
                 {
-                    node_.Scale = Vector2FExt.One * MathF.Min(node_.Scale.X, node_.Scale.Y);
-                    var size = texSize * node_.Scale;
-                    node_.Position += (area.Size + size) * 0.5f;
+                    node_.Scale = Vector2FExt.One * MathF.Min(scale.X, scale.Y);
+                    var size = srcSize * node_.Scale;
+                    pos += (area.Size + size) * 0.5f;
 
                     area = new RectF(node_.Position, size);
+
+                    contentSize_ = size;
                 }
+
+                node_.Scale = scale;
             }
+
+            node_.Position = pos;
 
             foreach (var c in Children)
             {

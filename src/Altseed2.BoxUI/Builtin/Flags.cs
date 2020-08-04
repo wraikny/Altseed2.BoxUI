@@ -17,6 +17,13 @@ namespace Altseed2.BoxUI.Builtin
         Relative,
     }
 
+    public enum Align
+    {
+        Min,
+        Center,
+        Max,
+    }
+
     public static class FlagsValidater
     {
         public static void Validate(UIDir dir)
@@ -29,6 +36,12 @@ namespace Altseed2.BoxUI.Builtin
         {
             if (scale == UIScale.Fixed || scale == UIScale.Relative) return;
             throw new InvalidEnumArgumentException(nameof(scale), (int)scale, typeof(UIScale));
+        }
+
+        public static void Validate(Align align)
+        {
+            if (align == Align.Min || align == Align.Center || align == Align.Max) return;
+            throw new InvalidEnumArgumentException(nameof(align), (int)align, typeof(Align));
         }
     }
 }

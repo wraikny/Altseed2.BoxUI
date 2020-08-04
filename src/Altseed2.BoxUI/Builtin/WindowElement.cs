@@ -19,6 +19,8 @@ namespace Altseed2.BoxUI.Builtin
             windowSize_ = default;
         }
 
+        public override Vector2F CalcSize(Vector2F _) => Engine.WindowSize;
+
         protected override void OnResize(RectF area) { }
 
         protected override void OnUpdate()

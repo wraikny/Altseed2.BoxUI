@@ -11,6 +11,8 @@ namespace Altseed2.BoxUI.Builtin
 
         public static MerginElement Create(Vector2F mergin, UIScale uiScale = default)
         {
+            FlagsValidater.Validate(uiScale);
+
             var elem = Rent<MerginElement>();
             elem.mergin_ = mergin;
             elem.uiScale_ = uiScale;
@@ -22,16 +24,23 @@ namespace Altseed2.BoxUI.Builtin
             Return(this);
         }
 
-        protected override void OnResize(RectF area)
+        public override Vector2F CalcSize(Vector2F size)
         {
             var mergin = uiScale_ switch
             {
                 UIScale.Fixed => mergin_,
-                UIScale.Relative => mergin_ * area.Size,
+                UIScale.Relative => mergin_ * size,
                 _ => Vector2FExt.Zero,
             };
 
-            var merginedArea = new RectF(area.Position + mergin, area.Size - mergin * 2.0f);
+            return size - mergin * 2.0f;
+        }
+
+        protected override void OnResize(RectF area)
+        {
+            var size = CalcSize(area.Size);
+
+            var merginedArea = new RectF(area.Position + (area.Size - size) * 0.5f, size);
 
             foreach (var c in Children)
             {
