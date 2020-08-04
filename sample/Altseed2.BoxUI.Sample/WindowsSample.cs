@@ -93,43 +93,51 @@ namespace Altseed2.BoxUI.Sample
                 RemoveWindow(root);
             }
 
-            static MerginElement mergin()
+            static Element makeText(Font font, string text, int zOrder)
             {
-                return MerginElement
-                    .Create(new Vector2F(0.05f, 0.05f), Mergin.RelativeMin);
-            }
-
-            static Element button(Font font, string text, Action<IBoxUICursor> action)
-            {
-                var background = RectangleElement.Create(color: Params.DefaultColor);
-                return mergin()
-                    .With(background)
-                    .With(AlignElement.Center()
-                        .With(TextElement.Create(font: font, text: text, color: Params.TextColor))
-                    )
-                    .With(
-                        ButtonElement.CreateRectangle()
-                            .OnPush(action)
-                            .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
-                            .OnFree(_ => { background.Node.Color = Params.HoverColor; })
-                            .OnHold(_ => { background.Node.Color = Params.HoldColor; })
+                return
+                    TextElement.Create(
+                        font: font,
+                        text: text,
+                        color: Params.TextColor,
+                        zOrder: zOrder + 2
                     );
             }
 
+            static MerginElement makeMergin()
+            {
+                return MerginElement
+                    .Create(new Vector2F(0.05f, 0.05f), Builtin.Mergin.RelativeMin);
+            }
+
+            static Element makeButton(Font font, int zOrder, string text, Action<IBoxUICursor> action)
+            {
+                var background = RectangleElement.Create(color: Params.DefaultColor, zOrder: zOrder + 1);
+
+                return makeMergin()
+                    .With(background)
+                    .With(AlignElement.Center.With(makeText(font, text, zOrder)))
+                    .With(ButtonElement.CreateRectangle()
+                        .OnPush(action)
+                        .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
+                        .OnFree(_ => { background.Node.Color = Params.HoverColor; })
+                        .OnHold(_ => { background.Node.Color = Params.HoldColor; })
+                    );
+            }
+
+            var zOrderOffset = state.Id << 3;
+
             root.ClearElement();
-            root.SetElement(
-                FixedAreaElement.Create(new RectF(zero, WindowSize))
-                    .With(RectangleElement.Create(color: new Color(50, 50, 100)))
-                    .With(
-                        mergin().With(ColumnElement.Create(Column.Y)
-                            .With(mergin().With(
-                                TextElement.Create(font: font_, text: $"{state.Id}: {state.Count}", color: Params.TextColor)
-                            ))
-                            .With(button(font_, "-", decr))
-                            .With(button(font_, "+", incr))
-                            .With(button(font_, "close", close))
-                        )
+            root.SetElement(FixedAreaElement.Create(new RectF(zero, WindowSize))
+                .With(RectangleElement.Create(color: new Color(50, 50, 100), zOrder: zOrderOffset + 0))
+                .With(makeMergin()
+                    .With(ColumnElement.Create(Column.Y)
+                        .With(makeMergin().With(makeText(font_, $"{state.Id}: {state.Count}", zOrderOffset)))
+                        .With(makeButton(font_, zOrderOffset, "-", decr))
+                        .With(makeButton(font_, zOrderOffset, "+", incr))
+                        .With(makeButton(font_, zOrderOffset, "close", close))
                     )
+                )
             );
         }
     }

@@ -81,7 +81,7 @@ namespace Altseed2.BoxUI.Sample
                     .With(RectangleElement.Create(color:Params.BackgroundColor))
                     .With(MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.RelativeMin)
                         .With(ColumnElement.Create(Column.Y)
-                            .With(AlignElement.Center()
+                            .With(AlignElement.Center
                                 .With(TextElement.Create(color: Params.TextColor, text: $"{count}", font: font_))
                             )
                             .With(ColumnElement.Create(Column.X)
