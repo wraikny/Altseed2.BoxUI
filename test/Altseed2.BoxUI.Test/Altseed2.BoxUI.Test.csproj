@@ -27,6 +27,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="../../TestData/**/*.*" LinkBase="TestData">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\Altseed2.BoxUI\Altseed2.BoxUI.csproj" />
   </ItemGroup>
 
