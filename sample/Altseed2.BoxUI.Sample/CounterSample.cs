@@ -53,27 +53,23 @@ namespace Altseed2.BoxUI.Sample
             Console.WriteLine(count_);
         }
 
-        private static readonly Color backgroundColor = new Color(180, 180, 220);
-        private static readonly Color defaultColor = new Color(200, 200, 200);
-        private static readonly Color hoverColor = new Color(180, 180, 180);
-        private static readonly Color holdColor = new Color(150, 150, 150);
-        private static readonly Color textColor = new Color(0, 0, 0);
+
         void View(int count)
         {
             Element CreateButton(Font font, string text, Action<IBoxUICursor> action)
             {
-                var background = RectangleElement.Create(color: defaultColor);
+                var background = RectangleElement.Create(color: Params.DefaultColor);
 
                 return MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.Relative)
                     .With(background)
                     .With(AlignElement.Create(Align.Center, Align.Center)
-                        .With(TextElement.Create(color: textColor, text: text, font: font))
+                        .With(TextElement.Create(color: Params.TextColor, text: text, font: font))
                     )
                     .With(ButtonElement.CreateRectangle()
                         .OnRelease(action)
-                        .OnFree(_ => { background.Node.Color = hoverColor; })
-                        .OnHold(_ => { background.Node.Color = holdColor; })
-                        .WhileNotCollided(() => { background.Node.Color = defaultColor; })
+                        .OnFree(_ => { background.Node.Color = Params.HoverColor; })
+                        .OnHold(_ => { background.Node.Color = Params.HoldColor; })
+                        .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
                     )
                 ;
             }
@@ -82,11 +78,11 @@ namespace Altseed2.BoxUI.Sample
             uiRoot_.ClearElement();
             uiRoot_.SetElement(WindowElement.Create()
                 .With(MerginElement.Create(new Vector2F(0.25f, 0.25f), Mergin.RelativeMin)
-                    .With(RectangleElement.Create(color:backgroundColor))
+                    .With(RectangleElement.Create(color:Params.BackgroundColor))
                     .With(MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.RelativeMin)
                         .With(ColumnElement.Create(Column.Y)
                             .With(AlignElement.Center()
-                                .With(TextElement.Create(color: textColor, text: $"{count}", font: font_))
+                                .With(TextElement.Create(color: Params.TextColor, text: $"{count}", font: font_))
                             )
                             .With(ColumnElement.Create(Column.X)
                                 .With(CreateButton(font_, "-", Decrement))

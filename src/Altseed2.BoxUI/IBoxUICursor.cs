@@ -11,11 +11,9 @@ namespace Altseed2.BoxUI
         ButtonState ButtonState { get; }
         Collider Collider { get; }
         bool IsActive { get; set;  }
-
-        void Update();
     }
 
-    public sealed class BoxUIMouseCursor : IBoxUICursor
+    public sealed class BoxUIMouseCursor : Node, IBoxUICursor
     {
         private readonly string id_;
         private readonly MouseButton button_;
@@ -30,7 +28,7 @@ namespace Altseed2.BoxUI
             collider_.Radius = radius;
         }
 
-        void IBoxUICursor.Update()
+        protected override void OnUpdate()
         {
             if(IsActive)
             {

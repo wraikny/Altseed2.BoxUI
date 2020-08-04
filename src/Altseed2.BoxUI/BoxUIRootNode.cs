@@ -11,8 +11,10 @@ namespace Altseed2.BoxUI
         void OnRemoved(BoxUIRootNode root);
     }
 
-    public sealed class BoxUIRootNode : Node
+    public sealed class BoxUIRootNode : TransformNode
     {
+        private bool isUpdating_;
+
         private Element element_;
         private readonly List<IBoxUICursor> cursors_;
         private readonly List<INodePoolHandler> handlers_;
@@ -21,19 +23,39 @@ namespace Altseed2.BoxUI
 
         public BoxUIRootNode()
         {
+            isUpdating_ = false;
+
             handlers_ = new List<INodePoolHandler>();
             cursors_ = new List<IBoxUICursor>();
         }
 
+        /// <summary>
+        /// BoxUIRootNodeの更新中（例えばボタンのクリック時など）に呼び出したい場合は、BoXUISystem.Postを利用して、メソッドの呼び出しを遅延してください。
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException"></exception>
         public void ClearElement()
         {
+            if (isUpdating_)
+            {
+                throw new InvalidOperationException();
+            }
+
             element_?.Clear();
             element_ = null;
         }
 
+        /// <summary>
+        /// BoxUIRootNodeの更新中（例えばボタンのクリック時など）に呼び出したい場合は、BoXUISystem.Postを利用して、メソッドの呼び出しを遅延してください。
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException"></exception>
         public void SetElement<T>(T absoluteSizeElement)
             where T : Element, IAbsoluteSizeElement
         {
+            if (isUpdating_)
+            {
+                throw new InvalidOperationException();
+            }
+
             element_?.Clear();
             element_ = absoluteSizeElement;
             absoluteSizeElement.Root = this;
@@ -70,10 +92,7 @@ namespace Altseed2.BoxUI
 
         protected override void OnUpdate()
         {
-            foreach (var cursor in cursors_)
-            {
-                cursor.Update();
-            }
+            isUpdating_ = true;
 
             element_?.Update();
 
@@ -81,6 +100,8 @@ namespace Altseed2.BoxUI
             {
                 h.OnUpdate(this);
             }
+
+            isUpdating_ = false;
         }
 
         protected override void OnRemoved()

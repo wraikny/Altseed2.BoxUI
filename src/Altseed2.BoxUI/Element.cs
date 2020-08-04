@@ -31,6 +31,7 @@ namespace Altseed2.BoxUI
         }
 
         private RectF? lastArea_;
+        public RectF? LastArea => lastArea_;
 
         private bool resizeRequired_ = false;
 
