@@ -16,7 +16,7 @@ namespace Altseed2.BoxUI
 
         public static T Rent(BoxUIRootNode root)
         {
-            if (root is null) return;
+            if (root is null) return null;
 
             if(returnedPool_ != null && returnedPool_.TryGetValue(root, out var stack))
             {

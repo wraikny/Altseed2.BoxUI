@@ -14,11 +14,15 @@ namespace Altseed2.BoxUI
     public sealed class BoxUIRootNode : TransformNode
     {
         private Element element_;
+        private readonly List<IBoxUICursor> cursors_;
         private readonly List<INodePoolHandler> handlers_;
+
+        public IList<IBoxUICursor> Cursors => cursors_;
 
         public BoxUIRootNode()
         {
             handlers_ = new List<INodePoolHandler>();
+            cursors_ = new List<IBoxUICursor>();
         }
 
         public void ClearElement()
@@ -64,7 +68,13 @@ namespace Altseed2.BoxUI
 
         protected override void OnUpdate()
         {
+            foreach (var cursor in cursors_)
+            {
+                cursor.Update();
+            }
+
             element_?.Update();
+
             foreach(var h in handlers_)
             {
                 h.OnUpdate(this);
