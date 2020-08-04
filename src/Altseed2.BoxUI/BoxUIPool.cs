@@ -5,15 +5,15 @@ using System.Text;
 
 namespace Altseed2.BoxUI
 {
-    internal static class ElementPool<T>
-        where T : Element, new()
+    internal static class BoxUIPool<T>
+        where T : class
     {
         private static bool registered_ = false;
         private static Stack<T> pool_ = null;
 
         public static T Rent()
         {
-            if (pool_ is null) return new T();
+            if (pool_ is null) return null;
 
             if(pool_.TryPop(out T result))
             {
@@ -21,12 +21,14 @@ namespace Altseed2.BoxUI
             }
             else
             {
-                return new T();
+                return null;
             }
         }
 
         public static void Return(T element)
         {
+            if (element is null) return;
+
             pool_ ??= new Stack<T>();
 
             pool_.Push(element);

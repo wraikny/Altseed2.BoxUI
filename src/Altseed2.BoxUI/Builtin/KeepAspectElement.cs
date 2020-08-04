@@ -8,9 +8,11 @@ namespace Altseed2.BoxUI.Builtin
     {
         private Vector2F aspect_;
 
+        private KeepAspectElement() { }
+
         public static KeepAspectElement Create(Vector2F aspect)
         {
-            var elem = Rent<KeepAspectElement>();
+            var elem = RentOrNull<KeepAspectElement>() ?? new KeepAspectElement();
             elem.aspect_ = aspect;
             return elem;
         }

@@ -9,11 +9,13 @@ namespace Altseed2.BoxUI.Builtin
         private Vector2F mergin_;
         private UIScale uiScale_;
 
+        private MerginElement() { }
+
         public static MerginElement Create(Vector2F mergin, UIScale uiScale = default)
         {
             FlagsValidater.Validate(uiScale);
 
-            var elem = Rent<MerginElement>();
+            var elem = RentOrNull<MerginElement>() ?? new MerginElement();
             elem.mergin_ = mergin;
             elem.uiScale_ = uiScale;
             return elem;

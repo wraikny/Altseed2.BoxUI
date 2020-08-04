@@ -92,11 +92,16 @@ namespace Altseed2.BoxUI
             return this;
         }
 
-        public static T Rent<T>()
-            where T : Element, new() => ElementPool<T>.Rent();
+        /// <summary>
+        /// クラスTのプールからブジェクトを取得します。
+        /// 取得できなかった場合はnullが返ります。
+        /// </summary>
+        public static T RentOrNull<T>() => BoxUIPool<T>.Rent();
 
-        public static void Return<T>(T element)
-            where T : Element, new() => ElementPool<T>.Return(element);
+        /// <summary>
+        /// T型のプールにT型のオブジェクトを返却します。
+        /// </summary>
+        public static void Return<T>(T element) => BoxUIPool<T>.Return(element);
 
         internal void Clear()
         {

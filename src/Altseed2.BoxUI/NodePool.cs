@@ -16,6 +16,8 @@ namespace Altseed2.BoxUI
 
         public static T Rent(BoxUIRootNode root)
         {
+            if (root is null) return;
+
             if(returnedPool_ != null && returnedPool_.TryGetValue(root, out var stack))
             {
                 if(stack.TryPop(out T res))
@@ -37,6 +39,8 @@ namespace Altseed2.BoxUI
 
         internal static void Return(BoxUIRootNode root, T node)
         {
+            if (root is null || node is null) return;
+
             returnedPool_ ??= new Dictionary<BoxUIRootNode, Stack<T>>();
 
             if(!returnedPool_.TryGetValue(root, out var stack))

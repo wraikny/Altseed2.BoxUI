@@ -12,9 +12,11 @@ namespace Altseed2.BoxUI.Builtin
 
         public SpriteNode Node => node_;
 
+        private SpriteElement() { }
+
         public static SpriteElement Create(bool keepAspect = true, Action<SpriteNode> initializer = null)
         {
-            var elem = Rent<SpriteElement>();
+            var elem = RentOrNull<SpriteElement>() ?? new SpriteElement();
             elem.keepAspect_ = keepAspect;
             elem.initializer_ = initializer;
             return elem;
@@ -29,7 +31,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void OnAdded()
         {
-            node_ = Root.Rent<SpriteNode>();
+            node_ = Root.RentOrCreate<SpriteNode>();
             initializer_?.Invoke(node_);
             initializer_ = null;
         }

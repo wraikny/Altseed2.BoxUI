@@ -11,9 +11,11 @@ namespace Altseed2.BoxUI.Builtin
 
         public TextNode Node => node_;
 
+        private TextElement() { }
+
         public static TextElement Create(Action<TextNode> initializer)
         {
-            var elem = Rent<TextElement>();
+            var elem = RentOrNull<TextElement>() ?? new TextElement();
             elem.initializer_ = initializer;
             return elem;
         }
@@ -29,7 +31,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void OnAdded()
         {
-            node_ = Root.Rent<TextNode>();
+            node_ = Root.RentOrCreate<TextNode>();
             initializer_?.Invoke(node_);
             initializer_ = null;
         }

@@ -11,7 +11,7 @@ namespace Altseed2.BoxUI
         void OnRemoved(BoxUIRootNode root);
     }
 
-    public sealed class BoxUIRootNode : Node
+    public sealed class BoxUIRootNode : TransformNode
     {
         private Element element_;
         private readonly List<INodePoolHandler> handlers_;
@@ -46,9 +46,19 @@ namespace Altseed2.BoxUI
             }
         }
 
-        public T Rent<T>()
+        /// <summary>
+        /// クラスT : Nodeのプールからオブジェクトを取得します。
+        /// 取得できなかった場合はnew()コンストラクタによって新しいインスタンスを作成します。
+        /// このメソッドによって取得されたノードは自動的にBoxUIRootNodeの子ノードとして追加されます。
+        /// </summary>
+        public T RentOrCreate<T>()
             where T : Node, new() => NodePool<T>.Rent(this);
 
+        /// <summary>
+        /// T型のプールからT型のNodeを取得します。
+        /// 取得できなかった場合はnew()コンストラクタによって新しいインスタンスを作成します。
+        /// このメソッドによって取得されたノードは自動的にBoxUIRootNodeの子ノードから削除されます。
+        /// </summary>
         public void Return<T>(T node)
             where T : Node, new() => NodePool<T>.Return(this, node);
 

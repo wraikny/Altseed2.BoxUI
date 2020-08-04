@@ -8,9 +8,11 @@ namespace Altseed2.BoxUI.Builtin
     {
         private Vector2F windowSize_;
 
+        private WindowElement() { }
+
         public static WindowElement Create()
         {
-            return Rent<WindowElement>();
+            return RentOrNull<WindowElement>() ?? new WindowElement();
         }
 
         protected override void ReturnToCache()

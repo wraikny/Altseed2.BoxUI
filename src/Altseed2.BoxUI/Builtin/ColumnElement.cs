@@ -8,11 +8,13 @@ namespace Altseed2.BoxUI.Builtin
     {
         UIDir dir_;
 
+        private ColumnElement() { }
+
         public static ColumnElement Create(UIDir dir)
         {
             FlagsValidater.Validate(dir);
 
-            var elem = Rent<ColumnElement>();
+            var elem = RentOrNull<ColumnElement>() ?? new ColumnElement();
             elem.dir_ = dir;
             return elem;
         }

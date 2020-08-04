@@ -11,9 +11,11 @@ namespace Altseed2.BoxUI.Builtin
 
         public RectangleNode Node => node_;
 
+        private RectangleElement() { }
+
         public static RectangleElement Create(Action<RectangleNode> initializer)
         {
-            var elem = Rent<RectangleElement>();
+            var elem = RentOrNull<RectangleElement>() ?? new RectangleElement();
             elem.initializer_ = initializer;
             return elem;
         }
@@ -27,7 +29,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void OnAdded()
         {
-            node_ = Root.Rent<RectangleNode>();
+            node_ = Root.RentOrCreate<RectangleNode>();
             initializer_?.Invoke(node_);
             initializer_ = null;
         }

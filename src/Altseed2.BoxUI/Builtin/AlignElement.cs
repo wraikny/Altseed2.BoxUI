@@ -10,12 +10,14 @@ namespace Altseed2.BoxUI.Builtin
         Align xAlign_;
         Align yAlign_;
 
+        private AlignElement() { }
+
         public static AlignElement Create(Align xAlign, Align yAlign)
         {
             FlagsValidater.Validate(xAlign);
             FlagsValidater.Validate(yAlign);
 
-            var elem = Rent<AlignElement>();
+            var elem = RentOrNull<AlignElement>() ?? new AlignElement();
             elem.xAlign_ = xAlign;
             elem.yAlign_ = yAlign;
             return elem;

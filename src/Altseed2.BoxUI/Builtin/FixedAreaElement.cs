@@ -18,9 +18,11 @@ namespace Altseed2.BoxUI.Builtin
             }
         }
 
+        private FixedAreaElement() { }
+
         public static FixedAreaElement Create(RectF area)
         {
-            var elem = Rent<FixedAreaElement>();
+            var elem = RentOrNull<FixedAreaElement>() ?? new FixedAreaElement();
             elem.area_ = area;
             return elem;
         }
