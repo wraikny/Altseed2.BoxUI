@@ -57,8 +57,44 @@ namespace Altseed2.BoxUI.Builtin
 
         public override Vector2F CalcSize(Vector2F size) => size;
 
+        private void Resize(RectF area)
+        {
+            var transform = Root.InheritedTransform;
+
+            var pos3 = new Vector3F(area.Position.X, area.Position.Y, 0.0f);
+            var a = new Vector3F(area.Position.X + area.Size.X, area.Position.Y, 0.0f);
+            var b = new Vector3F(area.Position.X, area.Position.Y + area.Size.Y, 0.0f);
+
+            var pos3t = transform.Transform3D(pos3);
+            var at = transform.Transform3D(a);
+            var bt = transform.Transform3D(b);
+
+            var aDiff = at - pos3t;
+
+            var position = new Vector2F(pos3t.X, pos3t.Y);
+            var size = new Vector2F(aDiff.Length, (bt - pos3t).Length);
+            var angle = MathF.Atan2(aDiff.Y, aDiff.X);
+
+            switch (collider_)
+            {
+                case RectangleCollider rect:
+                    rect.Position = position;
+                    rect.Size = size;
+                    rect.Rotation = angle;
+                    break;
+                case CircleCollider circle:
+                    circle.Position = position + size * 0.5f;
+                    circle.Radius = MathF.Min(size.X, size.Y) * 0.5f;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         protected override void OnResize(RectF area)
         {
+            Resize(area);
+
             foreach(var c in Children)
             {
                 c.Resize(area);
@@ -71,34 +107,7 @@ namespace Altseed2.BoxUI.Builtin
             
             if(Root.Cursors.Count > 0 && transform != lastTransform_ && LastArea is RectF area)
             {
-                var pos3 = new Vector3F(area.Position.X, area.Position.Y, 0.0f);
-                var a = new Vector3F(area.Position.X + area.Size.X, area.Position.Y, 0.0f);
-                var b = new Vector3F(area.Position.X, area.Position.Y + area.Size.Y, 0.0f);
-
-                var pos3t = transform.Transform3D(pos3);
-                var at = transform.Transform3D(a);
-                var bt = transform.Transform3D(b);
-
-                var aDiff = at - pos3t;
-
-                var position = new Vector2F(pos3t.X, pos3t.Y);
-                var size = new Vector2F(aDiff.Length, (bt - pos3t).Length);
-                var angle = MathF.Atan2(aDiff.Y, aDiff.X);
-
-                switch (collider_)
-                {
-                    case RectangleCollider rect:
-                        rect.Position = position;
-                        rect.Size = size;
-                        rect.Rotation = angle;
-                        break;
-                    case CircleCollider circle:
-                        circle.Position = position + size * 0.5f;
-                        circle.Radius = MathF.Min(size.X, size.Y) * 0.5f;
-                        break;
-                    default:
-                        break;
-                }
+                Resize(area);
 
                 lastTransform_ = transform;
             }
