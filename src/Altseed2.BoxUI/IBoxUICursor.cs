@@ -13,6 +13,7 @@ namespace Altseed2.BoxUI
         bool IsActive { get; set;  }
     }
 
+    [Serializable]
     public sealed class BoxUIMouseCursor : Node, IBoxUICursor
     {
         private readonly string id_;

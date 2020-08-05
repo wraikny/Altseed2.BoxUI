@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
+    [Serializable]
     public sealed class KeepAspectElement : Element
     {
         private Vector2F aspect_;

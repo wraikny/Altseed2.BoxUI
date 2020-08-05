@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
+    [Serializable]
     public sealed class WindowElement : Element, IAbsoluteSizeElement
     {
         private Vector2F windowSize_;

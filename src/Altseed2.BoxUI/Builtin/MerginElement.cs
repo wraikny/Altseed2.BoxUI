@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
+    [Serializable]
     public sealed class MerginElement : Element
     {
         private Vector2F mergin_;

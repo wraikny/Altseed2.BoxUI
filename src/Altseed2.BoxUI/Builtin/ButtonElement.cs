@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
+    [Serializable]
     public sealed class ButtonElement : Element
     {
         Action<IBoxUICursor> onFree_;

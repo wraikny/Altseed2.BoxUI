@@ -5,6 +5,7 @@ using System.Text;
 
 namespace Altseed2.BoxUI.Builtin
 {
+    [Serializable]
     public sealed class AlignElement : Element
     {
         Align xAlign_;

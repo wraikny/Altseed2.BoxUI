@@ -5,12 +5,14 @@ using System.ComponentModel;
 
 namespace Altseed2.BoxUI.Builtin
 {
+    [Serializable]
     public enum Column
     {
         X,
         Y,
     }
 
+    [Serializable]
     public enum Mergin
     {
         Fixed,
@@ -19,6 +21,7 @@ namespace Altseed2.BoxUI.Builtin
         RelativeMax,
     }
 
+    [Serializable]
     public enum Align
     {
         Min,

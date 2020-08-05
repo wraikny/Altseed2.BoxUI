@@ -10,6 +10,7 @@ namespace Altseed2.BoxUI
         void Resize();
     }
 
+    [Serializable]
     public abstract class Element
     {
         private readonly List<Element> children_ = new List<Element>();

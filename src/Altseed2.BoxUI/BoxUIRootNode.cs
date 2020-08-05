@@ -11,6 +11,7 @@ namespace Altseed2.BoxUI
         void OnRemoved(BoxUIRootNode root);
     }
 
+    [Serializable]
     public sealed class BoxUIRootNode : TransformNode
     {
         private bool isUpdating_;
