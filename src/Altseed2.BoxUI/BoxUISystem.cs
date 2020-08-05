@@ -72,5 +72,13 @@ namespace Altseed2.BoxUI
             posts_ ??= new Queue<Action>();
             posts_.Enqueue(action);
         }
+
+        /// <summary>
+        /// 与えられた個数のクラスTのオブジェクトを作成してオブジェクトプールに登録します。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="count">インスタンスの個数</param>
+        public static void PoolNodes<T>(int count)
+            where T : Node, new() => NodePool<T>.Register(count);
     }
 }

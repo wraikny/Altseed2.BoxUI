@@ -14,7 +14,7 @@ namespace Altseed2.BoxUI
 
         private static Dictionary<BoxUIRootNode, Queue<T>> returnedPool_;
 
-        public static T Rent(BoxUIRootNode root)
+        internal static T Rent(BoxUIRootNode root)
         {
             if (root is null) return null;
 
@@ -56,6 +56,18 @@ namespace Altseed2.BoxUI
             {
                 registered_ = true;
                 BoxUISystem.Register(new PoolHandler());
+            }
+        }
+
+        internal static void Register(int count)
+        {
+            if (count < 1) return;
+
+            sharedPool_ ??= new Queue<T>();
+
+            for(int i = 0; i < count; i++)
+            {
+                sharedPool_.Enqueue(new T());
             }
         }
 

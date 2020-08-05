@@ -64,17 +64,6 @@ namespace Altseed2.BoxUI
             absoluteSizeElement.Resize();
         }
 
-        public void RegisterPool<T>(int count)
-            where T : Node, new()
-        {
-            if (count < 1) return;
-
-            for(int i = 0; i < count; i++)
-            {
-                NodePool<T>.Return(this, new T());
-            }
-        }
-
         /// <summary>
         /// クラスT : Nodeのプールからオブジェクトを取得します。
         /// 取得できなかった場合はnew()コンストラクタによって新しいインスタンスを作成します。
