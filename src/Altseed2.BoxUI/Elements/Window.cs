@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Altseed2.BoxUI.Builtin
+namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class WindowElement : Element, IAbsoluteSizeElement
+    public sealed class Window : Element, IAbsoluteSizeElement
     {
         private Vector2F windowSize_;
 
-        private WindowElement() { }
+        private Window() { }
 
-        public static WindowElement Create()
+        public static Window Create()
         {
-            return BoxUISystem.RentOrNull<WindowElement>() ?? new WindowElement();
+            return BoxUISystem.RentOrNull<Window>() ?? new Window();
         }
 
         protected override void ReturnToPool()

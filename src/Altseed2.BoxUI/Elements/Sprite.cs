@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Altseed2.BoxUI.Builtin
+namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class SpriteElement : Element
+    public sealed class Sprite : Element
     {
         bool keepAspect_;
         bool horizontalFlip_;
@@ -17,9 +17,9 @@ namespace Altseed2.BoxUI.Builtin
 
         public SpriteNode Node { get; private set; }
 
-        private SpriteElement() { }
+        private Sprite() { }
 
-        public static SpriteElement Create(
+        public static Sprite Create(
             bool keepAspect = true,
             bool horizontalFlip = false,
             bool verticalFlip = false,
@@ -29,7 +29,7 @@ namespace Altseed2.BoxUI.Builtin
             TextureBase texture = null
         )
         {
-            var elem = BoxUISystem.RentOrNull<SpriteElement>() ?? new SpriteElement();
+            var elem = BoxUISystem.RentOrNull<Sprite>() ?? new Sprite();
             elem.keepAspect_ = keepAspect;
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;

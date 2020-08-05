@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Altseed2.BoxUI.Builtin;
+using Altseed2.BoxUI.Elements;
 
 namespace Altseed2.BoxUI.Sample
 {
@@ -33,25 +33,25 @@ namespace Altseed2.BoxUI.Sample
         {
             var font = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 70);
 
-            var textElem = TextElement.Create(color: Params.TextColor, text: $"{state.Count}", font: font);
+            var textElem = Text.Create(color: Params.TextColor, text: $"{state.Count}", font: font);
 
             // クリア
             root.ClearElement();
 
             // Window全体
-            root.SetElement(WindowElement.Create()
+            root.SetElement(Window.Create()
                 // マージン
-                .With(MarginElement.Create(new Vector2F(0.25f, 0.25f), Margin.RelativeMin)
+                .With(Margin.Create(new Vector2F(0.25f, 0.25f), MarginScale.RelativeMin)
                     // 背景色
-                    .With(RectangleElement.Create(color:Params.BackgroundColor))
+                    .With(Rectangle.Create(color:Params.BackgroundColor))
                     // マージン
-                    .With(MarginElement.Create(new Vector2F(0.05f, 0.05f), Margin.RelativeMin)
+                    .With(Margin.Create(new Vector2F(0.05f, 0.05f), MarginScale.RelativeMin)
                         // Y方向分割
-                        .With(ColumnElement.Create(Column.Y)
+                        .With(Column.Create(ColumnDir.Y)
                             // 中心にテキスト
-                            .With(AlignElement.Center.With(textElem))
+                            .With(Align.CreateCenter().With(textElem))
                             // X方向分割
-                            .With(ColumnElement.Create(Column.X)
+                            .With(Column.Create(ColumnDir.X)
                                 // ボタン
                                 .With(CounterButton(font, "-", _ => {
                                     state.Count--;
@@ -72,18 +72,18 @@ namespace Altseed2.BoxUI.Sample
 
         public static Element CounterButton(Font font, string text, Action<IBoxUICursor> action)
         {
-            var background = RectangleElement.Create(color: Params.DefaultColor);
+            var background = Rectangle.Create(color: Params.DefaultColor);
 
             // マージン
-            return MarginElement.Create(new Vector2F(0.05f, 0.05f), Margin.Relative)
+            return Margin.Create(new Vector2F(0.05f, 0.05f), MarginScale.Relative)
                 // 背景色
                 .With(background)
                 // 中心にテキスト
-                .With(AlignElement.Create(Align.Center, Align.Center)
-                    .With(TextElement.Create(color: Params.TextColor, text: text, font: font))
+                .With(Align.Create(AlignPos.Center, AlignPos.Center)
+                    .With(Text.Create(color: Params.TextColor, text: text, font: font))
                 )
                 // 当たり判定・アクション
-                .With(ButtonElement.CreateRectangle()
+                .With(Button.CreateRectangle()
                     .OnRelease(action)
                     .OnFree(_ => { background.Node.Color = Params.HoverColor; })
                     .OnHold(_ => { background.Node.Color = Params.HoldColor; })

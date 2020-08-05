@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Altseed2.BoxUI.Builtin
+namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class MarginElement : Element
+    public sealed class Margin : Element
     {
         private Vector2F margin_;
-        private Margin uiScale_;
+        private MarginScale uiScale_;
 
-        private MarginElement() { }
+        private Margin() { }
 
-        public static MarginElement Create(Vector2F margin, Margin uiScale = default)
+        public static Margin Create(Vector2F margin, MarginScale uiScale = default)
         {
             FlagsValidater.Validate(uiScale);
 
-            var elem = BoxUISystem.RentOrNull<MarginElement>() ?? new MarginElement();
+            var elem = BoxUISystem.RentOrNull<Margin>() ?? new Margin();
             elem.margin_ = margin;
             elem.uiScale_ = uiScale;
             return elem;
@@ -31,10 +31,10 @@ namespace Altseed2.BoxUI.Builtin
         {
             var margin = uiScale_ switch
             {
-                Margin.Fixed => margin_,
-                Margin.Relative => margin_ * size,
-                Margin.RelativeMin => (margin_ * size).Min() * Vector2FExt.One,
-                Margin.RelativeMax => (margin_ * size).Max() * Vector2FExt.One,
+                MarginScale.Fixed => margin_,
+                MarginScale.Relative => margin_ * size,
+                MarginScale.RelativeMin => (margin_ * size).Min() * Vector2FExt.One,
+                MarginScale.RelativeMax => (margin_ * size).Max() * Vector2FExt.One,
                 _ => Vector2FExt.Zero,
             };
 

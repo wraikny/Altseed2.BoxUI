@@ -1,4 +1,4 @@
-﻿using Altseed2.BoxUI.Builtin;
+﻿using Altseed2.BoxUI.Elements;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -96,7 +96,7 @@ namespace Altseed2.BoxUI.Sample
             static Element makeText(Font font, string text, int zOrder)
             {
                 return
-                    TextElement.Create(
+                    Text.Create(
                         font: font,
                         text: text,
                         color: Params.TextColor,
@@ -104,20 +104,20 @@ namespace Altseed2.BoxUI.Sample
                     );
             }
 
-            static MarginElement makeMargin()
+            static Margin makeMargin()
             {
-                return MarginElement
-                    .Create(new Vector2F(0.05f, 0.05f), Builtin.Margin.RelativeMin);
+                return Margin
+                    .Create(new Vector2F(0.05f, 0.05f), Elements.MarginScale.RelativeMin);
             }
 
             static Element makeButton(Font font, int zOrder, string text, Action<IBoxUICursor> action)
             {
-                var background = RectangleElement.Create(color: Params.DefaultColor, zOrder: zOrder + 1);
+                var background = Rectangle.Create(color: Params.DefaultColor, zOrder: zOrder + 1);
 
                 return makeMargin()
                     .With(background)
-                    .With(AlignElement.Center.With(makeText(font, text, zOrder)))
-                    .With(ButtonElement.CreateRectangle()
+                    .With(Align.CreateCenter().With(makeText(font, text, zOrder)))
+                    .With(Button.CreateRectangle()
                         .OnPush(action)
                         .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
                         .OnFree(_ => { background.Node.Color = Params.HoverColor; })
@@ -128,10 +128,10 @@ namespace Altseed2.BoxUI.Sample
             var zOrderOffset = state.Id << 3;
 
             root.ClearElement();
-            root.SetElement(FixedAreaElement.Create(new RectF(zero, WindowSize))
-                .With(RectangleElement.Create(color: new Color(50, 50, 100), zOrder: zOrderOffset + 0))
+            root.SetElement(FixedArea.Create(new RectF(zero, WindowSize))
+                .With(Rectangle.Create(color: new Color(50, 50, 100), zOrder: zOrderOffset + 0))
                 .With(makeMargin()
-                    .With(ColumnElement.Create(Column.Y)
+                    .With(Column.Create(ColumnDir.Y)
                         .With(makeMargin().With(makeText(font_, $"{state.Id}: {state.Count}", zOrderOffset)))
                         .With(makeButton(font_, zOrderOffset, "-", decr))
                         .With(makeButton(font_, zOrderOffset, "+", incr))

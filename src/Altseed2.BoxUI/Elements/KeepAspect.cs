@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Altseed2.BoxUI.Builtin
+namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class KeepAspectElement : Element
+    public sealed class KeepAspect : Element
     {
         private Vector2F aspect_;
 
-        private KeepAspectElement() { }
+        private KeepAspect() { }
 
-        public static KeepAspectElement Create(Vector2F aspect)
+        public static KeepAspect Create(Vector2F aspect)
         {
-            var elem = BoxUISystem.RentOrNull<KeepAspectElement>() ?? new KeepAspectElement();
+            var elem = BoxUISystem.RentOrNull<KeepAspect>() ?? new KeepAspect();
             elem.aspect_ = aspect;
             return elem;
         }

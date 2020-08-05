@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Altseed2.BoxUI.Builtin
+namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class FixedAreaElement : Element, IAbsoluteSizeElement
+    public sealed class FixedArea : Element, IAbsoluteSizeElement
     {
         private RectF area_;
         public RectF Area
@@ -19,11 +19,11 @@ namespace Altseed2.BoxUI.Builtin
             }
         }
 
-        private FixedAreaElement() { }
+        private FixedArea() { }
 
-        public static FixedAreaElement Create(RectF area)
+        public static FixedArea Create(RectF area)
         {
-            var elem = BoxUISystem.RentOrNull<FixedAreaElement>() ?? new FixedAreaElement();
+            var elem = BoxUISystem.RentOrNull<FixedArea>() ?? new FixedArea();
             elem.area_ = area;
             return elem;
         }

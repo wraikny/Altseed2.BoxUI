@@ -3,28 +3,28 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace Altseed2.BoxUI.Builtin
+namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class AlignElement : Element
+    public sealed class Align : Element
     {
-        Align xAlign_;
-        Align yAlign_;
+        AlignPos xAlign_;
+        AlignPos yAlign_;
 
-        private AlignElement() { }
+        private Align() { }
 
-        public static AlignElement Create(Align xAlign, Align yAlign)
+        public static Align Create(AlignPos xAlign, AlignPos yAlign)
         {
             FlagsValidater.Validate(xAlign);
             FlagsValidater.Validate(yAlign);
 
-            var elem = BoxUISystem.RentOrNull<AlignElement>() ?? new AlignElement();
+            var elem = BoxUISystem.RentOrNull<Align>() ?? new Align();
             elem.xAlign_ = xAlign;
             elem.yAlign_ = yAlign;
             return elem;
         }
 
-        public static AlignElement Center => Create(Align.Center, Align.Center);
+        public static Align CreateCenter() => Create(AlignPos.Center, AlignPos.Center);
 
         protected override void ReturnToPool()
         {
@@ -37,13 +37,13 @@ namespace Altseed2.BoxUI.Builtin
         {
             foreach(var c in Children)
             {
-                static float calcAlign(Align align, float pos, float size, float cSize)
+                static float calcAlign(AlignPos align, float pos, float size, float cSize)
                 {
                     return align switch
                     {
-                        Align.Min => pos,
-                        Align.Center => pos + (size - cSize) * 0.5f,
-                        Align.Max => pos + size - cSize,
+                        AlignPos.Min => pos,
+                        AlignPos.Center => pos + (size - cSize) * 0.5f,
+                        AlignPos.Max => pos + size - cSize,
                         _ => 0.0f,
                     };
                 }

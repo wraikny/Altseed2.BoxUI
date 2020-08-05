@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Altseed2.BoxUI.Builtin
+namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class ColumnElement : Element
+    public sealed class Column : Element
     {
-        Column dir_;
+        ColumnDir dir_;
 
-        private ColumnElement() { }
+        private Column() { }
 
-        public static ColumnElement Create(Column dir)
+        public static Column Create(ColumnDir dir)
         {
             FlagsValidater.Validate(dir);
 
-            var elem = BoxUISystem.RentOrNull<ColumnElement>() ?? new ColumnElement();
+            var elem = BoxUISystem.RentOrNull<Column>() ?? new Column();
             elem.dir_ = dir;
             return elem;
         }
@@ -37,11 +37,11 @@ namespace Altseed2.BoxUI.Builtin
 
             switch(dir_)
             {
-                case Column.X:
+                case ColumnDir.X:
                     size.X /= count;
                     offset = new Vector2F(size.X, 0.0f);
                     break;
-                case Column.Y:
+                case ColumnDir.Y:
                     size.Y /= count;
                     offset = new Vector2F(0.0f, size.Y);
                     break;

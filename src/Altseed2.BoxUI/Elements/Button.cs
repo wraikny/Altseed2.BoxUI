@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 
-namespace Altseed2.BoxUI.Builtin
+namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class ButtonElement : Element
+    public sealed class Button : Element
     {
         Action<IBoxUICursor> onFree_;
         Action<IBoxUICursor> onPush_;
@@ -17,18 +17,18 @@ namespace Altseed2.BoxUI.Builtin
 
         Matrix44F lastTransform_;
 
-        private ButtonElement() { }
+        private Button() { }
 
-        public static ButtonElement CreateRectangle()
+        public static Button CreateRectangle()
         {
-            var elem = BoxUISystem.RentOrNull<ButtonElement>() ?? new ButtonElement();
+            var elem = BoxUISystem.RentOrNull<Button>() ?? new Button();
             elem.collider_ = BoxUISystem.RentOrNull<RectangleCollider>() ?? RectangleCollider.Create();
             return elem;
         }
 
-        public static ButtonElement CreateCircle()
+        public static Button CreateCircle()
         {
-            var elem = BoxUISystem.RentOrNull<ButtonElement>() ?? new ButtonElement();
+            var elem = BoxUISystem.RentOrNull<Button>() ?? new Button();
             elem.collider_ = BoxUISystem.RentOrNull<CircleCollider>() ?? CircleCollider.Create();
             return elem;
         }
@@ -149,7 +149,7 @@ namespace Altseed2.BoxUI.Builtin
             }
         }
 
-        public ButtonElement OnFree(Action<IBoxUICursor> action)
+        public Button OnFree(Action<IBoxUICursor> action)
         {
             if (action != null)
             {
@@ -158,7 +158,7 @@ namespace Altseed2.BoxUI.Builtin
             return this;
         }
 
-        public ButtonElement OnPush(Action<IBoxUICursor> action)
+        public Button OnPush(Action<IBoxUICursor> action)
         {
             if (action != null)
             {
@@ -167,7 +167,7 @@ namespace Altseed2.BoxUI.Builtin
             return this;
         }
 
-        public ButtonElement OnHold(Action<IBoxUICursor> action)
+        public Button OnHold(Action<IBoxUICursor> action)
         {
             if (action != null)
             {
@@ -175,7 +175,7 @@ namespace Altseed2.BoxUI.Builtin
             }
             return this;
         }
-        public ButtonElement OnRelease(Action<IBoxUICursor> action)
+        public Button OnRelease(Action<IBoxUICursor> action)
         {
             if (action != null)
             {
@@ -184,7 +184,7 @@ namespace Altseed2.BoxUI.Builtin
             return this;
         }
 
-        public ButtonElement WhileNotCollided(Action action)
+        public Button WhileNotCollided(Action action)
         {
             if (action != null)
             {
