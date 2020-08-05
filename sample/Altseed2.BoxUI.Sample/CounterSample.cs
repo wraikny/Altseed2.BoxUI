@@ -60,7 +60,7 @@ namespace Altseed2.BoxUI.Sample
             {
                 var background = RectangleElement.Create(color: Params.DefaultColor);
 
-                return MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.Relative)
+                return MarginElement.Create(new Vector2F(0.05f, 0.05f), Margin.Relative)
                     .With(background)
                     .With(AlignElement.Create(Align.Center, Align.Center)
                         .With(TextElement.Create(color: Params.TextColor, text: text, font: font))
@@ -77,9 +77,9 @@ namespace Altseed2.BoxUI.Sample
             // Call ClearElement before Create Element
             uiRoot_.ClearElement();
             uiRoot_.SetElement(WindowElement.Create()
-                .With(MerginElement.Create(new Vector2F(0.25f, 0.25f), Mergin.RelativeMin)
+                .With(MarginElement.Create(new Vector2F(0.25f, 0.25f), Margin.RelativeMin)
                     .With(RectangleElement.Create(color:Params.BackgroundColor))
-                    .With(MerginElement.Create(new Vector2F(0.05f, 0.05f), Mergin.RelativeMin)
+                    .With(MarginElement.Create(new Vector2F(0.05f, 0.05f), Margin.RelativeMin)
                         .With(ColumnElement.Create(Column.Y)
                             .With(AlignElement.Center
                                 .With(TextElement.Create(color: Params.TextColor, text: $"{count}", font: font_))

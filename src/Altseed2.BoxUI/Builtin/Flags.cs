@@ -13,7 +13,7 @@ namespace Altseed2.BoxUI.Builtin
     }
 
     [Serializable]
-    public enum Mergin
+    public enum Margin
     {
         Fixed,
         Relative,
@@ -37,16 +37,16 @@ namespace Altseed2.BoxUI.Builtin
             throw new InvalidEnumArgumentException(nameof(dir), (int)dir, typeof(Column));
         }
 
-        public static void Validate(Mergin scale)
+        public static void Validate(Margin scale)
         {
             switch(scale)
             {
-                case Mergin.Fixed: return;
-                case Mergin.Relative: return;
-                case Mergin.RelativeMin: return;
-                case Mergin.RelativeMax: return;
+                case Margin.Fixed: return;
+                case Margin.Relative: return;
+                case Margin.RelativeMin: return;
+                case Margin.RelativeMax: return;
                 default:
-                    throw new InvalidEnumArgumentException(nameof(scale), (int)scale, typeof(Mergin));
+                    throw new InvalidEnumArgumentException(nameof(scale), (int)scale, typeof(Margin));
             }
         }
 

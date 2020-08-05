@@ -104,17 +104,17 @@ namespace Altseed2.BoxUI.Sample
                     );
             }
 
-            static MerginElement makeMergin()
+            static MarginElement makeMargin()
             {
-                return MerginElement
-                    .Create(new Vector2F(0.05f, 0.05f), Builtin.Mergin.RelativeMin);
+                return MarginElement
+                    .Create(new Vector2F(0.05f, 0.05f), Builtin.Margin.RelativeMin);
             }
 
             static Element makeButton(Font font, int zOrder, string text, Action<IBoxUICursor> action)
             {
                 var background = RectangleElement.Create(color: Params.DefaultColor, zOrder: zOrder + 1);
 
-                return makeMergin()
+                return makeMargin()
                     .With(background)
                     .With(AlignElement.Center.With(makeText(font, text, zOrder)))
                     .With(ButtonElement.CreateRectangle()
@@ -130,9 +130,9 @@ namespace Altseed2.BoxUI.Sample
             root.ClearElement();
             root.SetElement(FixedAreaElement.Create(new RectF(zero, WindowSize))
                 .With(RectangleElement.Create(color: new Color(50, 50, 100), zOrder: zOrderOffset + 0))
-                .With(makeMergin()
+                .With(makeMargin()
                     .With(ColumnElement.Create(Column.Y)
-                        .With(makeMergin().With(makeText(font_, $"{state.Id}: {state.Count}", zOrderOffset)))
+                        .With(makeMargin().With(makeText(font_, $"{state.Id}: {state.Count}", zOrderOffset)))
                         .With(makeButton(font_, zOrderOffset, "-", decr))
                         .With(makeButton(font_, zOrderOffset, "+", incr))
                         .With(makeButton(font_, zOrderOffset, "close", close))
