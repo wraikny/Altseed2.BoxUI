@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="../../TestData/**/*.*" LinkBase="TestData">
+    <Content Include="../../TestData/**/*.*" LinkBase="TestData"  Visible="false">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
