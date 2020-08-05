@@ -65,20 +65,57 @@ namespace Altseed2.BoxUI
         }
 
         /// <summary>
-        /// クラスT : Nodeのプールからオブジェクトを取得します。
+        /// クラスTのプールからオブジェクトを取得します。
         /// 取得できなかった場合はnew()コンストラクタによって新しいインスタンスを作成します。
-        /// このメソッドによって取得されたノードは自動的にBoxUIRootNodeの子ノードとして追加されます。
+        /// 同一フレーム内で再利用されたノードの場合、BoxUIRootNodeの子ノードとして追加されています。
+        /// それ以外では自動的にBoxUIRootNodeの子ノードとして追加されます。
         /// </summary>
         public T RentOrCreate<T>()
-            where T : Node, new() => NodePool<T>.Rent(this);
+            where T : Node, new()
+        {
+            var node = NodePool<T>.Rent(this);
+
+            if (node is null)
+            {
+                node = new T();
+                AddChildNode(node);
+            }
+
+            return node;
+        }
 
         /// <summary>
-        /// T型のプールからT型のNodeを取得します。
-        /// 取得できなかった場合はnew()コンストラクタによって新しいインスタンスを作成します。
-        /// このメソッドによって取得されたノードは自動的にBoxUIRootNodeの子ノードから削除されます。
+        /// クラスTのプールからオブジェクトを取得します。
+        /// 取得できなかった場合は引数のinitializeによって新しいインスタンスを作成します。
+        /// 同一フレーム内で再利用されたノードの場合、BoxUIRootNodeの子ノードとして追加されています。
+        /// それ以外では自動的にBoxUIRootNodeの子ノードとして追加されます。
+        /// </summary>
+        public T RentOrCreate<T>(Func<T> initialize)
+            where T : Node
+        {
+            var node = NodePool<T>.Rent(this);
+
+            if (node is null)
+            {
+                if (initialize is null)
+                {
+                    throw new ArgumentNullException(nameof(initialize));
+                }
+
+                node = initialize();
+                AddChildNode(node);
+            }
+
+            return node;
+        }
+
+        /// <summary>
+        /// クラスTのプールにオブジェクトを返却します。
+        /// 同一フレーム内で再利用される場合、BoxUIRootNodeの子ノードから削除されません。
+        /// それ以外の場合は、自動的にBoxUIRootNodeの子ノードから削除されます。
         /// </summary>
         public void Return<T>(T node)
-            where T : Node, new() => NodePool<T>.Return(this, node);
+            where T : Node => NodePool<T>.Return(this, node);
 
         protected override void OnUpdate()
         {

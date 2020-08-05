@@ -5,7 +5,7 @@ using System.Text;
 namespace Altseed2.BoxUI
 {
     internal static class NodePool<T>
-        where T : Node, new()
+        where T : Node
     {
         private static bool registered_ = false;
 
@@ -14,27 +14,34 @@ namespace Altseed2.BoxUI
 
         private static Dictionary<BoxUIRootNode, Queue<T>> returnedPool_;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="result"></param>
+        /// <returns>取得したノードを子ノードとして追加する必要があるかどうか</returns>
+        /// <exception cref="System.ArgumentNullException">引数として与えられたBoxUIRootNodeがnull</exception>
         internal static T Rent(BoxUIRootNode root)
         {
-            if (root is null) return null;
-
-            if(returnedPool_ != null && returnedPool_.TryGetValue(root, out var queue))
+            if (root is null)
             {
-                if(queue.TryDequeue(out T res))
+                throw new ArgumentNullException(nameof(root));
+            }
+
+            if (returnedPool_ != null && returnedPool_.TryGetValue(root, out var queue))
+            {
+                if (queue.TryDequeue(out T res))
                 {
                     return res;
                 }
             }
-            else if(sharedPool_ != null && sharedPool_.TryDequeue(out T res))
+            else if (sharedPool_ != null && sharedPool_.TryDequeue(out T res))
             {
                 root.AddChildNode(res);
                 return res;
             }
 
-            var node = new T();
-            root.AddChildNode(node);
-
-            return node;
+            return null;
         }
 
         internal static void Return(BoxUIRootNode root, T node)
@@ -43,7 +50,7 @@ namespace Altseed2.BoxUI
 
             returnedPool_ ??= new Dictionary<BoxUIRootNode, Queue<T>>();
 
-            if(!returnedPool_.TryGetValue(root, out var queue))
+            if (!returnedPool_.TryGetValue(root, out var queue))
             {
                 queue = new Queue<T>();
                 returnedPool_[root] = queue;
@@ -59,16 +66,10 @@ namespace Altseed2.BoxUI
             }
         }
 
-        internal static void Register(int count)
+        internal static void Register(T node)
         {
-            if (count < 1) return;
-
             sharedPool_ ??= new Queue<T>();
-
-            for(int i = 0; i < count; i++)
-            {
-                sharedPool_.Enqueue(new T());
-            }
+            sharedPool_.Enqueue(node);
         }
 
         private sealed class NodePoolHandler : INodePoolHandler

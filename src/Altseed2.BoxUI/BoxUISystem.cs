@@ -31,7 +31,7 @@ namespace Altseed2.BoxUI
             where T : class => BoxUIPool<T>.Rent();
 
         /// <summary>
-        /// T型のプールにT型のオブジェクトを返却します。
+        /// クラスTのプールにオブジェクトを返却します。
         /// </summary>
         public static void Return<T>(T element)
             where T : class => BoxUIPool<T>.Return(element);
@@ -100,11 +100,10 @@ namespace Altseed2.BoxUI
         }
 
         /// <summary>
-        /// 与えられた個数のクラスTのオブジェクトを作成してオブジェクトプールに登録します。
+        /// ノードを作成してオブジェクトプールに登録します。
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="count">インスタンスの個数</param>
-        public static void PoolNodes<T>(int count)
-            where T : Node, new() => NodePool<T>.Register(count);
+        public static void PoolNode<T>(T node)
+            where T : Node => NodePool<T>.Register(node);
     }
 }
