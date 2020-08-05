@@ -107,7 +107,7 @@ namespace Altseed2.BoxUI
         {
             void IPoolHandler.Update()
             {
-                if (sharedRemovedPool_ is null) return;
+                if (sharedRemovedPool_ is null || sharedRemovedPool_.Count == 0) return;
 
                 sharedPool_ ??= new Queue<T>();
 
