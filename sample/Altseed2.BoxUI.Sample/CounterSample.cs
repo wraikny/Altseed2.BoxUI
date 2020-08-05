@@ -7,64 +7,64 @@ namespace Altseed2.BoxUI.Sample
 {
     sealed class CounterSample : Node
     {
-        private int count_;
+        private class State
+        {
+            public int Count { get; set; }
+        }
 
+        private readonly State state_;
         private readonly BoxUIRootNode uiRoot_;
-        private Font font_;
-
-        bool updateView;
 
         public CounterSample()
         {
+            state_ = new State();
+
+            var cursor = new BoxUIMouseCursor("Mouse");
+            AddChildNode(cursor);
+
             uiRoot_ = new BoxUIRootNode();
             AddChildNode(uiRoot_);
-            updateView = true;
+            uiRoot_.Cursors.Add(cursor);
         }
 
         protected override void OnAdded()
         {
-            font_ = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 70);
-            uiRoot_.Cursors.Add(new BoxUIMouseCursor("Mouse"));
+            MakeView(uiRoot_, state_);
         }
 
-        protected override void OnUpdate()
+        static void MakeView(BoxUIRootNode root, State state)
         {
-            if (updateView)
+            var font_ = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 70);
+
+            var textElem = TextElement.Create(color: Params.TextColor, text: $"{state.Count}", font: font_);
+
+            void Decrement(IBoxUICursor _)
             {
-                // Don't call SetElement directly from Element
-                View(count_);
-                updateView = false;
+                state.Count--;
+                textElem.Node.Text = $"{state.Count}";
+                Console.WriteLine(state.Count);
             }
-        }
 
-        void Decrement(IBoxUICursor _)
-        {
-            count_--;
-            // Don't call SetElement directly from Element
-            updateView = true;
-            Console.WriteLine(count_);
-        }
+            void Increment(IBoxUICursor _)
+            {
+                state.Count++;
+                textElem.Node.Text = $"{state.Count}";
+                Console.WriteLine(state.Count);
+            }
 
-        void Increment(IBoxUICursor _)
-        {
-            count_++;
-            // Don't call SetElement directly from Element
-            updateView = true;
-            Console.WriteLine(count_);
-        }
-
-
-        void View(int count)
-        {
             Element CreateButton(Font font, string text, Action<IBoxUICursor> action)
             {
                 var background = RectangleElement.Create(color: Params.DefaultColor);
 
+                // マージン
                 return MarginElement.Create(new Vector2F(0.05f, 0.05f), Margin.Relative)
+                    // 背景色
                     .With(background)
+                    // 中心にテキスト
                     .With(AlignElement.Create(Align.Center, Align.Center)
                         .With(TextElement.Create(color: Params.TextColor, text: text, font: font))
                     )
+                    // 当たり判定・アクション
                     .With(ButtonElement.CreateRectangle()
                         .OnRelease(action)
                         .OnFree(_ => { background.Node.Color = Params.HoverColor; })
@@ -74,17 +74,24 @@ namespace Altseed2.BoxUI.Sample
                 ;
             }
 
-            // Call ClearElement before Create Element
-            uiRoot_.ClearElement();
-            uiRoot_.SetElement(WindowElement.Create()
+            // クリア
+            root.ClearElement();
+
+            // Window全体
+            root.SetElement(WindowElement.Create()
+                // マージン
                 .With(MarginElement.Create(new Vector2F(0.25f, 0.25f), Margin.RelativeMin)
+                    // 背景色
                     .With(RectangleElement.Create(color:Params.BackgroundColor))
+                    // マージン
                     .With(MarginElement.Create(new Vector2F(0.05f, 0.05f), Margin.RelativeMin)
+                        // Y方向分割
                         .With(ColumnElement.Create(Column.Y)
-                            .With(AlignElement.Center
-                                .With(TextElement.Create(color: Params.TextColor, text: $"{count}", font: font_))
-                            )
+                            // 中心にテキスト
+                            .With(AlignElement.Center.With(textElem))
+                            // X方向分割
                             .With(ColumnElement.Create(Column.X)
+                                // ボタン
                                 .With(CreateButton(font_, "-", Decrement))
                                 .With(CreateButton(font_, "+", Increment))
                             )
