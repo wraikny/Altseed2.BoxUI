@@ -77,21 +77,19 @@ namespace Altseed2.BoxUI.Sample
         {
             Vector2F zero = new Vector2F(0.0f, 0.0f);
 
-            static Element makeText(Font font, string text, int zOrder)
+            static Text makeText(Font font, string text, int zOrder)
             {
-                return
-                    Text.Create(
-                        font: font,
-                        text: text,
-                        color: Params.TextColor,
-                        zOrder: zOrder + 2
-                    );
+                return Text.Create(
+                    font: font,
+                    text: text,
+                    color: Params.TextColor,
+                    zOrder: zOrder + 2
+                );
             }
 
             static Margin makeMargin()
             {
-                return Margin
-                    .Create(new Vector2F(0.05f, 0.05f), MarginScale.RelativeMin);
+                return Margin.Create(new Vector2F(0.05f, 0.05f), MarginScale.RelativeMin);
             }
 
             static Element makeButton(Font font, int zOrder, string text, Action<IBoxUICursor> action)
@@ -111,6 +109,8 @@ namespace Altseed2.BoxUI.Sample
 
             var zOrderOffset = state.Id << 3;
 
+            var textElem = makeText(font_, $"{state.Id}: {state.Count}", zOrderOffset);
+
             return
                 // 固定サイズ
                 FixedArea.Create(new RectF(zero, WindowSize))
@@ -121,18 +121,18 @@ namespace Altseed2.BoxUI.Sample
                     // 縦方向分割
                     .With(Column.Create(ColumnDir.Y)
                         // テキスト
-                        .With(makeMargin().With(makeText(font_, $"{state.Id}: {state.Count}", zOrderOffset)))
+                        .With(makeMargin().With(textElem))
                         // デクリメントボタン
                         .With(makeButton(font_, zOrderOffset, "-", _ =>
                         {
                             state.Decr();
-
+                            textElem.Node.Text = $"{state.Count}";
                         }))
                         // インクリメントボタン
                         .With(makeButton(font_, zOrderOffset, "+", _ =>
                         {
                             state.Incr();
-
+                            textElem.Node.Text = $"{state.Count}";
                         }))
                         // 閉じるボタン
                         .With(makeButton(font_, zOrderOffset, "close", _ =>
