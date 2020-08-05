@@ -15,14 +15,14 @@ namespace Altseed2.BoxUI.Builtin
         {
             FlagsValidater.Validate(dir);
 
-            var elem = RentOrNull<ColumnElement>() ?? new ColumnElement();
+            var elem = BoxUISystem.RentOrNull<ColumnElement>() ?? new ColumnElement();
             elem.dir_ = dir;
             return elem;
         }
 
         protected override void ReturnToPool()
         {
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F size) => size;

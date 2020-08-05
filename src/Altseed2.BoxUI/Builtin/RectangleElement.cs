@@ -25,7 +25,7 @@ namespace Altseed2.BoxUI.Builtin
             Material material = null
         )
         {
-            var elem = RentOrNull<RectangleElement>() ?? new RectangleElement();
+            var elem = BoxUISystem.RentOrNull<RectangleElement>() ?? new RectangleElement();
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;
             elem.color_ = color ?? new Color(255, 255, 255, 255);
@@ -38,7 +38,7 @@ namespace Altseed2.BoxUI.Builtin
         {
             Root.Return(Node);
             Node = null;
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         protected override void OnAdded()

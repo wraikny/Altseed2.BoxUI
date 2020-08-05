@@ -29,7 +29,7 @@ namespace Altseed2.BoxUI.Builtin
             TextureBase texture = null
         )
         {
-            var elem = RentOrNull<SpriteElement>() ?? new SpriteElement();
+            var elem = BoxUISystem.RentOrNull<SpriteElement>() ?? new SpriteElement();
             elem.keepAspect_ = keepAspect;
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;
@@ -44,7 +44,7 @@ namespace Altseed2.BoxUI.Builtin
         {
             Root.Return(Node);
             Node = null;
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         protected override void OnAdded()

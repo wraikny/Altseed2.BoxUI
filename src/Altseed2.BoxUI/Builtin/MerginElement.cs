@@ -16,7 +16,7 @@ namespace Altseed2.BoxUI.Builtin
         {
             FlagsValidater.Validate(uiScale);
 
-            var elem = RentOrNull<MerginElement>() ?? new MerginElement();
+            var elem = BoxUISystem.RentOrNull<MerginElement>() ?? new MerginElement();
             elem.mergin_ = mergin;
             elem.uiScale_ = uiScale;
             return elem;
@@ -24,7 +24,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void ReturnToPool()
         {
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F size)

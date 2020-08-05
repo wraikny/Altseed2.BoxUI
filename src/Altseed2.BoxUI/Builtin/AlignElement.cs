@@ -18,7 +18,7 @@ namespace Altseed2.BoxUI.Builtin
             FlagsValidater.Validate(xAlign);
             FlagsValidater.Validate(yAlign);
 
-            var elem = RentOrNull<AlignElement>() ?? new AlignElement();
+            var elem = BoxUISystem.RentOrNull<AlignElement>() ?? new AlignElement();
             elem.xAlign_ = xAlign;
             elem.yAlign_ = yAlign;
             return elem;
@@ -28,7 +28,7 @@ namespace Altseed2.BoxUI.Builtin
 
         protected override void ReturnToPool()
         {
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F size) => size;

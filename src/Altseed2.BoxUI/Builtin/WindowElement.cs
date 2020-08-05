@@ -13,13 +13,13 @@ namespace Altseed2.BoxUI.Builtin
 
         public static WindowElement Create()
         {
-            return RentOrNull<WindowElement>() ?? new WindowElement();
+            return BoxUISystem.RentOrNull<WindowElement>() ?? new WindowElement();
         }
 
         protected override void ReturnToPool()
         {
             windowSize_ = default;
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F _) => Engine.WindowSize;

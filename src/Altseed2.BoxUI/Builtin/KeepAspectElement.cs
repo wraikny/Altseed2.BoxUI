@@ -13,14 +13,14 @@ namespace Altseed2.BoxUI.Builtin
 
         public static KeepAspectElement Create(Vector2F aspect)
         {
-            var elem = RentOrNull<KeepAspectElement>() ?? new KeepAspectElement();
+            var elem = BoxUISystem.RentOrNull<KeepAspectElement>() ?? new KeepAspectElement();
             elem.aspect_ = aspect;
             return elem;
         }
 
         protected override void ReturnToPool()
         {
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F size)

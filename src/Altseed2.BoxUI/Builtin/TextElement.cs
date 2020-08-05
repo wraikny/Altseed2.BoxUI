@@ -31,7 +31,7 @@ namespace Altseed2.BoxUI.Builtin
             Font font = null
         )
         {
-            var elem = RentOrNull<TextElement>() ?? new TextElement();
+            var elem = BoxUISystem.RentOrNull<TextElement>() ?? new TextElement();
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;
             elem.color_ = color ?? new Color(255, 255, 255, 255);
@@ -47,7 +47,7 @@ namespace Altseed2.BoxUI.Builtin
         {
             Root.Return(Node);
             Node = null;
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F _) => Node.ContentSize;

@@ -23,6 +23,23 @@ namespace Altseed2.BoxUI
             handlers_.Add(handler);
         }
 
+        /// <summary>
+        /// クラスTのプールからブジェクトを取得します。
+        /// 取得できなかった場合はnullが返ります。
+        /// </summary>
+        public static T RentOrNull<T>()
+            where T : class => BoxUIPool<T>.Rent();
+
+        /// <summary>
+        /// T型のプールにT型のオブジェクトを返却します。
+        /// </summary>
+        public static void Return<T>(T element)
+            where T : class => BoxUIPool<T>.Return(element);
+
+        /// <summary>
+        /// 更新処理を行います。
+        /// Altseed2.Engine.Updateの前に必ず実行してください。
+        /// </summary>
         public static void Update()
         {
             if (posts_ != null)
@@ -42,6 +59,10 @@ namespace Altseed2.BoxUI
             }
         }
 
+        /// <summary>
+        /// 終了処理を行います。
+        /// Altseed2.Engine.Terminateの前に必ず実行してください。
+        /// </summary>
         public static void Termiante()
         {
             if (posts_ != null)
@@ -66,6 +87,11 @@ namespace Altseed2.BoxUI
             }
         }
 
+        /// <summary>
+        /// BoxUISystem.Updateで実行される処理を登録します。
+        /// 特定の処理を遅延させる際に利用します。
+        /// </summary>
+        /// <param name="action"></param>
         public static void Post(Action action)
         {
             if (action is null) return;

@@ -21,15 +21,15 @@ namespace Altseed2.BoxUI.Builtin
 
         public static ButtonElement CreateRectangle()
         {
-            var elem = RentOrNull<ButtonElement>() ?? new ButtonElement();
-            elem.collider_ = RentOrNull<RectangleCollider>() ?? RectangleCollider.Create();
+            var elem = BoxUISystem.RentOrNull<ButtonElement>() ?? new ButtonElement();
+            elem.collider_ = BoxUISystem.RentOrNull<RectangleCollider>() ?? RectangleCollider.Create();
             return elem;
         }
 
         public static ButtonElement CreateCircle()
         {
-            var elem = RentOrNull<ButtonElement>() ?? new ButtonElement();
-            elem.collider_ = RentOrNull<CircleCollider>() ?? CircleCollider.Create();
+            var elem = BoxUISystem.RentOrNull<ButtonElement>() ?? new ButtonElement();
+            elem.collider_ = BoxUISystem.RentOrNull<CircleCollider>() ?? CircleCollider.Create();
             return elem;
         }
 
@@ -38,10 +38,10 @@ namespace Altseed2.BoxUI.Builtin
             switch (collider_)
             {
                 case RectangleCollider rect:
-                    Return(rect);
+                    BoxUISystem.Return(rect);
                     break;
                 case CircleCollider circle:
-                    Return(circle);
+                    BoxUISystem.Return(circle);
                     break;
                 default:
                     break;
@@ -52,7 +52,7 @@ namespace Altseed2.BoxUI.Builtin
             onHold_ = null;
             onRelease_ = null;
             whileNotCollided_ = null;
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F size) => size;

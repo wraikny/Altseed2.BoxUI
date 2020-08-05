@@ -23,7 +23,7 @@ namespace Altseed2.BoxUI.Builtin
 
         public static FixedAreaElement Create(RectF area)
         {
-            var elem = RentOrNull<FixedAreaElement>() ?? new FixedAreaElement();
+            var elem = BoxUISystem.RentOrNull<FixedAreaElement>() ?? new FixedAreaElement();
             elem.area_ = area;
             return elem;
         }
@@ -31,7 +31,7 @@ namespace Altseed2.BoxUI.Builtin
         protected override void ReturnToPool()
         {
             area_ = default;
-            Return(this);
+            BoxUISystem.Return(this);
         }
 
         public override Vector2F CalcSize(Vector2F _) => area_.Size;
