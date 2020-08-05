@@ -5,7 +5,7 @@ using System.Text;
 namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class Window : Element, IAbsoluteSizeElement
+    public sealed class Window : ElementRoot
     {
         private Vector2F windowSize_;
 
@@ -24,8 +24,6 @@ namespace Altseed2.BoxUI.Elements
 
         public override Vector2F CalcSize(Vector2F _) => Engine.WindowSize;
 
-        protected override void OnResize(RectF area) { }
-
         protected override void OnUpdate()
         {
             var currentSize = Engine.WindowSize;
@@ -36,7 +34,7 @@ namespace Altseed2.BoxUI.Elements
             }
         }
 
-        void IAbsoluteSizeElement.Resize()
+        protected override void SetSize()
         {
             foreach (var child in Children)
             {

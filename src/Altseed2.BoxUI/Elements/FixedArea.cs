@@ -5,7 +5,7 @@ using System.Text;
 namespace Altseed2.BoxUI.Elements
 {
     [Serializable]
-    public sealed class FixedArea : Element, IAbsoluteSizeElement
+    public sealed class FixedArea : ElementRoot
     {
         private RectF area_;
         public RectF Area
@@ -36,9 +36,7 @@ namespace Altseed2.BoxUI.Elements
 
         public override Vector2F CalcSize(Vector2F _) => area_.Size;
 
-        protected override void OnResize(RectF _) { }
-
-        void IAbsoluteSizeElement.Resize()
+        protected override void SetSize()
         {
             foreach (var c in Children)
             {

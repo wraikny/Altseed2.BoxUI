@@ -10,21 +10,26 @@ namespace Altseed2.BoxUI.Sample
     {
         private class State
         {
-            private static int id = 0;
+            private static int IdNext = 0;
             public int Id { get; private set; }
-            public int Count { get; set; }
+            public int Count { get; private set; }
 
-            public State()
+            public State(int count)
             {
-                Id = id;
-                id++;
+                Id = IdNext;
+                Count = count;
+                IdNext++;
             }
+
+            public void Incr() => Count++;
+
+            public void Decr() => Count--;
         }
 
         private static readonly Vector2F WindowSize = new Vector2F(200.0f, 300.0f);
         readonly Stack<BoxUIRootNode> rootPool_;
         private Font font_;
-        private IBoxUICursor cursor_;
+        private readonly IBoxUICursor cursor_;
 
         public WindowsSample()
         {
@@ -58,7 +63,8 @@ namespace Altseed2.BoxUI.Sample
             root.Position = position;
             AddChildNode(root);
 
-            MakeView(root, new State());
+            root.ClearElement();
+            root.SetElement(MakeView(new State(0), () => RemoveWindow(root)));
         }
 
         private void RemoveWindow(BoxUIRootNode root)
@@ -67,31 +73,9 @@ namespace Altseed2.BoxUI.Sample
             rootPool_.Push(root);
         }
 
-        private void MakeView(BoxUIRootNode root, State state)
+        private ElementRoot MakeView(State state, Action closeWindow)
         {
             Vector2F zero = new Vector2F(0.0f, 0.0f);
-
-            void incr(IBoxUICursor _)
-            {
-                state.Count++;
-                Console.WriteLine($"incr({state.Id}): {state.Count}");
-                // Elementの更新は遅延させる
-                BoxUISystem.Post(() => MakeView(root, state));
-            }
-
-            void decr(IBoxUICursor _)
-            {
-                state.Count--;
-                Console.WriteLine($"decr({state.Id}): {state.Count}");
-                // Elementの更新は遅延させる
-                BoxUISystem.Post(() => { MakeView(root, state); });
-            }
-
-            void close(IBoxUICursor _)
-            {
-                Console.WriteLine($"close({state.Id})");
-                RemoveWindow(root);
-            }
 
             static Element makeText(Font font, string text, int zOrder)
             {
@@ -107,7 +91,7 @@ namespace Altseed2.BoxUI.Sample
             static Margin makeMargin()
             {
                 return Margin
-                    .Create(new Vector2F(0.05f, 0.05f), Elements.MarginScale.RelativeMin);
+                    .Create(new Vector2F(0.05f, 0.05f), MarginScale.RelativeMin);
             }
 
             static Element makeButton(Font font, int zOrder, string text, Action<IBoxUICursor> action)
@@ -127,18 +111,37 @@ namespace Altseed2.BoxUI.Sample
 
             var zOrderOffset = state.Id << 3;
 
-            root.ClearElement();
-            root.SetElement(FixedArea.Create(new RectF(zero, WindowSize))
+            return
+                // 固定サイズ
+                FixedArea.Create(new RectF(zero, WindowSize))
+                // 背景色
                 .With(Rectangle.Create(color: new Color(50, 50, 100), zOrder: zOrderOffset + 0))
+                // マージン
                 .With(makeMargin()
+                    // 縦方向分割
                     .With(Column.Create(ColumnDir.Y)
+                        // テキスト
                         .With(makeMargin().With(makeText(font_, $"{state.Id}: {state.Count}", zOrderOffset)))
-                        .With(makeButton(font_, zOrderOffset, "-", decr))
-                        .With(makeButton(font_, zOrderOffset, "+", incr))
-                        .With(makeButton(font_, zOrderOffset, "close", close))
+                        // デクリメントボタン
+                        .With(makeButton(font_, zOrderOffset, "-", _ =>
+                        {
+                            state.Decr();
+
+                        }))
+                        // インクリメントボタン
+                        .With(makeButton(font_, zOrderOffset, "+", _ =>
+                        {
+                            state.Incr();
+
+                        }))
+                        // 閉じるボタン
+                        .With(makeButton(font_, zOrderOffset, "close", _ =>
+                        {
+                            Console.WriteLine($"close({state.Id})");
+                            closeWindow();
+                        }))
                     )
-                )
-            );
+                );
         }
     }
 }

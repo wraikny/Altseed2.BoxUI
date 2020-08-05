@@ -5,11 +5,6 @@ using System.Text;
 
 namespace Altseed2.BoxUI
 {
-    public interface IAbsoluteSizeElement
-    {
-        void Resize();
-    }
-
     [Serializable]
     public abstract class Element
     {
@@ -70,9 +65,9 @@ namespace Altseed2.BoxUI
             OnUpdate();
             if(resizeRequired_)
             {
-                if(this is IAbsoluteSizeElement abElem)
+                if(this is ElementRoot)
                 {
-                    abElem.Resize();
+
                 }
                 else if (lastArea_ is RectF area)
                 {
@@ -111,6 +106,15 @@ namespace Altseed2.BoxUI
             ReturnToPool();
             Root = null;
         }
+    }
+
+    [Serializable]
+    public abstract class ElementRoot : Element
+    {
+        protected override sealed void OnResize(RectF area) { }
+        abstract protected void SetSize();
+
+        internal void CallSetSize() => SetSize();
     }
 
     public static class ElementExt

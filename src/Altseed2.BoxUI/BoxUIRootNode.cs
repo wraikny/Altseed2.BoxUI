@@ -48,9 +48,8 @@ namespace Altseed2.BoxUI
         /// <summary>
         /// BoxUIRootNodeの更新中（例えばボタンのクリック時など）に呼び出したい場合は、BoXUISystem.Postを利用して、メソッドの呼び出しを遅延してください。
         /// </summary>
-        /// <exception cref="System.InvalidOperationException"></exception>
-        public void SetElement<T>(T absoluteSizeElement)
-            where T : Element, IAbsoluteSizeElement
+        /// <exception cref="InvalidOperationException"></exception>
+        public void SetElement(ElementRoot absoluteSizeElement)
         {
             if (isUpdating_)
             {
@@ -61,7 +60,7 @@ namespace Altseed2.BoxUI
             element_ = absoluteSizeElement;
             absoluteSizeElement.Root = this;
             absoluteSizeElement.Added();
-            absoluteSizeElement.Resize();
+            absoluteSizeElement.CallSetSize();
         }
 
         /// <summary>
