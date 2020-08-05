@@ -29,13 +29,20 @@ namespace Altseed2.BoxUI
         private RectF? lastArea_;
         public RectF? LastArea => lastArea_;
 
-        private bool resizeRequired_ = false;
+        internal bool ResizeRequired { get; set; }
 
         public void RequireResize()
         {
-            resizeRequired_ = true;
+            ResizeRequired = true;
         }
 
+        internal virtual void UpdateSizeWhenRequired()
+        {
+            if(lastArea_ is RectF area)
+            {
+                Resize(area);
+            }
+        }
 
         public abstract Vector2F CalcSize(Vector2F size);
         protected abstract void OnResize(RectF area);
@@ -47,7 +54,7 @@ namespace Altseed2.BoxUI
         public void Resize(RectF area)
         {
             lastArea_ = area;
-            resizeRequired_ = false;
+            ResizeRequired = false;
             OnResize(area);
         }
 
@@ -63,16 +70,9 @@ namespace Altseed2.BoxUI
         internal void Update()
         {
             OnUpdate();
-            if(resizeRequired_)
+            if(ResizeRequired)
             {
-                if(this is ElementRoot)
-                {
-
-                }
-                else if (lastArea_ is RectF area)
-                {
-                    Resize(area);
-                }
+                UpdateSizeWhenRequired();
             }
             
             foreach(var c in children_)
@@ -111,10 +111,16 @@ namespace Altseed2.BoxUI
     [Serializable]
     public abstract class ElementRoot : Element
     {
+        internal override sealed void UpdateSizeWhenRequired() => CallSetSize();
         protected override sealed void OnResize(RectF area) { }
         abstract protected void SetSize();
 
-        internal void CallSetSize() => SetSize();
+        internal void CallSetSize()
+        {
+            SetSize();
+            ResizeRequired = false;
+        }
+
     }
 
     public static class ElementExt

@@ -23,7 +23,7 @@ namespace Altseed2.BoxUI.Sample
                 return;
             }
 
-            Engine.AddNode(new WindowsSample());
+            Engine.AddNode(new CounterSample());
 
             while(Engine.DoEvents())
             {
