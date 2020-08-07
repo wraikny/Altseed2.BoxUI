@@ -8,11 +8,11 @@ namespace Altseed2.BoxUI.Elements
     public sealed class Margin : Element
     {
         private Vector2F margin_;
-        private MarginScale uiScale_;
+        private LengthScale uiScale_;
 
         private Margin() { }
 
-        public static Margin Create(Vector2F margin, MarginScale uiScale = default)
+        public static Margin Create(Vector2F margin, LengthScale uiScale = default)
         {
             FlagsValidater.Validate(uiScale);
 
@@ -31,10 +31,10 @@ namespace Altseed2.BoxUI.Elements
         {
             var margin = uiScale_ switch
             {
-                MarginScale.Fixed => margin_,
-                MarginScale.Relative => margin_ * size,
-                MarginScale.RelativeMin => (margin_ * size).Min() * Vector2FExt.One,
-                MarginScale.RelativeMax => (margin_ * size).Max() * Vector2FExt.One,
+                LengthScale.Fixed => margin_,
+                LengthScale.Relative => margin_ * size,
+                LengthScale.RelativeMin => (margin_ * size).Min() * Vector2FExt.One,
+                LengthScale.RelativeMax => (margin_ * size).Max() * Vector2FExt.One,
                 _ => Vector2FExt.Zero,
             };
 

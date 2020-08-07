@@ -41,11 +41,11 @@ namespace Altseed2.BoxUI.Sample
             // Window全体
             root.SetElement(Window.Create()
                 // マージン
-                .With(Margin.Create(new Vector2F(0.25f, 0.25f), MarginScale.RelativeMin)
+                .With(Margin.Create(new Vector2F(0.25f, 0.25f), LengthScale.RelativeMin)
                     // 背景色
                     .With(Rectangle.Create(color:Params.BackgroundColor))
                     // マージン
-                    .With(Margin.Create(new Vector2F(0.05f, 0.05f), MarginScale.RelativeMin)
+                    .With(Margin.Create(new Vector2F(0.05f, 0.05f), LengthScale.RelativeMin)
                         // Y方向分割
                         .With(Column.Create(ColumnDir.Y)
                             // 中心にテキスト
@@ -75,7 +75,7 @@ namespace Altseed2.BoxUI.Sample
             var background = Rectangle.Create(color: Params.DefaultColor);
 
             // マージン
-            return Margin.Create(new Vector2F(0.05f, 0.05f), MarginScale.Relative)
+            return Margin.Create(new Vector2F(0.05f, 0.05f), LengthScale.Relative)
                 // 背景色
                 .With(background)
                 // 中心にテキスト

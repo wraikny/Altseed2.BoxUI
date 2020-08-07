@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 
-namespace Altseed2.BoxUI.Elements
+namespace Altseed2.BoxUI
 {
     [Serializable]
     public enum ColumnDir
@@ -13,7 +13,7 @@ namespace Altseed2.BoxUI.Elements
     }
 
     [Serializable]
-    public enum MarginScale
+    public enum LengthScale
     {
         Fixed,
         Relative,
@@ -44,16 +44,16 @@ namespace Altseed2.BoxUI.Elements
             throw new InvalidEnumArgumentException(nameof(dir), (int)dir, typeof(ColumnDir));
         }
 
-        public static void Validate(MarginScale scale)
+        public static void Validate(LengthScale length)
         {
-            switch(scale)
+            switch(length)
             {
-                case MarginScale.Fixed: return;
-                case MarginScale.Relative: return;
-                case MarginScale.RelativeMin: return;
-                case MarginScale.RelativeMax: return;
+                case LengthScale.Fixed: return;
+                case LengthScale.Relative: return;
+                case LengthScale.RelativeMin: return;
+                case LengthScale.RelativeMax: return;
                 default:
-                    throw new InvalidEnumArgumentException(nameof(scale), (int)scale, typeof(MarginScale));
+                    throw new InvalidEnumArgumentException(nameof(length), (int)length, typeof(LengthScale));
             }
         }
 

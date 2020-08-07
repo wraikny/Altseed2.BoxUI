@@ -89,7 +89,7 @@ namespace Altseed2.BoxUI.Sample
 
             static Margin makeMargin()
             {
-                return Margin.Create(new Vector2F(0.05f, 0.05f), MarginScale.RelativeMin);
+                return Margin.Create(new Vector2F(0.05f, 0.05f), LengthScale.RelativeMin);
             }
 
             static Element makeButton(Font font, int zOrder, string text, Action<IBoxUICursor> action)
