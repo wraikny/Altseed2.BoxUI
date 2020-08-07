@@ -5,6 +5,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup Condition="(('$(OS)'=='Windows' Or '$(OS)'=='Windows_NT') And '$(RuntimeIdentifier)'=='') Or '$(RuntimeIdentifier)'=='win-x64'">
     <None Include="../../lib/Altseed2/Altseed2_Core.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -27,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="../../TestData/**/*.*" LinkBase="TestData"  Visible="false">
+    <Content Include="../../TestData/**/*.*" LinkBase="TestData" Visible="false">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
