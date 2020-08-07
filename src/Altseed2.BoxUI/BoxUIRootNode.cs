@@ -18,6 +18,8 @@ namespace Altseed2.BoxUI
 
         private Element element_;
         private readonly List<IBoxUICursor> cursors_;
+
+        [NonSerialized]
         private readonly List<INodePoolHandler> handlers_;
 
         public IList<IBoxUICursor> Cursors => cursors_;
