@@ -39,9 +39,9 @@ namespace Altseed2.BoxUI.Sample
             root.ClearElement();
 
             // Window全体
-            root.SetElement(Window.Create()
+            root.SetElement(Window.Create().SetMargin(LengthScale.RelativeMin, 0.25f)
                 // 背景色
-                .With(Rectangle.Create(color:Params.BackgroundColor).SetMargin(LengthScale.RelativeMin, 0.25f)
+                .With(Rectangle.Create(color:Params.BackgroundColor)
                     // Y方向分割
                     .With(Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f)
                         // 中心にテキスト

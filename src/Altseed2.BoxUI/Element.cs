@@ -73,32 +73,29 @@ namespace Altseed2.BoxUI
         }
 
         /// <summary>
-        /// MarginとAlignを適用した矩形領域を求める。
+        /// AlignとMarginを適用した矩形領域を求める。
         /// </summary>
         /// <param name="area"></param>
         /// <returns></returns>
-        internal RectF LayoutArea(RectF area)
+        protected RectF LayoutArea(RectF area)
         {
-            static float calcAlign(Align align, float pos, float areaSize, float cSize, float marginMin, float marginMax)
+            static float alignToFloat(Align align)
             {
                 return align switch
                 {
-                    Align.Min => pos,
-                    Align.Center => pos + (areaSize - cSize - marginMin - marginMax) * 0.5f,
-                    Align.Max => pos + areaSize - cSize - marginMax,
-                    _ => pos,
+                    Align.Min => 0.0f,
+                    Align.Center => 0.5f,
+                    Align.Max => 1.0f,
+                    _ => 0.0f,
                 };
             }
+
+            var alignOffset = (area.Size - CalcSize(area.Size)) * new Vector2F(alignToFloat(AlignX), alignToFloat(AlignY));
 
             var (marginMin, marginMax) = BoxUIUtils.CalcMargin(this, area.Size);
             var marginedArea = new RectF(area.Position + marginMin, area.Size - marginMin - marginMax);
 
-            var cSize = CalcSize(marginedArea.Size);
-
-            var x = calcAlign(AlignX, marginedArea.Position.X, marginedArea.Size.X, cSize.X, marginMin.X, marginMax.X);
-            var y = calcAlign(AlignY, marginedArea.Position.Y, marginedArea.Size.Y, cSize.Y, marginMin.Y, marginMax.Y);
-
-            return new RectF(x, y, marginedArea.Width, marginedArea.Height);
+            return new RectF(marginedArea.Position + alignOffset, marginedArea.Size);
         }
 
         internal void Added()
@@ -175,7 +172,7 @@ namespace Altseed2.BoxUI
             return elem;
         }
 
-        public static T SetMartin<T>(this T elem, LengthScale scale, float left, float right, float top, float bottom)
+        public static T SetMargin<T>(this T elem, LengthScale scale, float left, float right, float top, float bottom)
             where T : Element
         {
             elem.MarginLeft = (scale, left);
