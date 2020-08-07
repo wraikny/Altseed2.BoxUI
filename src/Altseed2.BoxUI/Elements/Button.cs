@@ -57,7 +57,7 @@ namespace Altseed2.BoxUI.Elements
 
         public override Vector2F CalcSize(Vector2F size) => size;
 
-        private void Resize(RectF area)
+        private void UpdateTransform(RectF area)
         {
             var transform = Root.InheritedTransform;
 
@@ -93,7 +93,7 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
-            Resize(area);
+            UpdateTransform(area);
 
             foreach(var c in Children)
             {
@@ -107,7 +107,7 @@ namespace Altseed2.BoxUI.Elements
             
             if(Root.Cursors.Count > 0 && transform != lastTransform_ && PreviousParentArea is RectF area)
             {
-                Resize(area);
+                UpdateTransform(area);
 
                 lastTransform_ = transform;
             }
