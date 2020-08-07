@@ -39,34 +39,28 @@ namespace Altseed2.BoxUI.Sample
             root.ClearElement();
 
             // Window全体
-            root.SetElement(Window.Create()
-                // マージン
-                .With(Margin.Create(new Vector2F(0.25f, 0.25f), LengthScale.RelativeMin)
-                    // 背景色
-                    .With(Rectangle.Create(color:Params.BackgroundColor))
-                    // マージン
-                    .With(Margin.Create(new Vector2F(0.05f, 0.05f), LengthScale.RelativeMin)
-                        // Y方向分割
-                        .With(Column.Create(ColumnDir.Y)
-                            // 中心にテキスト
-                            .With(Align.CreateCenter().With(textElem))
-                            // X方向分割
-                            .With(Column.Create(ColumnDir.X)
-                                // ボタン
-                                .With(CounterButton(font, "-", _ => {
-                                    state.Count--;
-                                    textElem.Node.Text = $"{state.Count}";
-                                    Console.WriteLine(state.Count);
-                                }))
-                                .With(CounterButton(font, "+", _ => {
-                                    state.Count++;
-                                    textElem.Node.Text = $"{state.Count}";
-                                    Console.WriteLine(state.Count);
-                                }))
-                            )
+            root.SetElement(Window.Create().SetMargin(LengthScale.RelativeMin, 0.25f)
+                // 背景色
+                .With(Rectangle.Create(color:Params.BackgroundColor))
+                    // Y方向分割
+                    .With(Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f)
+                        // 中心にテキスト
+                        .With(Align.CreateCenter().With(textElem))
+                        // X方向分割
+                        .With(Column.Create(ColumnDir.X)
+                            // ボタン
+                            .With(CounterButton(font, "-", _ => {
+                                state.Count--;
+                                textElem.Node.Text = $"{state.Count}";
+                                Console.WriteLine(state.Count);
+                            }))
+                            .With(CounterButton(font, "+", _ => {
+                                state.Count++;
+                                textElem.Node.Text = $"{state.Count}";
+                                Console.WriteLine(state.Count);
+                            }))
                         )
                     )
-                )
             );
         }
 
@@ -75,9 +69,9 @@ namespace Altseed2.BoxUI.Sample
             var background = Rectangle.Create(color: Params.DefaultColor);
 
             // マージン
-            return Margin.Create(new Vector2F(0.05f, 0.05f), LengthScale.Relative)
+            return
                 // 背景色
-                .With(background)
+                background.SetMargin(LengthScale.RelativeMin, 0.05f)
                 // 中心にテキスト
                 .With(Align.Create(AlignPos.Center, AlignPos.Center)
                     .With(Text.Create(color: Params.TextColor, text: text, font: font))

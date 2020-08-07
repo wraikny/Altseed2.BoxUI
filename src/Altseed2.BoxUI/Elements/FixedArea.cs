@@ -34,13 +34,14 @@ namespace Altseed2.BoxUI.Elements
             BoxUISystem.Return(this);
         }
 
-        public override Vector2F CalcSize(Vector2F _) => area_.Size;
+        protected override Vector2F CalcSize(Vector2F _) => area_.Size;
 
         protected override void SetSize()
         {
+            var area = CalcMargin(area_);
             foreach (var c in Children)
             {
-                c.Resize(area_);
+                c.Resize(area);
             }
         }
     }

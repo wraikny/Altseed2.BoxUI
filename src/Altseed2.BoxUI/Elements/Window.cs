@@ -22,7 +22,7 @@ namespace Altseed2.BoxUI.Elements
             BoxUISystem.Return(this);
         }
 
-        public override Vector2F CalcSize(Vector2F _) => Engine.WindowSize;
+        protected override Vector2F CalcSize(Vector2F _) => Engine.WindowSize;
 
         protected override void OnUpdate()
         {
@@ -36,9 +36,10 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void SetSize()
         {
+            var area = CalcMargin(Engine.WindowSize);
             foreach (var child in Children)
             {
-                child.Resize(new RectF(Vector2FExt.Zero, Engine.WindowSize));
+                child.Resize(area);
             }
         }
     }

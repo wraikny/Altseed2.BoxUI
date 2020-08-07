@@ -31,7 +31,7 @@ namespace Altseed2.BoxUI.Elements
             BoxUISystem.Return(this);
         }
 
-        public override Vector2F CalcSize(Vector2F size) => size;
+        protected override Vector2F CalcSize(Vector2F size) => size;
 
         protected override void OnResize(RectF area)
         {
@@ -48,7 +48,7 @@ namespace Altseed2.BoxUI.Elements
                     };
                 }
 
-                var cSize = c.CalcSize(area.Size);
+                var cSize = c.GetSize(area.Size);
 
                 var x = calcAlign(xAlign_, area.Position.X, area.Size.X, cSize.X);
                 var y = calcAlign(yAlign_, area.Position.Y, area.Size.Y, cSize.Y);

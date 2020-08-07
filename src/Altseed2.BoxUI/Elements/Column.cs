@@ -25,7 +25,7 @@ namespace Altseed2.BoxUI.Elements
             BoxUISystem.Return(this);
         }
 
-        public override Vector2F CalcSize(Vector2F size) => size;
+        protected override Vector2F CalcSize(Vector2F size) => size;
 
         protected override void OnResize(RectF area)
         {

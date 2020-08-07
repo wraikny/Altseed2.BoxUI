@@ -23,7 +23,7 @@ namespace Altseed2.BoxUI.Elements
             BoxUISystem.Return(this);
         }
 
-        public override Vector2F CalcSize(Vector2F size)
+        protected override Vector2F CalcSize(Vector2F size)
         {
             if (aspect_.X == 0.0f && aspect_.Y == 0.0f)
             {

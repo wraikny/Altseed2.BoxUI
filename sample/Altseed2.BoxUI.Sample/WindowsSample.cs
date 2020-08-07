@@ -87,17 +87,11 @@ namespace Altseed2.BoxUI.Sample
                 );
             }
 
-            static Margin makeMargin()
-            {
-                return Margin.Create(new Vector2F(0.05f, 0.05f), LengthScale.RelativeMin);
-            }
-
             static Element makeButton(Font font, int zOrder, string text, Action<IBoxUICursor> action)
             {
                 var background = Rectangle.Create(color: Params.DefaultColor, zOrder: zOrder + 1);
 
-                return makeMargin()
-                    .With(background)
+                return background.SetMargin(LengthScale.RelativeMin, 0.05f)
                     .With(Align.CreateCenter().With(makeText(font, text, zOrder)))
                     .With(Button.Create()
                         .OnPush(action)
@@ -116,31 +110,28 @@ namespace Altseed2.BoxUI.Sample
                 FixedArea.Create(new RectF(zero, WindowSize))
                 // 背景色
                 .With(Rectangle.Create(color: new Color(50, 50, 100), zOrder: zOrderOffset + 0))
-                // マージン
-                .With(makeMargin()
-                    // 縦方向分割
-                    .With(Column.Create(ColumnDir.Y)
-                        // テキスト
-                        .With(makeMargin().With(textElem))
-                        // デクリメントボタン
-                        .With(makeButton(font_, zOrderOffset, "-", _ =>
-                        {
-                            state.Decr();
-                            textElem.Node.Text = $"{state.Count}";
-                        }))
-                        // インクリメントボタン
-                        .With(makeButton(font_, zOrderOffset, "+", _ =>
-                        {
-                            state.Incr();
-                            textElem.Node.Text = $"{state.Count}";
-                        }))
-                        // 閉じるボタン
-                        .With(makeButton(font_, zOrderOffset, "close", _ =>
-                        {
-                            Console.WriteLine($"close({state.Id})");
-                            closeWindow();
-                        }))
-                    )
+                // 縦方向分割
+                .With(Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f)
+                    // テキスト
+                    .With(textElem.SetMargin(LengthScale.RelativeMin, 0.05f))
+                    // デクリメントボタン
+                    .With(makeButton(font_, zOrderOffset, "-", _ =>
+                    {
+                        state.Decr();
+                        textElem.Node.Text = $"{state.Count}";
+                    }))
+                    // インクリメントボタン
+                    .With(makeButton(font_, zOrderOffset, "+", _ =>
+                    {
+                        state.Incr();
+                        textElem.Node.Text = $"{state.Count}";
+                    }))
+                    // 閉じるボタン
+                    .With(makeButton(font_, zOrderOffset, "close", _ =>
+                    {
+                        Console.WriteLine($"close({state.Id})");
+                        closeWindow();
+                    }))
                 );
         }
     }

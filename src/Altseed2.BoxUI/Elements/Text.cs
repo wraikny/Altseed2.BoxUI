@@ -50,7 +50,7 @@ namespace Altseed2.BoxUI.Elements
             BoxUISystem.Return(this);
         }
 
-        public override Vector2F CalcSize(Vector2F _) => Node.ContentSize;
+        protected override Vector2F CalcSize(Vector2F _) => Node.ContentSize;
 
         protected override void OnAdded()
         {

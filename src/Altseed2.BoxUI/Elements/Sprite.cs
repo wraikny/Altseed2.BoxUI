@@ -61,7 +61,7 @@ namespace Altseed2.BoxUI.Elements
             texture_ = null;
         }
 
-        public override Vector2F CalcSize(Vector2F size)
+        protected override Vector2F CalcSize(Vector2F size)
         {
             if (Node.Texture is null) return Vector2FExt.Zero;
 
