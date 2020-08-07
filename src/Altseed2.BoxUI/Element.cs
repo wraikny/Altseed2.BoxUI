@@ -60,8 +60,8 @@ namespace Altseed2.BoxUI
 
         public Vector2F GetSize(Vector2F size)
         {
-            // margin
-            return CalcSize(LayoutArea(new RectF(Vector2FExt.Zero, size)).Size);
+            var (marginMin, marginMax) = BoxUIUtils.CalcMargin(this, size);
+            return CalcSize(size - marginMin - marginMax);
         }
 
         public void Resize(RectF area)
@@ -69,7 +69,6 @@ namespace Altseed2.BoxUI
             previousParentArea = area;
             ResizeRequired = false;
 
-            // margin
             OnResize(LayoutArea(area));
         }
 
@@ -78,7 +77,7 @@ namespace Altseed2.BoxUI
         /// </summary>
         /// <param name="area"></param>
         /// <returns></returns>
-        protected RectF LayoutArea(RectF area)
+        internal RectF LayoutArea(RectF area)
         {
             static float calcAlign(Align align, float pos, float areaSize, float cSize, float marginMin, float marginMax)
             {
@@ -87,7 +86,7 @@ namespace Altseed2.BoxUI
                     Align.Min => pos,
                     Align.Center => pos + (areaSize - cSize - marginMin - marginMax) * 0.5f,
                     Align.Max => pos + areaSize - cSize - marginMax,
-                    _ => 0.0f,
+                    _ => pos,
                 };
             }
 
@@ -173,6 +172,16 @@ namespace Altseed2.BoxUI
             where T : Element
         {
             elem.AddChild(child);
+            return elem;
+        }
+
+        public static T SetMartin<T>(this T elem, LengthScale scale, float left, float right, float top, float bottom)
+            where T : Element
+        {
+            elem.MarginLeft = (scale, left);
+            elem.MarginRight = (scale, right);
+            elem.MarginTop = (scale, top);
+            elem.MarginBottom = (scale, bottom);
             return elem;
         }
 
