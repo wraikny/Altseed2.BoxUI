@@ -38,7 +38,7 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void SetSize()
         {
-            var area = CalcMargin(area_);
+            var area = LayoutArea(area_);
             foreach (var c in Children)
             {
                 c.Resize(area);

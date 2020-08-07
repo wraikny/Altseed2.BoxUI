@@ -45,7 +45,7 @@ namespace Altseed2.BoxUI.Sample
                     // Y方向分割
                     .With(Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f)
                         // 中心にテキスト
-                        .With(Align.CreateCenter().With(textElem))
+                        .With(textElem.SetAlign(Align.Center))
                         // X方向分割
                         .With(Column.Create(ColumnDir.X)
                             // ボタン
@@ -73,9 +73,7 @@ namespace Altseed2.BoxUI.Sample
                 // 背景色
                 background.SetMargin(LengthScale.RelativeMin, 0.05f)
                 // 中心にテキスト
-                .With(Align.Create(AlignPos.Center, AlignPos.Center)
-                    .With(Text.Create(color: Params.TextColor, text: text, font: font))
-                )
+                .With(Text.Create(color: Params.TextColor, text: text, font: font).SetAlign(Align.Center))
                 // 当たり判定・アクション
                 .With(Button.Create()
                     .OnRelease(action)

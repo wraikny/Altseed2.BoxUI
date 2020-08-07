@@ -22,7 +22,7 @@ namespace Altseed2.BoxUI
     }
 
     [Serializable]
-    public enum AlignPos
+    public enum Align
     {
         Min,
         Center,
@@ -57,10 +57,10 @@ namespace Altseed2.BoxUI
             }
         }
 
-        public static void Validate(AlignPos align)
+        public static void Validate(Align align)
         {
-            if (align == AlignPos.Min || align == AlignPos.Center || align == AlignPos.Max) return;
-            throw new InvalidEnumArgumentException(nameof(align), (int)align, typeof(AlignPos));
+            if (align == Align.Min || align == Align.Center || align == Align.Max) return;
+            throw new InvalidEnumArgumentException(nameof(align), (int)align, typeof(Align));
         }
 
         public static void Validate(Shape shape)

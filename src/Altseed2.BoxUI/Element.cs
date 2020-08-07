@@ -33,6 +33,9 @@ namespace Altseed2.BoxUI
         public (LengthScale, float) MarginTop { get; set; }
         public (LengthScale, float) MarginBottom { get; set; }
 
+        public Align AlignX { get; set; }
+        public Align AlignY { get; set; }
+
         internal bool ResizeRequired { get; set; }
 
         protected void RequireResize()
@@ -57,7 +60,8 @@ namespace Altseed2.BoxUI
 
         public Vector2F GetSize(Vector2F size)
         {
-            return CalcSize(CalcMargin(size).Size);
+            // margin
+            return CalcSize(LayoutArea(new RectF(Vector2FExt.Zero, size)).Size);
         }
 
         public void Resize(RectF area)
@@ -65,40 +69,37 @@ namespace Altseed2.BoxUI
             previousParentArea = area;
             ResizeRequired = false;
 
-            OnResize(CalcMargin(area));
+            // margin
+            OnResize(LayoutArea(area));
         }
 
-        protected RectF CalcMargin(Vector2F areaSize)
+        /// <summary>
+        /// MarginとAlignを適用した矩形領域を求める。
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        protected RectF LayoutArea(RectF area)
         {
-            float margin1(float size, (LengthScale, float) x)
+            static float calcAlign(Align align, float pos, float areaSize, float cSize, float marginMin, float marginMax)
             {
-                return x switch
+                return align switch
                 {
-                    (LengthScale.Fixed, float v) => v,
-                    (LengthScale.Relative, float v) => v * size,
-                    (LengthScale.RelativeMin, float v) => v * areaSize.Min(),
-                    (LengthScale.RelativeMax, float v) => v * areaSize.Max(),
+                    Align.Min => pos,
+                    Align.Center => pos + (areaSize - cSize - marginMin - marginMax) * 0.5f,
+                    Align.Max => pos + areaSize - cSize - marginMax,
                     _ => 0.0f,
                 };
             }
 
-            var marginLeft = margin1(areaSize.X, MarginLeft);
-            var marginRight = margin1(areaSize.X, MarginRight);
-            var marginTop = margin1(areaSize.Y, MarginTop);
-            var marginBottom = margin1(areaSize.Y, MarginBottom);
+            var (marginMin, marginMax) = BoxUIUtils.CalcMargin(this, area.Size);
+            var marginedArea = new RectF(area.Position + marginMin, area.Size - marginMin - marginMax);
 
-            return new RectF(
-                marginLeft,
-                marginTop,
-                areaSize.X - marginLeft - marginRight,
-                areaSize.Y - marginTop - marginBottom
-            );
-        }
+            var cSize = CalcSize(marginedArea.Size);
 
-        protected RectF CalcMargin(RectF area)
-        {
-            var marginedArea = CalcMargin(area.Size);
-            return new RectF(area.Position + marginedArea.Position, marginedArea.Size);
+            var x = calcAlign(AlignX, marginedArea.Position.X, marginedArea.Size.X, cSize.X, marginMin.X, marginMax.X);
+            var y = calcAlign(AlignY, marginedArea.Position.Y, marginedArea.Size.Y, cSize.Y, marginMin.Y, marginMax.Y);
+
+            return new RectF(x, y, marginedArea.Width, marginedArea.Height);
         }
 
         internal void Added()
@@ -146,7 +147,7 @@ namespace Altseed2.BoxUI
             }
             children_.Clear();
             ReturnSelf();
-            this.SetMargin(LengthScale.Fixed, 0.0f);
+            this.SetMargin(default, default(float)).SetAlign(default);
             Root = null;
         }
     }
@@ -192,6 +193,22 @@ namespace Altseed2.BoxUI
             elem.MarginRight = (scale, margin);
             elem.MarginTop = (scale, margin);
             elem.MarginBottom = (scale, margin);
+            return elem;
+        }
+
+        public static T SetAlign<T>(this T elem, Align alignX, Align alignY)
+            where T : Element
+        {
+            elem.AlignX = alignX;
+            elem.AlignY = alignY;
+            return elem;
+        }
+
+        public static T SetAlign<T>(this T elem, Align align)
+            where T : Element
+        {
+            elem.AlignX = align;
+            elem.AlignY = align;
             return elem;
         }
     }

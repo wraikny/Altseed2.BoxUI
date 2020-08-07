@@ -92,7 +92,7 @@ namespace Altseed2.BoxUI.Sample
                 var background = Rectangle.Create(color: Params.DefaultColor, zOrder: zOrder + 1);
 
                 return background.SetMargin(LengthScale.RelativeMin, 0.05f)
-                    .With(Align.CreateCenter().With(makeText(font, text, zOrder)))
+                    .With(makeText(font, text, zOrder).SetAlign(Align.Center))
                     .With(Button.Create()
                         .OnPush(action)
                         .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
