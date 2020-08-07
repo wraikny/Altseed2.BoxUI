@@ -26,8 +26,8 @@ namespace Altseed2.BoxUI
             }
         }
 
-        private RectF? lastArea_;
-        public RectF? LastArea => lastArea_;
+        private RectF? previousParentArea;
+        public RectF? PreviousParentArea => previousParentArea;
 
         internal bool ResizeRequired { get; set; }
 
@@ -36,9 +36,9 @@ namespace Altseed2.BoxUI
             ResizeRequired = true;
         }
 
-        internal virtual void UpdateSizeWhenRequired()
+        internal virtual void ResizeWhenRequired()
         {
-            if(lastArea_ is RectF area)
+            if(previousParentArea is RectF area)
             {
                 Resize(area);
             }
@@ -46,14 +46,14 @@ namespace Altseed2.BoxUI
 
         public abstract Vector2F CalcSize(Vector2F size);
         protected abstract void OnResize(RectF area);
-        protected abstract void ReturnToPool();
+        protected abstract void ReturnSelf();
 
         protected virtual void OnAdded() { }
         protected virtual void OnUpdate() { }
 
         public void Resize(RectF area)
         {
-            lastArea_ = area;
+            previousParentArea = area;
             ResizeRequired = false;
             OnResize(area);
         }
@@ -72,7 +72,7 @@ namespace Altseed2.BoxUI
             OnUpdate();
             if(ResizeRequired)
             {
-                UpdateSizeWhenRequired();
+                ResizeWhenRequired();
             }
             
             foreach(var c in children_)
@@ -88,7 +88,7 @@ namespace Altseed2.BoxUI
             {
                 child.Root = root_;
                 child.Added();
-                if(lastArea_ is RectF area)
+                if(previousParentArea is RectF area)
                 {
                     child.Resize(area);
                 }
@@ -103,7 +103,7 @@ namespace Altseed2.BoxUI
             }
             children_.Clear();
 
-            ReturnToPool();
+            ReturnSelf();
             Root = null;
         }
     }
@@ -111,7 +111,7 @@ namespace Altseed2.BoxUI
     [Serializable]
     public abstract class ElementRoot : Element
     {
-        internal override sealed void UpdateSizeWhenRequired() => CallSetSize();
+        internal override sealed void ResizeWhenRequired() => CallSetSize();
         protected override sealed void OnResize(RectF area) { }
         abstract protected void SetSize();
 

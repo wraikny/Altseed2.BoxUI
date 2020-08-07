@@ -33,7 +33,7 @@ namespace Altseed2.BoxUI.Elements
             return elem;
         }
 
-        protected override void ReturnToPool()
+        protected override void ReturnSelf()
         {
             switch (collider_)
             {
@@ -105,7 +105,7 @@ namespace Altseed2.BoxUI.Elements
         {
             var transform = Root.InheritedTransform;
             
-            if(Root.Cursors.Count > 0 && transform != lastTransform_ && LastArea is RectF area)
+            if(Root.Cursors.Count > 0 && transform != lastTransform_ && PreviousParentArea is RectF area)
             {
                 Resize(area);
 

@@ -20,7 +20,7 @@ namespace Altseed2.BoxUI.Elements
             return elem;
         }
 
-        protected override void ReturnToPool()
+        protected override void ReturnSelf()
         {
             BoxUISystem.Return(this);
         }
