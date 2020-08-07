@@ -26,7 +26,8 @@ namespace Altseed2.BoxUI.Elements
             FlagsValidater.Validate(shape);
 
             var elem = BoxUISystem.RentOrNull<Button>() ?? new Button();
-            switch(shape)
+            elem.IsActive = true;
+            switch (shape)
             {
                 case Shape.Rectangle:
                     elem.collider_ = BoxUISystem.RentOrNull<RectangleCollider>() ?? RectangleCollider.Create();
