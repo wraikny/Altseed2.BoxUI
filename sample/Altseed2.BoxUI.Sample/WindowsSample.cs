@@ -99,7 +99,7 @@ namespace Altseed2.BoxUI.Sample
                 return makeMargin()
                     .With(background)
                     .With(Align.CreateCenter().With(makeText(font, text, zOrder)))
-                    .With(Button.CreateRectangle()
+                    .With(Button.Create()
                         .OnPush(action)
                         .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
                         .OnFree(_ => { background.Node.Color = Params.HoverColor; })

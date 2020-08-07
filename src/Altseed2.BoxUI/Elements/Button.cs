@@ -17,12 +17,27 @@ namespace Altseed2.BoxUI.Elements
 
         Matrix44F previousTransform_;
 
+        public bool IsActive { get; set; }
+
         private Button() { }
 
-        public static Button CreateRectangle()
+        public static Button Create(Shape shape = Shape.Rectangle)
         {
+            FlagsValidater.Validate(shape);
+
             var elem = BoxUISystem.RentOrNull<Button>() ?? new Button();
-            elem.collider_ = BoxUISystem.RentOrNull<RectangleCollider>() ?? RectangleCollider.Create();
+            switch(shape)
+            {
+                case Shape.Rectangle:
+                    elem.collider_ = BoxUISystem.RentOrNull<RectangleCollider>() ?? RectangleCollider.Create();
+                    break;
+                case Shape.Circle:
+                    elem.collider_ = BoxUISystem.RentOrNull<CircleCollider>() ?? CircleCollider.Create();
+                    break;
+                default:
+                    break;
+
+            }
             return elem;
         }
 
@@ -46,6 +61,7 @@ namespace Altseed2.BoxUI.Elements
                 default:
                     break;
             }
+            IsActive = true;
             collider_ = null;
             onFree_ = null;
             onPush_ = null;
@@ -57,32 +73,8 @@ namespace Altseed2.BoxUI.Elements
 
         public override Vector2F CalcSize(Vector2F size) => size;
 
-        private void UpdateTransform(RectF area)
-        {
-            var (absoluteArea, angle) = BoxUIUtils.TransformArea(area, Root.InheritedTransform);
-
-            switch (collider_)
-            {
-                case RectangleCollider rect:
-                    rect.Position = absoluteArea.Position;
-                    rect.Size = absoluteArea.Size;
-                    rect.Rotation = angle;
-                    break;
-                case CircleCollider circle:
-                    circle.Position = absoluteArea.Position + absoluteArea.Size * 0.5f;
-                    circle.Radius = MathF.Min(absoluteArea.Size.X, absoluteArea.Size.Y) * 0.5f;
-                    break;
-                default:
-                    break;
-            }
-
-            previousTransform_ = Root.InheritedTransform;
-        }
-
         protected override void OnResize(RectF area)
         {
-            UpdateTransform(area);
-
             foreach(var c in Children)
             {
                 c.Resize(area);
@@ -91,9 +83,28 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnUpdate()
         {
+            if (!IsActive) return;
+
             if(Root.Cursors.Count > 0 && Root.InheritedTransform != previousTransform_ && PreviousParentArea is RectF area)
             {
-                UpdateTransform(area);
+                var (absoluteArea, angle) = BoxUIUtils.TransformArea(area, Root.InheritedTransform);
+
+                switch (collider_)
+                {
+                    case RectangleCollider rect:
+                        rect.Position = absoluteArea.Position;
+                        rect.Size = absoluteArea.Size;
+                        rect.Rotation = angle;
+                        break;
+                    case CircleCollider circle:
+                        circle.Position = absoluteArea.Position + absoluteArea.Size * 0.5f;
+                        circle.Radius = MathF.Min(absoluteArea.Size.X, absoluteArea.Size.Y) * 0.5f;
+                        break;
+                    default:
+                        break;
+                }
+
+                previousTransform_ = Root.InheritedTransform;
             }
 
             bool isCollidedAny = false;

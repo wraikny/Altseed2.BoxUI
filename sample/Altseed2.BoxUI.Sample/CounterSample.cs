@@ -83,7 +83,7 @@ namespace Altseed2.BoxUI.Sample
                     .With(Text.Create(color: Params.TextColor, text: text, font: font))
                 )
                 // 当たり判定・アクション
-                .With(Button.CreateRectangle()
+                .With(Button.Create()
                     .OnRelease(action)
                     .OnFree(_ => { background.Node.Color = Params.HoverColor; })
                     .OnHold(_ => { background.Node.Color = Params.HoldColor; })

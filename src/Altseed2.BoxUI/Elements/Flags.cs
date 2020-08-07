@@ -29,6 +29,13 @@ namespace Altseed2.BoxUI.Elements
         Max,
     }
 
+    [Serializable]
+    public enum Shape
+    {
+        Rectangle,
+        Circle
+    }
+
     public static class FlagsValidater
     {
         public static void Validate(ColumnDir dir)
@@ -54,6 +61,17 @@ namespace Altseed2.BoxUI.Elements
         {
             if (align == AlignPos.Min || align == AlignPos.Center || align == AlignPos.Max) return;
             throw new InvalidEnumArgumentException(nameof(align), (int)align, typeof(AlignPos));
+        }
+
+        public static void Validate(Shape shape)
+        {
+            switch(shape)
+            {
+                case Shape.Rectangle: return;
+                case Shape.Circle: return;
+                default:
+                    throw new InvalidEnumArgumentException(nameof(shape), (int)shape, typeof(Shape));
+            }
         }
     }
 }
