@@ -29,24 +29,25 @@ namespace Altseed2.BoxUI
             return (new RectF(position, size), angle);
         }
 
+        static float CalcLengthScale(Vector2F areaSize, float size, (LengthScale, float) x)
+        {
+            return x switch
+            {
+                (LengthScale.Fixed, float v) => v,
+                (LengthScale.Relative, float v) => v * size,
+                (LengthScale.RelativeMin, float v) => v * areaSize.Min(),
+                (LengthScale.RelativeMax, float v) => v * areaSize.Max(),
+                _ => 0.0f,
+            };
+        }
+
         public static (Vector2F marginMin, Vector2F marginMax) CalcMargin(Element elem, Vector2F areaSize)
         {
-            float margin1(float size, (LengthScale, float) x)
-            {
-                return x switch
-                {
-                    (LengthScale.Fixed, float v) => v,
-                    (LengthScale.Relative, float v) => v * size,
-                    (LengthScale.RelativeMin, float v) => v * areaSize.Min(),
-                    (LengthScale.RelativeMax, float v) => v * areaSize.Max(),
-                    _ => 0.0f,
-                };
-            }
 
-            var marginLeft = margin1(areaSize.X, elem.MarginLeft);
-            var marginRight = margin1(areaSize.X, elem.MarginRight);
-            var marginTop = margin1(areaSize.Y, elem.MarginTop);
-            var marginBottom = margin1(areaSize.Y, elem.MarginBottom);
+            var marginLeft = CalcLengthScale(areaSize, areaSize.X, elem.MarginLeft);
+            var marginRight = CalcLengthScale(areaSize, areaSize.X, elem.MarginRight);
+            var marginTop = CalcLengthScale(areaSize, areaSize.Y, elem.MarginTop);
+            var marginBottom = CalcLengthScale(areaSize, areaSize.Y, elem.MarginBottom);
 
             return (new Vector2F(marginLeft, marginTop), new Vector2F(marginRight, marginBottom));
         }

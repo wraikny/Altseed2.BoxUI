@@ -58,6 +58,11 @@ namespace Altseed2.BoxUI
         protected virtual void OnAdded() { }
         protected virtual void OnUpdate() { }
 
+        /// <summary>
+        /// CalcSizeにMarginを適用した大きさを取得する。
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public Vector2F GetSize(Vector2F size)
         {
             var (marginMin, marginMax) = BoxUIUtils.CalcMargin(this, size);
