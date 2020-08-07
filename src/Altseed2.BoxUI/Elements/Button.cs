@@ -15,7 +15,7 @@ namespace Altseed2.BoxUI.Elements
         Action whileNotCollided_;
         Collider collider_;
 
-        Matrix44F lastTransform_;
+        Matrix44F previousTransform_;
 
         private Button() { }
 
@@ -89,6 +89,8 @@ namespace Altseed2.BoxUI.Elements
                 default:
                     break;
             }
+
+            previousTransform_ = transform;
         }
 
         protected override void OnResize(RectF area)
@@ -103,13 +105,9 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnUpdate()
         {
-            var transform = Root.InheritedTransform;
-            
-            if(Root.Cursors.Count > 0 && transform != lastTransform_ && PreviousParentArea is RectF area)
+            if(Root.Cursors.Count > 0 && Root.InheritedTransform != previousTransform_ && PreviousParentArea is RectF area)
             {
                 UpdateTransform(area);
-
-                lastTransform_ = transform;
             }
 
             bool isCollidedAny = false;
