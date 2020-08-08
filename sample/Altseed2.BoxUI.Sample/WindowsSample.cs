@@ -28,7 +28,6 @@ namespace Altseed2.BoxUI.Sample
 
         private static readonly Vector2F WindowSize = new Vector2F(200.0f, 300.0f);
         readonly Stack<BoxUIRootNode> rootPool_;
-        private Font font_;
         private readonly IBoxUICursor cursor_;
 
         public WindowsSample()
@@ -37,11 +36,6 @@ namespace Altseed2.BoxUI.Sample
             var cursor = new BoxUIMouseCursor("Mouse");
             AddChildNode(cursor);
             cursor_ = cursor;
-        }
-
-        protected override void OnAdded()
-        {
-            font_ = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 40);
         }
 
         protected override void OnUpdate()
@@ -101,9 +95,11 @@ namespace Altseed2.BoxUI.Sample
                     );
             }
 
+            var font = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 40);
+
             var zOrderOffset = state.Id << 3;
 
-            var textElem = makeText(font_, $"{state.Id}: {state.Count}", zOrderOffset);
+            var textElem = makeText(font, $"{state.Id}: {state.Count}", zOrderOffset);
 
             return
                 // 固定サイズ
@@ -115,19 +111,19 @@ namespace Altseed2.BoxUI.Sample
                     // テキスト
                     .With(textElem.SetMargin(LengthScale.RelativeMin, 0.05f))
                     // デクリメントボタン
-                    .With(makeButton(font_, zOrderOffset, "-", _ =>
+                    .With(makeButton(font, zOrderOffset, "-", _ =>
                     {
                         state.Decr();
                         textElem.Node.Text = $"{state.Count}";
                     }))
                     // インクリメントボタン
-                    .With(makeButton(font_, zOrderOffset, "+", _ =>
+                    .With(makeButton(font, zOrderOffset, "+", _ =>
                     {
                         state.Incr();
                         textElem.Node.Text = $"{state.Count}";
                     }))
                     // 閉じるボタン
-                    .With(makeButton(font_, zOrderOffset, "close", _ =>
+                    .With(makeButton(font, zOrderOffset, "close", _ =>
                     {
                         Console.WriteLine($"close({state.Id})");
                         closeWindow();
