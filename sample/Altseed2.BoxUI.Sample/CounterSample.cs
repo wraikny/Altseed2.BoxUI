@@ -7,21 +7,29 @@ namespace Altseed2.BoxUI.Sample
 {
     sealed class CounterSample : Node
     {
+        const int ZOrderBackground = 0;
+        const int ZOrderButton = 1;
+        const int ZOrderText = 2;
+
+        State state_;
         private readonly BoxUIRootNode uiRoot_;
 
         public CounterSample()
         {
-            var cursor = new BoxUIMouseCursor("Mouse");
-            AddChildNode(cursor);
+            state_ = new State();
 
             uiRoot_ = new BoxUIRootNode();
             AddChildNode(uiRoot_);
+
+            var cursor = new BoxUIMouseCursor("Mouse");
+            AddChildNode(cursor);
+
             uiRoot_.Cursors.Add(cursor);
         }
 
         protected override void OnAdded()
         {
-            MakeView(uiRoot_, new State());
+            MakeView(uiRoot_, state_);
         }
 
         private class State
@@ -33,7 +41,7 @@ namespace Altseed2.BoxUI.Sample
         {
             var font = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 70);
 
-            var textElem = Text.Create(color: Params.TextColor, text: $"{state.Count}", font: font);
+            var textElem = Text.Create(color: Params.TextColor, text: $"{state.Count}", font: font, zOrder: ZOrderText);
 
             // クリア
             root.ClearElement();
@@ -41,7 +49,7 @@ namespace Altseed2.BoxUI.Sample
             // Window全体
             root.SetElement(Window.Create().SetMargin(LengthScale.RelativeMin, 0.25f)
                 // 背景色
-                .With(Rectangle.Create(color:Params.BackgroundColor)
+                .With(Rectangle.Create(color:Params.BackgroundColor, zOrder: ZOrderBackground)
                     // Y方向分割
                     .With(Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f)
                         // 中心にテキスト
@@ -67,14 +75,13 @@ namespace Altseed2.BoxUI.Sample
 
         public static Element CounterButton(Font font, string text, Action<IBoxUICursor> action)
         {
-            var background = Rectangle.Create(color: Params.DefaultColor);
+            var background = Rectangle.Create(color: Params.DefaultColor, zOrder: ZOrderButton);
 
-            // マージン
             return
-                // 背景色
+                // 背景
                 background.SetMargin(LengthScale.RelativeMin, 0.05f)
                 // 中心にテキスト
-                .With(Text.Create(color: Params.TextColor, text: text, font: font).SetAlign(Align.Center))
+                .With(Text.Create(color: Params.TextColor, text: text, font: font, zOrder: ZOrderText).SetAlign(Align.Center))
                 // 当たり判定・アクション
                 .With(Button.Create()
                     .OnRelease(action)
