@@ -10,7 +10,7 @@ namespace Altseed2.BoxUI
             return new Vector2F(v.X, v.Y);
         }
 
-        public static (RectF, float) TransformArea(RectF area, Matrix44F transform)
+        public static (Vector2F position, Vector2F size, float angle, Vector2F center) TransformArea(RectF area, Matrix44F transform)
         {
             var pos3 = new Vector3F(area.Position.X, area.Position.Y, 0.0f);
             var a = new Vector3F(area.Position.X + area.Size.X, area.Position.Y, 0.0f);
@@ -21,12 +21,14 @@ namespace Altseed2.BoxUI
             var bt = transform.Transform3D(b);
 
             var aDiff = at - pos3t;
+            var bDiff = bt - pos3t;
 
             var position = new Vector2F(pos3t.X, pos3t.Y);
-            var size = new Vector2F(aDiff.Length, (bt - pos3t).Length);
+            var size = new Vector2F(aDiff.Length, bDiff.Length);
             var angle = MathF.Atan2(aDiff.Y, aDiff.X);
+            var center3 = pos3t + at * 0.5f + bt * 0.5f;
 
-            return (new RectF(position, size), angle);
+            return (position, size, angle, new Vector2F(center3.X, center3.Y));
         }
 
         static float CalcLengthScale(Vector2F areaSize, float size, (LengthScale, float) x)

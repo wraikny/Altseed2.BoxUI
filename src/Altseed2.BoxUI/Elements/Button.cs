@@ -88,18 +88,18 @@ namespace Altseed2.BoxUI.Elements
 
             if(Root.Cursors.Count > 0 && Root.InheritedTransform != previousTransform_ && PreviousParentArea is RectF area)
             {
-                var (absoluteArea, angle) = BoxUIUtils.TransformArea(area, Root.InheritedTransform);
+                var (position, size, angle, center) = BoxUIUtils.TransformArea(area, Root.InheritedTransform);
 
                 switch (collider_)
                 {
                     case RectangleCollider rect:
-                        rect.Position = absoluteArea.Position;
-                        rect.Size = absoluteArea.Size;
+                        rect.Position = position;
+                        rect.Size = size;
                         rect.Rotation = angle;
                         break;
                     case CircleCollider circle:
-                        circle.Position = absoluteArea.Position + absoluteArea.Size * 0.5f;
-                        circle.Radius = MathF.Min(absoluteArea.Size.X, absoluteArea.Size.Y) * 0.5f;
+                        circle.Position = center;
+                        circle.Radius = size.Min() * 0.5f;
                         break;
                     default:
                         break;
