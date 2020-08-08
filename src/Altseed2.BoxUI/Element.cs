@@ -10,20 +10,7 @@ namespace Altseed2.BoxUI
         private readonly List<Element> children_ = new List<Element>();
         public IReadOnlyList<Element> Children => children_;
 
-        private BoxUIRootNode root_;
-        public BoxUIRootNode Root
-        {
-            get => root_;
-            internal set
-            {
-                if (root_ == value) return;
-                root_ = value;
-                foreach(var c in children_)
-                {
-                    c.Root = value;
-                }
-            }
-        }
+        public BoxUIRootNode Root { get; private set; }
 
         private RectF? previousParentArea;
         public RectF? PreviousParentArea => previousParentArea;
@@ -103,12 +90,13 @@ namespace Altseed2.BoxUI
             return new RectF(marginedArea.Position + alignOffset, marginedArea.Size);
         }
 
-        internal void Added()
+        internal void Added(BoxUIRootNode root)
         {
+            Root = root;
             OnAdded();
             foreach(var c in children_)
             {
-                c.Added();
+                c.Added(root);
             }
         }
 
@@ -129,10 +117,9 @@ namespace Altseed2.BoxUI
         public void AddChild(Element child)
         {
             children_.Add(child);
-            if(root_ != null)
+            if(Root != null)
             {
-                child.Root = root_;
-                child.Added();
+                child.Added(Root);
                 if(previousParentArea is RectF area)
                 {
                     child.Resize(area);
@@ -142,12 +129,14 @@ namespace Altseed2.BoxUI
 
         internal void Clear()
         {
+            ReturnSelf();
             foreach (var c in Children)
             {
                 c.Clear();
             }
             children_.Clear();
-            ReturnSelf();
+            previousParentArea = null;
+            ResizeRequired = false;
             this.SetMargin(default, default(float)).SetAlign(default);
             Root = null;
         }

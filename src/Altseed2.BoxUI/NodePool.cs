@@ -76,8 +76,13 @@ namespace Altseed2.BoxUI
         {
             void ReturnToShared(BoxUIRootNode root)
             {
-                if (!returnedPool_.ContainsKey(root)) return;
-                var pool = returnedPool_[root];
+                if (returnedPool_ is null) return;
+
+                if(!returnedPool_.TryGetValue(root, out var pool))
+                {
+                    return;
+                }
+
                 if (pool.Count == 0) return;
 
                 sharedRemovedPool_ ??= new Queue<T>();

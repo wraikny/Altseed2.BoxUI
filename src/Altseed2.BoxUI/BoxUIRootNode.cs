@@ -60,8 +60,7 @@ namespace Altseed2.BoxUI
 
             element_?.Clear();
             element_ = absoluteSizeElement;
-            absoluteSizeElement.Root = this;
-            absoluteSizeElement.Added();
+            absoluteSizeElement.Added(this);
             absoluteSizeElement.CallSetSize();
         }
 
@@ -130,13 +129,16 @@ namespace Altseed2.BoxUI
             }
 
             isUpdating_ = false;
-        }
 
-        protected override void OnRemoved()
-        {
-            foreach (var h in handlers_)
+            if(Status == RegisterStatus.WaitRemoved)
             {
-                h.OnRemoved(this);
+                element_?.Clear();
+                element_ = null;
+                foreach (var h in handlers_)
+                {
+                    h.OnRemoved(this);
+                }
+                handlers_.Clear();
             }
         }
 
