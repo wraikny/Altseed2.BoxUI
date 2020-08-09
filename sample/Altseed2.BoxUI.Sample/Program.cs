@@ -16,6 +16,7 @@ namespace Altseed2.BoxUI.Sample
 
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             var config = new Configuration();
