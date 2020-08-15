@@ -22,7 +22,7 @@ namespace Altseed2.BoxUI
 
     internal static class NodeExt
     {
-        internal static bool FindAncestorStatus(this Node node, RegisterStatus status)
+        internal static bool FindAncestorStatus(this Node node, RegisteredStatus status)
         {
             Node current = node;
             while (current != null)
