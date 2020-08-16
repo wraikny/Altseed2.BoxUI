@@ -7,7 +7,7 @@ namespace Altseed2.BoxUI.Elements
     [Serializable]
     public sealed class Sprite : Element
     {
-        bool keepAspect_;
+        Aspect aspect_;
         bool horizontalFlip_;
         bool verticalFlip_;
         Color color_;
@@ -22,7 +22,7 @@ namespace Altseed2.BoxUI.Elements
         private Sprite() { }
 
         public static Sprite Create(
-            bool keepAspect = true,
+            Aspect aspect = Aspect.Keep,
             bool horizontalFlip = false,
             bool verticalFlip = false,
             Color? color = null,
@@ -32,7 +32,7 @@ namespace Altseed2.BoxUI.Elements
         )
         {
             var elem = BoxUISystem.RentOrNull<Sprite>() ?? new Sprite();
-            elem.keepAspect_ = keepAspect;
+            elem.aspect_ = aspect;
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;
             elem.color_ = color ?? new Color(255, 255, 255, 255);
@@ -73,13 +73,20 @@ namespace Altseed2.BoxUI.Elements
         {
             if (Node.Texture is null) return Vector2FExt.Zero;
 
-            var srcSize = Node.ContentSize;
-            var scale = size / srcSize;
-            if (keepAspect_)
-            {
-                return srcSize * Vector2FExt.One * MathF.Min(scale.X, scale.Y);
-            }
 
+            switch (aspect_)
+            {
+                case Aspect.Keep:
+                    {
+                        var srcSize = Node.ContentSize;
+                        var scale = size / srcSize;
+                        return srcSize * Vector2FExt.One * MathF.Min(scale.X, scale.Y);
+                    }
+                case Aspect.Fixed:
+                    return Node.Texture.Size;
+                case Aspect.Responsive:
+                    return size;
+            }
             return size;
         }
 

@@ -36,6 +36,14 @@ namespace Altseed2.BoxUI
         Circle
     }
 
+    [Serializable]
+    public enum Aspect
+    {
+        Keep,
+        Fixed,
+        Responsive,
+    }
+
     public static class FlagsValidater
     {
         public static void Validate(ColumnDir dir)
@@ -71,6 +79,18 @@ namespace Altseed2.BoxUI
                 case Shape.Circle: return;
                 default:
                     throw new InvalidEnumArgumentException(nameof(shape), (int)shape, typeof(Shape));
+            }
+        }
+
+        public static void Validate(Aspect aspect)
+        {
+            switch (aspect)
+            {
+                case Aspect.Keep: return;
+                case Aspect.Fixed: return;
+                case Aspect.Responsive: return;
+                default:
+                    throw new InvalidEnumArgumentException(nameof(aspect), (int)aspect, typeof(Aspect));
             }
         }
     }

@@ -7,6 +7,7 @@ namespace Altseed2.BoxUI.Elements
     [Serializable]
     public sealed class Text : Element
     {
+        Aspect aspect_;
         bool horizontalFlip_;
         bool verticalFlip_;
         Color color_;
@@ -23,6 +24,7 @@ namespace Altseed2.BoxUI.Elements
         private Text() { }
 
         public static Text Create(
+            Aspect aspect = Aspect.Keep,
             bool horizontalFlip = false,
             bool verticalFlip = false,
             Color? color = null,
@@ -34,6 +36,7 @@ namespace Altseed2.BoxUI.Elements
         )
         {
             var elem = BoxUISystem.RentOrNull<Text>() ?? new Text();
+            elem.aspect_ = aspect;
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;
             elem.color_ = color ?? new Color(255, 255, 255, 255);
@@ -53,7 +56,26 @@ namespace Altseed2.BoxUI.Elements
             BoxUISystem.Return(this);
         }
 
-        protected override Vector2F CalcSize(Vector2F _) => Node.ContentSize;
+        protected override Vector2F CalcSize(Vector2F size)
+        {
+            if (Node.Text is null || Node.Font is null) return Vector2FExt.Zero;
+
+
+            switch (aspect_)
+            {
+                case Aspect.Keep:
+                    {
+                        var srcSize = Node.ContentSize;
+                        var scale = size / srcSize;
+                        return srcSize * Vector2FExt.One * MathF.Min(scale.X, scale.Y);
+                    }
+                case Aspect.Fixed:
+                    return Node.ContentSize;
+                case Aspect.Responsive:
+                    return size;
+            }
+            return size;
+        }
 
         protected override void OnAdded()
         {
@@ -80,7 +102,18 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
-            Node.Position = area.Position;
+            var pos = area.Position;
+            var size = CalcSize(area.Size);
+
+            area = new RectF(pos, size);
+
+            Node.Position = pos;
+            Node.Scale = size / Node.ContentSize;
+
+            foreach (var c in Children)
+            {
+                c.Resize(area);
+            }
         }
     }
 }
