@@ -24,7 +24,7 @@ namespace Altseed2.BoxUI.Elements
         private Text() { }
 
         public static Text Create(
-            Aspect aspect = Aspect.Keep,
+            Aspect aspect = Aspect.Fixed,
             bool horizontalFlip = false,
             bool verticalFlip = false,
             Color? color = null,
