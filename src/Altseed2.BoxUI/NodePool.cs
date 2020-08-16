@@ -130,7 +130,7 @@ namespace Altseed2.BoxUI
                 registered_ = false;
                 sharedPool_ = null;
                 sharedRemovedPool_ = null;
-                sharedPool_ = null;
+                returnedPool_ = null;
             }
         }
     }
