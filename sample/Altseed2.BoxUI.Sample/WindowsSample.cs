@@ -50,7 +50,7 @@ namespace Altseed2.BoxUI.Sample
         {
             if(!rootPool_.TryPop(out var root))
             {
-                root = new BoxUIRootNode();
+                root = new BoxUIRootNode(isAutoTerminated:false);
                 root.Cursors.Add(cursor_);
             }
 
@@ -58,13 +58,11 @@ namespace Altseed2.BoxUI.Sample
             AddChildNode(root);
 
             root.ClearElement();
-            root.SetElement(MakeView(new State(0), () => RemoveWindow(root)));
-        }
-
-        private void RemoveWindow(BoxUIRootNode root)
-        {
-            RemoveChildNode(root);
-            rootPool_.Push(root);
+            root.SetElement(MakeView(new State(0), () => {
+                RemoveChildNode(root);
+                root.Terminate();
+                rootPool_.Push(root);
+            }));
         }
 
         private ElementRoot MakeView(State state, Action closeWindow)
