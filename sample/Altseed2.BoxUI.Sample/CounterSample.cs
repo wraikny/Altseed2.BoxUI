@@ -47,26 +47,28 @@ namespace Altseed2.BoxUI.Sample
             root.ClearElement();
 
             // Window全体
-            root.SetElement(Window.Create().SetMargin(LengthScale.RelativeMin, 0.25f)
-                // 背景色
-                .With(Rectangle.Create(color:Params.BackgroundColor, zOrder: ZOrderBackground)
-                    // Y方向分割
-                    .With(Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f)
-                        // 中心にテキスト
-                        .With(textElem.SetAlign(Align.Center))
-                        // X方向分割
-                        .With(Column.Create(ColumnDir.X)
-                            // ボタン
-                            .With(CounterButton(font, "-", _ => {
-                                state.Count--;
-                                textElem.Node.Text = $"{state.Count}";
-                                Console.WriteLine(state.Count);
-                            }))
-                            .With(CounterButton(font, "+", _ => {
-                                state.Count++;
-                                textElem.Node.Text = $"{state.Count}";
-                                Console.WriteLine(state.Count);
-                            }))
+            root.SetElement(
+                Window.Create().SetMargin(LengthScale.RelativeMin, 0.25f).With(
+                    // 背景色
+                    Rectangle.Create(color:Params.BackgroundColor, zOrder: ZOrderBackground).With(
+                        // Y方向分割
+                        Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f).With(
+                            // 中心にテキスト
+                            textElem.SetAlign(Align.Center),
+                            // X方向分割
+                            Column.Create(ColumnDir.X).With(
+                                // ボタン
+                                CounterButton(font, "-", _ => {
+                                    state.Count--;
+                                    textElem.Node.Text = $"{state.Count}";
+                                    Console.WriteLine(state.Count);
+                                }),
+                                CounterButton(font, "+", _ => {
+                                    state.Count++;
+                                    textElem.Node.Text = $"{state.Count}";
+                                    Console.WriteLine(state.Count);
+                                })
+                            )
                         )
                     )
                 )
@@ -79,15 +81,15 @@ namespace Altseed2.BoxUI.Sample
 
             return
                 // 背景
-                background.SetMargin(LengthScale.RelativeMin, 0.05f)
-                // 中心にテキスト
-                .With(Text.Create(color: Params.TextColor, text: text, font: font, zOrder: ZOrderText).SetAlign(Align.Center))
-                // 当たり判定・アクション
-                .With(Button.Create()
-                    .OnRelease(action)
-                    .OnFree(_ => { background.Node.Color = Params.HoverColor; })
-                    .OnHold(_ => { background.Node.Color = Params.HoldColor; })
-                    .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
+                background.SetMargin(LengthScale.RelativeMin, 0.05f).With(
+                    // 中心にテキスト
+                    Text.Create(color: Params.TextColor, text: text, font: font, zOrder: ZOrderText).SetAlign(Align.Center),
+                    // 当たり判定・アクション
+                    Button.Create()
+                        .OnRelease(action)
+                        .OnFree(_ => { background.Node.Color = Params.HoverColor; })
+                        .OnHold(_ => { background.Node.Color = Params.HoldColor; })
+                        .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
                 )
             ;
         }

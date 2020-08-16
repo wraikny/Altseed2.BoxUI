@@ -166,6 +166,84 @@ namespace Altseed2.BoxUI
             return elem;
         }
 
+        public static T With<T>(this T elem, Element child1, Element child2)
+            where T : Element
+        {
+            elem.AddChild(child1);
+            elem.AddChild(child2);
+            return elem;
+        }
+
+        public static T With<T>(this T elem, Element child1, Element child2, Element child3)
+            where T : Element
+        {
+            elem.AddChild(child1);
+            elem.AddChild(child2);
+            elem.AddChild(child3);
+            return elem;
+        }
+
+        public static T With<T>(this T elem, Element child1, Element child2, Element child3, Element child4)
+            where T : Element
+        {
+            elem.AddChild(child1);
+            elem.AddChild(child2);
+            elem.AddChild(child3);
+            elem.AddChild(child4);
+            return elem;
+        }
+
+        public static T With<T>(this T elem, Element child1, Element child2, Element child3, Element child4, Element child5)
+            where T : Element
+        {
+            elem.AddChild(child1);
+            elem.AddChild(child2);
+            elem.AddChild(child3);
+            elem.AddChild(child4);
+            elem.AddChild(child5);
+            return elem;
+        }
+
+        public static T With<T>(this T elem, Element child1, Element child2, Element child3, Element child4, Element child5, Element child6)
+            where T : Element
+        {
+            elem.AddChild(child1);
+            elem.AddChild(child2);
+            elem.AddChild(child3);
+            elem.AddChild(child4);
+            elem.AddChild(child5);
+            elem.AddChild(child6);
+            return elem;
+        }
+
+        public static T With<T>(this T elem, Element child1, Element child2, Element child3, Element child4, Element child5, Element child6, Element child7)
+            where T : Element
+        {
+            elem.AddChild(child1);
+            elem.AddChild(child2);
+            elem.AddChild(child3);
+            elem.AddChild(child4);
+            elem.AddChild(child5);
+            elem.AddChild(child6);
+            elem.AddChild(child7);
+            return elem;
+        }
+
+        public static T With<T>(this T elem, Element child1, Element child2, Element child3, Element child4, Element child5, Element child6, Element child7, Element child8)
+            where T : Element
+        {
+            elem.AddChild(child1);
+            elem.AddChild(child2);
+            elem.AddChild(child3);
+            elem.AddChild(child4);
+            elem.AddChild(child5);
+            elem.AddChild(child6);
+            elem.AddChild(child7);
+            elem.AddChild(child8);
+            return elem;
+        }
+
+
         public static T SetMargin<T>(this T elem, LengthScale scale, float left, float right, float top, float bottom)
             where T : Element
         {

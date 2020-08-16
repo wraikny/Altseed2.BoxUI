@@ -83,14 +83,14 @@ namespace Altseed2.BoxUI.Sample
             {
                 var background = Rectangle.Create(color: Params.DefaultColor, zOrder: zOrder + 1);
 
-                return background.SetMargin(LengthScale.RelativeMin, 0.05f)
-                    .With(makeText(font, text, zOrder).SetAlign(Align.Center))
-                    .With(Button.Create()
+                return background.SetMargin(LengthScale.RelativeMin, 0.05f).With(
+                    makeText(font, text, zOrder).SetAlign(Align.Center),
+                    Button.Create()
                         .OnPush(action)
                         .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
                         .OnFree(_ => { background.Node.Color = Params.HoverColor; })
                         .OnHold(_ => { background.Node.Color = Params.HoldColor; })
-                    );
+                );
             }
 
             var font = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 40);
@@ -99,34 +99,34 @@ namespace Altseed2.BoxUI.Sample
 
             var textElem = makeText(font, $"{state.Id}: {state.Count}", zOrderOffset);
 
-            return
-                // 固定サイズ
-                FixedArea.Create(new RectF(zero, WindowSize))
+            // 固定サイズ
+            return FixedArea.Create(new RectF(zero, WindowSize)).With(
                 // 背景色
-                .With(Rectangle.Create(color: new Color(50, 50, 100), zOrder: zOrderOffset + 0))
+                Rectangle.Create(color: new Color(50, 50, 100), zOrder: zOrderOffset + 0),
                 // 縦方向分割
-                .With(Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f)
+                Column.Create(ColumnDir.Y).SetMargin(LengthScale.RelativeMin, 0.05f).With(
                     // テキスト
-                    .With(textElem.SetMargin(LengthScale.RelativeMin, 0.05f))
+                    textElem.SetMargin(LengthScale.RelativeMin, 0.05f),
                     // デクリメントボタン
-                    .With(makeButton(font, zOrderOffset, "-", _ =>
+                    makeButton(font, zOrderOffset, "-", _ =>
                     {
                         state.Decr();
                         textElem.Node.Text = $"{state.Count}";
-                    }))
+                    }),
                     // インクリメントボタン
-                    .With(makeButton(font, zOrderOffset, "+", _ =>
+                    makeButton(font, zOrderOffset, "+", _ =>
                     {
                         state.Incr();
                         textElem.Node.Text = $"{state.Count}";
-                    }))
+                    }),
                     // 閉じるボタン
-                    .With(makeButton(font, zOrderOffset, "close", _ =>
+                    makeButton(font, zOrderOffset, "close", _ =>
                     {
                         Console.WriteLine($"close({state.Id})");
                         closeWindow();
-                    }))
-                );
+                    })
+                )
+            );
         }
     }
 }
