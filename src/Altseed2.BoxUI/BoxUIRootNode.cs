@@ -147,19 +147,19 @@ namespace Altseed2.BoxUI
 
             isUpdating_ = false;
 
-            if (IsAutoTerminated && (element_ != null || handlers_.Count > 0) && this.FindAncestorStatus(RegisteredStatus.WaitingRemoved))
+            //if (IsAutoTerminated && (element_ != null || handlers_.Count > 0) && this.FindAncestorStatus(RegisteredStatus.WaitingRemoved))
+            //{
+            //    Terminate();
+            //}
+        }
+
+        protected override void OnRemoved()
+        {
+            if (IsAutoTerminated)
             {
                 Terminate();
             }
         }
-
-        //protected override void OnRemoved()
-        //{
-        //    if (IsAutoTerminated)
-        //    {
-        //        Terminate();
-        //    }
-        //}
 
         /// <summary>
         /// 自身に紐ついたオブジェクトの参照を切り離し、プールに返却する。
@@ -177,6 +177,7 @@ namespace Altseed2.BoxUI
                 h.OnRemoved(this);
             }
             handlers_.Clear();
+            FlushQueue();
         }
 
         internal void RegisterHandler(INodePoolHandler handler)

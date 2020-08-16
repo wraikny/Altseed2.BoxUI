@@ -19,18 +19,4 @@ namespace Altseed2.BoxUI
     {
         internal static Color White => new Color(255, 255, 255);
     }
-
-    internal static class NodeExt
-    {
-        internal static bool FindAncestorStatus(this Node node, RegisteredStatus status)
-        {
-            Node current = node;
-            while (current != null)
-            {
-                if (current.Status == status) return true;
-                current = current.Parent;
-            }
-            return false;
-        }
-    }
 }
