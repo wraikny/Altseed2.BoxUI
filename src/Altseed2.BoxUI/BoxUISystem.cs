@@ -63,7 +63,7 @@ namespace Altseed2.BoxUI
         /// 終了処理を行います。
         /// Altseed2.Engine.Terminateの前に必ず実行してください。
         /// </summary>
-        public static void Termiante()
+        public static void Terminate()
         {
             if (posts_ != null)
             {

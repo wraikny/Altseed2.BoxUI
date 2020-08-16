@@ -57,7 +57,7 @@ namespace Altseed2.BoxUI.Sample
             }
 
             // 必ず終了処理をする
-            BoxUISystem.Termiante();
+            BoxUISystem.Terminate();
             Engine.Terminate();
         }
 
