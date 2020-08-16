@@ -15,6 +15,8 @@ namespace Altseed2.BoxUI.Elements
         Material material_;
         TextureBase texture_;
 
+        public event Action<SpriteNode> OnUpdateEvent;
+
         public SpriteNode Node { get; private set; }
 
         private Sprite() { }
@@ -44,6 +46,7 @@ namespace Altseed2.BoxUI.Elements
         {
             Root.Return(Node);
             Node = null;
+            OnUpdateEvent = null;
             BoxUISystem.Return(this);
         }
 
@@ -59,6 +62,11 @@ namespace Altseed2.BoxUI.Elements
 
             material_ = null;
             texture_ = null;
+        }
+
+        protected override void OnUpdate()
+        {
+            OnUpdateEvent?.Invoke(Node);
         }
 
         protected override Vector2F CalcSize(Vector2F size)

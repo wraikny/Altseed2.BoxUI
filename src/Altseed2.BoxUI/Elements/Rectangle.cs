@@ -13,6 +13,8 @@ namespace Altseed2.BoxUI.Elements
         int zOrder_;
         Material material_;
 
+        public event Action<RectangleNode> OnUpdateEvent;
+
         public RectangleNode Node { get; private set; }
 
         private Rectangle() { }
@@ -38,6 +40,7 @@ namespace Altseed2.BoxUI.Elements
         {
             Root.Return(Node);
             Node = null;
+            OnUpdateEvent = null;
             BoxUISystem.Return(this);
         }
 
@@ -51,6 +54,11 @@ namespace Altseed2.BoxUI.Elements
             Node.Material = material_;
 
             material_ = null;
+        }
+
+        protected override void OnUpdate()
+        {
+            OnUpdateEvent?.Invoke(Node);
         }
 
         protected override Vector2F CalcSize(Vector2F _) => Node.ContentSize;

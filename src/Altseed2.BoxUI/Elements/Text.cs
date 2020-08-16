@@ -16,6 +16,8 @@ namespace Altseed2.BoxUI.Elements
         string text_;
         Font font_;
 
+        public event Action<TextNode> OnUpdateEvent;
+
         public TextNode Node { get; private set; }
 
         private Text() { }
@@ -47,6 +49,7 @@ namespace Altseed2.BoxUI.Elements
         {
             Root.Return(Node);
             Node = null;
+            OnUpdateEvent = null;
             BoxUISystem.Return(this);
         }
 
@@ -68,6 +71,11 @@ namespace Altseed2.BoxUI.Elements
             materialImage_ = null;
             text_ = null;
             font_ = null;
+        }
+
+        protected override void OnUpdate()
+        {
+            OnUpdateEvent?.Invoke(Node);
         }
 
         protected override void OnResize(RectF area)
