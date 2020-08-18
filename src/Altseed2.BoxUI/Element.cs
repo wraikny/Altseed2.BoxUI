@@ -13,15 +13,77 @@ namespace Altseed2.BoxUI
         public BoxUIRootNode Root { get; private set; }
 
         private RectF? previousParentArea;
+        private (LengthScale, float) marginLeft;
+        private (LengthScale, float) marginRight;
+        private (LengthScale, float) marginTop;
+        private (LengthScale, float) marginBottom;
+        private Align alignX;
+        private Align alignY;
+
         public RectF? PreviousParentArea => previousParentArea;
 
-        public (LengthScale, float) MarginLeft { get; set; }
-        public (LengthScale, float) MarginRight { get; set; }
-        public (LengthScale, float) MarginTop { get; set; }
-        public (LengthScale, float) MarginBottom { get; set; }
+        public (LengthScale, float) MarginLeft
+        {
+            get => marginLeft;
+            set
+            {
+                if (marginLeft == value) return;
+                RequireResize();
+                marginLeft = value;
+            }
+        }
 
-        public Align AlignX { get; set; }
-        public Align AlignY { get; set; }
+        public (LengthScale, float) MarginRight
+        {
+            get => marginRight;
+            set
+            {
+                if (marginRight == value) return;
+                RequireResize();
+                marginRight = value;
+            }
+        }
+        public (LengthScale, float) MarginTop
+        {
+            get => marginTop;
+            set
+            {
+                if (marginTop == value) return;
+                RequireResize();
+                marginTop = value;
+            }
+        }
+        public (LengthScale, float) MarginBottom
+        {
+            get => marginBottom;
+            set
+            {
+                if (marginBottom == value) return;
+                RequireResize();
+                marginBottom = value;
+            }
+        }
+
+        public Align AlignX
+        {
+            get => alignX;
+            set
+            {
+                if (alignX == value) return;
+                RequireResize();
+                alignX = value;
+            }
+        }
+        public Align AlignY
+        {
+            get => alignY;
+            set
+            {
+                if (alignY == value) return;
+                RequireResize();
+                alignY = value;
+            }
+        }
 
         internal bool ResizeRequired { get; set; }
 
@@ -32,7 +94,7 @@ namespace Altseed2.BoxUI
 
         internal virtual void ResizeWhenRequired()
         {
-            if(previousParentArea is RectF area)
+            if (previousParentArea is RectF area)
             {
                 Resize(area);
             }
@@ -59,7 +121,7 @@ namespace Altseed2.BoxUI
         public void Resize(RectF area)
         {
             previousParentArea = area;
-            ResizeRequired = false;
+            ResizeRequired = true;
 
             OnResize(LayoutArea(area));
         }
@@ -94,7 +156,7 @@ namespace Altseed2.BoxUI
         {
             Root = root;
             OnAdded();
-            foreach(var c in children_)
+            foreach (var c in children_)
             {
                 c.Added(root);
             }
@@ -103,12 +165,12 @@ namespace Altseed2.BoxUI
         internal void Update()
         {
             OnUpdate();
-            if(ResizeRequired)
+            if (ResizeRequired)
             {
                 ResizeWhenRequired();
             }
-            
-            foreach(var c in children_)
+
+            foreach (var c in children_)
             {
                 c.Update();
             }
@@ -117,10 +179,10 @@ namespace Altseed2.BoxUI
         public void AddChild(Element child)
         {
             children_.Add(child);
-            if(Root != null)
+            if (Root != null)
             {
                 child.Added(Root);
-                if(previousParentArea is RectF area)
+                if (previousParentArea is RectF area)
                 {
                     child.Resize(area);
                 }
