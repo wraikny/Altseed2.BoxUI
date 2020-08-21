@@ -68,8 +68,14 @@ namespace Altseed2.BoxUI
         {
             if (isUpdating_)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException("このBoxUIRootNodeの更新中にElementを更新することはできません。");
             }
+
+            if (elementRoot.Root != null)
+            {
+                throw new InvalidOperationException("追加済みのElementを追加しようとしました。");
+            }
+
 
             element_?.Clear();
             element_ = elementRoot;

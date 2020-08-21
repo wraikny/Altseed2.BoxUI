@@ -154,6 +154,11 @@ namespace Altseed2.BoxUI
 
         internal void Added(BoxUIRootNode root)
         {
+            if (Root != null)
+            {
+                throw new InvalidOperationException("すでに追加済みのElementです。");
+            }
+
             Root = root;
             OnAdded();
             foreach (var c in children_)
@@ -176,8 +181,18 @@ namespace Altseed2.BoxUI
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="child"></param>
+        /// <exception cref="InvalidOperationException"></exception>
         public void AddChild(Element child)
         {
+            if (child.Root != null)
+            {
+                throw new InvalidOperationException("追加済みのElementを追加しようとしました。");
+            }
+
             children_.Add(child);
             if (Root != null)
             {
@@ -191,6 +206,10 @@ namespace Altseed2.BoxUI
 
         internal void Clear()
         {
+            if (Root == null)
+            {
+                throw new InvalidOperationException("このElementはClear済みです。");
+            }
             ReturnSelf();
             foreach (var c in Children)
             {
