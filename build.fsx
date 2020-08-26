@@ -35,15 +35,16 @@ Target.create "Build" (fun _ ->
 open FSharp.Json
 
 Target.create "Download" (fun _ ->
-  let commitId = "febf00ee6bb92002a0de6132b26fc0a699f9923f"
+  let commitId = "fcfce90aa7f26e816ed970cf35bf309691fc2140"
 
-  let token = Environment.GetEnvironmentVariable("GITHUB_TOKEN")
   let url = @"https://api.github.com/repos/altseed/altseed2-csharp/actions/artifacts"
 
   let outputPath = @"lib/Altseed2"
 
   use client = new Net.Http.HttpClient()
   client.DefaultRequestHeaders.UserAgent.ParseAdd("wraikny.RouteTiles")
+
+  let token = Environment.GetEnvironmentVariable("GITHUB_TOKEN")
   client.DefaultRequestHeaders.Authorization <- Net.Http.Headers.AuthenticationHeaderValue("Bearer", token)
 
   let downloadName = sprintf "Altseed2-%s" commitId
