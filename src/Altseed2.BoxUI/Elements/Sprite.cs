@@ -14,6 +14,7 @@ namespace Altseed2.BoxUI.Elements
         int zOrder_;
         Material material_;
         TextureBase texture_;
+        RectF src_;
 
         public event Action<SpriteNode> OnUpdateEvent;
 
@@ -28,7 +29,8 @@ namespace Altseed2.BoxUI.Elements
             Color? color = null,
             int zOrder = 0,
             Material material = null,
-            TextureBase texture = null
+            TextureBase texture = null,
+            RectF? src = null
         )
         {
             var elem = BoxUISystem.RentOrNull<Sprite>() ?? new Sprite();
@@ -39,6 +41,7 @@ namespace Altseed2.BoxUI.Elements
             elem.zOrder_ = zOrder;
             elem.material_ = material;
             elem.texture_ = texture;
+            elem.src_ = src ?? new RectF(Vector2FExt.Zero, texture?.Size.To2F() ?? Vector2FExt.Zero);
             return elem;
         }
 
@@ -59,6 +62,7 @@ namespace Altseed2.BoxUI.Elements
             Node.ZOrder = zOrder_;
             Node.Material = material_;
             Node.Texture = texture_;
+            Node.Src = src_;
 
             material_ = null;
             texture_ = null;
