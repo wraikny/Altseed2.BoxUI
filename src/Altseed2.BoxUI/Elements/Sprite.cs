@@ -87,7 +87,7 @@ namespace Altseed2.BoxUI.Elements
                         return srcSize * Vector2FExt.One * MathF.Min(scale.X, scale.Y);
                     }
                 case Aspect.Fixed:
-                    return Node.Texture.Size;
+                    return Node.ContentSize;
                 case Aspect.Responsive:
                     return size;
             }
