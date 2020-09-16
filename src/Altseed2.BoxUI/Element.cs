@@ -87,7 +87,7 @@ namespace Altseed2.BoxUI
 
         internal bool ResizeRequired { get; set; }
 
-        protected void RequireResize()
+        public void RequireResize()
         {
             ResizeRequired = true;
         }
