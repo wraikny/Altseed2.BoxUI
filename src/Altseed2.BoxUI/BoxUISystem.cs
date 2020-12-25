@@ -57,23 +57,17 @@ namespace Altseed2.BoxUI
         /// </summary>
         public static void Terminate()
         {
-            if (posts_ is { })
+            while (posts_.TryDequeue(out var action))
             {
-                while(posts_.TryDequeue(out var action))
-                {
-                    action();
-                }
+                action();
             }
 
-            if (handlers_ is { })
+            foreach(var h in handlers_)
             {
-                foreach(var h in handlers_)
-                {
 #if DEBUG
-                    Console.WriteLine($"Terminate: {h.GetType()}");
+                Console.WriteLine($"Terminate: {h.GetType()}");
 #endif
-                    h.Terminate();
-                }
+                h.Terminate();
             }
         }
 
