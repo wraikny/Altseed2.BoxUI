@@ -2,25 +2,27 @@ using System;
 
 namespace CounterExample
 {
-    sealed class Msg
+    interface IMsg
     {
-        private Action<State> _action;
-        public Msg(Action<State> action)
-        {
-            _action = action;
-        }
-
-        public void Invoke(State state)
-        {
-            _action(state);
-        }
+        void Update(State state);
     }
 
     sealed class State
     {
         public int Count { get; private set; }
 
-        public static readonly Msg Incr = new Msg(s => s.Count += 1);
-        public static readonly Msg Decr = new Msg(s => s.Count -= 1);
+        public static readonly IMsg Incr = new Msg(s => s.Count += 1);
+        public static readonly IMsg Decr = new Msg(s => s.Count -= 1);
+
+        class Msg : IMsg
+        {
+            private Action<State> _action;
+            public Msg(Action<State> action)
+            {
+                _action = action;
+            }
+
+            void IMsg.Update(State state) => _action(state);
+        }
     }
 }

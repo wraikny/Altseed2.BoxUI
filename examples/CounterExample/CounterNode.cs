@@ -8,7 +8,7 @@ namespace CounterExample
     sealed class CounterNode : Node
     {
         readonly State _state;
-        readonly Queue<Msg> _msgQueue;
+        readonly Queue<IMsg> _msgQueue;
         readonly View _view;
 
         readonly BoxUIRootNode _uiRootNode;
@@ -17,7 +17,7 @@ namespace CounterExample
         {
             _state = new State();
             _view = new View();
-            _msgQueue = new Queue<Msg>();
+            _msgQueue = new Queue<IMsg>();
             _uiRootNode = new BoxUIRootNode();
 
             var cursor = new BoxUIMouseCursor();
@@ -35,7 +35,7 @@ namespace CounterExample
             {
                 while (_msgQueue.TryDequeue(out var msg))
                 {
-                    msg.Invoke(_state);
+                    msg.Update(_state);
                 }
 
                 // 新しいElementを作成する前にClearElementを呼び出す。
