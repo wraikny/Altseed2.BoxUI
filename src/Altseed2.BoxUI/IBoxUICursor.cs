@@ -11,13 +11,13 @@ namespace Altseed2.BoxUI
     }
 
     [Serializable]
-    public sealed class BoxUIMouseCursor : TransformNode, IBoxUICursor
+    public sealed class BoxUIMouseCursorNode : TransformNode, IBoxUICursor
     {
         private readonly MouseButton button_;
         private readonly CircleCollider collider_;
         private ButtonState buttonState_;
 
-        public BoxUIMouseCursor(MouseButton button = MouseButton.ButtonLeft, float radius = 5.0f)
+        public BoxUIMouseCursorNode(MouseButton button = MouseButton.ButtonLeft, float radius = 5.0f)
         {
             button_ = button;
             collider_ = new CircleCollider();
