@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Altseed2.BoxUI.Elements
+﻿namespace Altseed2.BoxUI.Elements
 {
     public sealed class Empty : Element
     {
