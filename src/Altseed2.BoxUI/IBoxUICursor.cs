@@ -14,7 +14,7 @@ namespace Altseed2.BoxUI
     }
 
     [Serializable]
-    public sealed class BoxUIMouseCursor : Node, IBoxUICursor
+    public sealed class BoxUIMouseCursor : TransformNode, IBoxUICursor
     {
         private readonly string id_;
         private readonly MouseButton button_;
@@ -25,7 +25,7 @@ namespace Altseed2.BoxUI
         {
             id_ = id;
             button_ = button;
-            collider_ = CircleCollider.Create();
+            collider_ = new CircleCollider();
             collider_.Radius = radius;
         }
 
@@ -33,7 +33,9 @@ namespace Altseed2.BoxUI
         {
             if(IsActive)
             {
-                collider_.Position = Engine.Mouse.Position;
+                var p = Engine.Mouse.Position;
+                Position = p;
+                collider_.Position = p;
                 buttonState_ = Engine.Mouse.GetMouseButtonState(button_);
             }
         }

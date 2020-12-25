@@ -33,6 +33,7 @@ namespace Altseed2.BoxUI.Sample
             };
 
             var cursor = new BoxUIMouseCursor("MenuMouse");
+            cursor.AddChildNode(new CircleNode { Radius = 5.0f, Color = new Color(255, 0, 0, 100) });
             Engine.AddNode(cursor);
 
             var menuRoot = new BoxUIRootNode();
@@ -67,12 +68,12 @@ namespace Altseed2.BoxUI.Sample
             column.MarginBottom = (LengthScale.Relative, 1.0f - samples.Count / 8.0f);
 
             Node current = null;
-            foreach(var sample in samples)
+            foreach (var sample in samples)
             {
                 column.AddChild(MakeButton(sample.GetType().Name, _ => {
-                    if(current != sample)
+                    if (current != sample)
                     {
-                        if(current != null)
+                        if (current != null)
                         {
                             Engine.RemoveNode(current);
                         }
@@ -91,7 +92,7 @@ namespace Altseed2.BoxUI.Sample
 
         static Element MakeButton(string text, Action<IBoxUICursor> action)
         {
-            var font = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 30);
+            var font = Font.LoadDynamicFont(@"TestData/Font/mplus-1m-regular.ttf", 30);
             var background = Rectangle.Create(color: Params.DefaultColor, zOrder:-9);
 
             return
@@ -102,9 +103,9 @@ namespace Altseed2.BoxUI.Sample
                 // 当たり判定・アクション
                 .With(Button.Create()
                     .OnRelease(action)
-                    .OnFree(_ => { background.Node.Color = Params.HoverColor; })
-                    .OnHold(_ => { background.Node.Color = Params.HoldColor; })
-                    .WhileNotCollided(() => { background.Node.Color = Params.DefaultColor; })
+                    .OnFree(_ => background.Node.Color = Params.HoverColor)
+                    .OnHold(_ => background.Node.Color = Params.HoldColor)
+                    .WhileNotCollided(() => background.Node.Color = Params.DefaultColor)
                 )
             ;
         }

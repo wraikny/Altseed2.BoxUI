@@ -35,7 +35,7 @@ Target.create "Build" (fun _ ->
 open FSharp.Json
 
 Target.create "Download" (fun _ ->
-  let commitId = "05f5a06467a944aef3307dbb2e7c05c754f718ab"
+  let commitId = "7f02df407b10a78d1aa44258b9739151ae905b75"
 
   let url = @"https://api.github.com/repos/altseed/altseed2-csharp/actions/artifacts"
 

@@ -26,18 +26,12 @@ namespace Altseed2.BoxUI.Elements
         {
             var elem = BoxUISystem.RentOrNull<Button>() ?? new Button();
             elem.IsActive = true;
-            switch (shape)
+            elem.collider_ = shape switch
             {
-                case Shape.Rectangle:
-                    elem.collider_ = BoxUISystem.RentOrNull<RectangleCollider>() ?? new RectangleCollider();
-                    break;
-                case Shape.Circle:
-                    elem.collider_ = BoxUISystem.RentOrNull<CircleCollider>() ?? new CircleCollider();
-                    break;
-                default:
-                    throw new InvalidEnumArgumentException(nameof(shape), (int)shape, typeof(Shape));
-
-            }
+                Shape.Rectangle => BoxUISystem.RentOrNull<RectangleCollider>() ?? new RectangleCollider(),
+                Shape.Circle => BoxUISystem.RentOrNull<CircleCollider>() ?? new CircleCollider(),
+                _ => throw new InvalidEnumArgumentException(nameof(shape), (int)shape, typeof(Shape)),
+            };
             return elem;
         }
 
@@ -68,7 +62,7 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
-            foreach(var c in Children)
+            foreach (var c in Children)
             {
                 c.Resize(area);
             }
@@ -78,9 +72,10 @@ namespace Altseed2.BoxUI.Elements
         {
             if (!IsActive) return;
 
-            if(Root.Cursors.Count > 0 && Root.InheritedTransform != previousTransform_ && PreviousParentArea is RectF area)
+            if (Root.Cursors.Count > 0 && Root.InheritedTransform != previousTransform_ && PreviousParentArea is RectF area)
             {
-                var (position, size, angle, center) = BoxUIUtils.TransformArea(area, Root.InheritedTransform);
+                previousTransform_ = Root.InheritedTransform;
+                var (position, size, angle, center) = BoxUIUtils.TransformArea(area, previousTransform_);
 
                 switch (collider_)
                 {
@@ -88,6 +83,11 @@ namespace Altseed2.BoxUI.Elements
                         rect.Position = position;
                         rect.Size = size;
                         rect.Rotation = angle;
+                        // 一時的な対応。
+                        // `RectangleCollider` の `GetIsCollidedWith(Collider)` を呼ぶときは `UpdateVertexes()` が呼び出されるけど、
+                        // `RectangleCollider` を引数にとって `GetIsCollidedWith(Collider)` を呼び出すと `UpdateVertexes()` が呼び出されません！
+                        // https://altseed.slack.com/archives/CN48VPHGQ/p1608876955154000
+                        rect.GetIsCollidedWith(null);
                         break;
                     case CircleCollider circle:
                         circle.Position = center;
@@ -97,14 +97,12 @@ namespace Altseed2.BoxUI.Elements
                         break;
                 }
 
-                previousTransform_ = Root.InheritedTransform;
             }
 
             bool isCollidedAny = false;
 
-            for(int i  = 0; i < Root.Cursors.Count; i++)
+            foreach (var cursor in Root.Cursors)
             {
-                var cursor = Root.Cursors[i];
                 if (cursor is null || !cursor.IsActive) continue;
 
                 if (cursor.Collider?.GetIsCollidedWith(collider_) ?? false)
@@ -163,6 +161,7 @@ namespace Altseed2.BoxUI.Elements
             }
             return this;
         }
+
         public Button OnRelease(Action<IBoxUICursor> action)
         {
             if (action != null)

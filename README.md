@@ -2,4 +2,4 @@
 # Altseed2.BoxUI
 
 ## Dependencies
-[Altseed2-csharp 05f5a06467a944aef3307dbb2e7c05c754f718ab](https://github.com/altseed/Altseed2-csharp/commit/05f5a06467a944aef3307dbb2e7c05c754f718ab)
+[Altseed2-csharp 7f02df407b10a78d1aa44258b9739151ae905b75](https://github.com/altseed/Altseed2-csharp/commit/7f02df407b10a78d1aa44258b9739151ae905b75)

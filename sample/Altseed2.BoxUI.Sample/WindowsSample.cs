@@ -123,7 +123,7 @@ namespace Altseed2.BoxUI.Sample
                     makeButton(font, zOrderOffset, "close", _ =>
                     {
                         Console.WriteLine($"close({state.Id})");
-                        closeWindow();
+                        BoxUISystem.Post(closeWindow);
                     })
                 )
             );
