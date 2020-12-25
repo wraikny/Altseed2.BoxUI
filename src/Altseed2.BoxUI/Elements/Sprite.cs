@@ -7,6 +7,7 @@ namespace Altseed2.BoxUI.Elements
     [Serializable]
     public sealed class Sprite : Element
     {
+        ulong cameraGroup_;
         Aspect aspect_;
         bool horizontalFlip_;
         bool verticalFlip_;
@@ -23,6 +24,7 @@ namespace Altseed2.BoxUI.Elements
         private Sprite() { }
 
         public static Sprite Create(
+            ulong cameraGroup = 0,
             Aspect aspect = Aspect.Keep,
             bool horizontalFlip = false,
             bool verticalFlip = false,
@@ -34,6 +36,7 @@ namespace Altseed2.BoxUI.Elements
         )
         {
             var elem = BoxUISystem.RentOrNull<Sprite>() ?? new Sprite();
+            elem.cameraGroup_ = cameraGroup;
             elem.aspect_ = aspect;
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;
@@ -56,6 +59,7 @@ namespace Altseed2.BoxUI.Elements
         protected override void OnAdded()
         {
             Node = Root.RentOrCreate<SpriteNode>();
+            Node.CameraGroup = cameraGroup_;
             Node.HorizontalFlip = horizontalFlip_;
             Node.VerticalFlip = verticalFlip_;
             Node.Color = color_;

@@ -7,11 +7,14 @@ namespace Altseed2.BoxUI.Elements
     [Serializable]
     public sealed class Rectangle : Element
     {
+        ulong cameraGroup_;
         bool horizontalFlip_;
         bool verticalFlip_;
         Color color_;
         int zOrder_;
         Material material_;
+        TextureBase texture_;
+        RectF src_;
 
         public event Action<RectangleNode> OnUpdateEvent;
 
@@ -20,19 +23,25 @@ namespace Altseed2.BoxUI.Elements
         private Rectangle() { }
 
         public static Rectangle Create(
+            ulong cameraGroup = 0,
             bool horizontalFlip = false,
             bool verticalFlip = false,
             Color? color = null,
             int zOrder = 0,
-            Material material = null
+            Material material = null,
+            TextureBase texture = null,
+            RectF? src = null
         )
         {
             var elem = BoxUISystem.RentOrNull<Rectangle>() ?? new Rectangle();
+            elem.cameraGroup_ = cameraGroup;
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;
             elem.color_ = color ?? new Color(255, 255, 255, 255);
             elem.zOrder_ = zOrder;
             elem.material_ = material;
+            elem.texture_ = texture;
+            elem.src_ = src ?? new RectF(Vector2FExt.Zero, texture?.Size.To2F() ?? Vector2FExt.Zero);
             return elem;
         }
 
@@ -47,11 +56,14 @@ namespace Altseed2.BoxUI.Elements
         protected override void OnAdded()
         {
             Node = Root.RentOrCreate<RectangleNode>();
+            Node.CameraGroup = cameraGroup_;
             Node.HorizontalFlip = horizontalFlip_;
             Node.VerticalFlip = verticalFlip_;
             Node.Color = color_;
             Node.ZOrder = zOrder_;
             Node.Material = material_;
+            Node.Texture = texture_;
+            Node.Src = src_;
 
             material_ = null;
         }

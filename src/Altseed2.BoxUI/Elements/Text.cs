@@ -7,6 +7,7 @@ namespace Altseed2.BoxUI.Elements
     [Serializable]
     public sealed class Text : Element
     {
+        ulong cameraGroup_;
         Aspect aspect_;
         bool horizontalFlip_;
         bool verticalFlip_;
@@ -24,6 +25,7 @@ namespace Altseed2.BoxUI.Elements
         private Text() { }
 
         public static Text Create(
+            ulong cameraGroup = 0,
             Aspect aspect = Aspect.Fixed,
             bool horizontalFlip = false,
             bool verticalFlip = false,
@@ -36,6 +38,7 @@ namespace Altseed2.BoxUI.Elements
         )
         {
             var elem = BoxUISystem.RentOrNull<Text>() ?? new Text();
+            elem.cameraGroup_ = cameraGroup;
             elem.aspect_ = aspect;
             elem.horizontalFlip_ = horizontalFlip;
             elem.verticalFlip_ = verticalFlip;
@@ -54,6 +57,30 @@ namespace Altseed2.BoxUI.Elements
             Node = null;
             OnUpdateEvent = null;
             BoxUISystem.Return(this);
+        }
+
+        protected override void OnAdded()
+        {
+            Node = Root.RentOrCreate<TextNode>();
+            Node.CameraGroup = cameraGroup_;
+            Node.HorizontalFlip = horizontalFlip_;
+            Node.VerticalFlip = verticalFlip_;
+            Node.Color = color_;
+            Node.ZOrder = zOrder_;
+            Node.MaterialGlyph = materialGlyph_;
+            Node.MaterialImage = materialImage_;
+            Node.Text = text_;
+            Node.Font = font_;
+
+            materialGlyph_ = null;
+            materialImage_ = null;
+            text_ = null;
+            font_ = null;
+        }
+
+        protected override void OnUpdate()
+        {
+            OnUpdateEvent?.Invoke(Node);
         }
 
         protected override Vector2F CalcSize(Vector2F size)
@@ -75,29 +102,6 @@ namespace Altseed2.BoxUI.Elements
                     return size;
             }
             return size;
-        }
-
-        protected override void OnAdded()
-        {
-            Node = Root.RentOrCreate<TextNode>();
-            Node.HorizontalFlip = horizontalFlip_;
-            Node.VerticalFlip = verticalFlip_;
-            Node.Color = color_;
-            Node.ZOrder = zOrder_;
-            Node.MaterialGlyph = materialGlyph_;
-            Node.MaterialImage = materialImage_;
-            Node.Text = text_;
-            Node.Font = font_;
-
-            materialGlyph_ = null;
-            materialImage_ = null;
-            text_ = null;
-            font_ = null;
-        }
-
-        protected override void OnUpdate()
-        {
-            OnUpdateEvent?.Invoke(Node);
         }
 
         protected override void OnResize(RectF area)
