@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.ComponentModel;
 
 namespace Altseed2.BoxUI.Elements
 {
@@ -23,29 +24,20 @@ namespace Altseed2.BoxUI.Elements
 
         public static Button Create(Shape shape = Shape.Rectangle)
         {
-            FlagsValidater.Validate(shape);
-
             var elem = BoxUISystem.RentOrNull<Button>() ?? new Button();
             elem.IsActive = true;
             switch (shape)
             {
                 case Shape.Rectangle:
-                    elem.collider_ = BoxUISystem.RentOrNull<RectangleCollider>() ?? RectangleCollider.Create();
+                    elem.collider_ = BoxUISystem.RentOrNull<RectangleCollider>() ?? new RectangleCollider();
                     break;
                 case Shape.Circle:
-                    elem.collider_ = BoxUISystem.RentOrNull<CircleCollider>() ?? CircleCollider.Create();
+                    elem.collider_ = BoxUISystem.RentOrNull<CircleCollider>() ?? new CircleCollider();
                     break;
                 default:
-                    break;
+                    throw new InvalidEnumArgumentException(nameof(shape), (int)shape, typeof(Shape));
 
             }
-            return elem;
-        }
-
-        public static Button CreateCircle()
-        {
-            var elem = BoxUISystem.RentOrNull<Button>() ?? new Button();
-            elem.collider_ = BoxUISystem.RentOrNull<CircleCollider>() ?? CircleCollider.Create();
             return elem;
         }
 

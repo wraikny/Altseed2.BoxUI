@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel;
 
 namespace Altseed2.BoxUI.Elements
 {
@@ -13,7 +14,10 @@ namespace Altseed2.BoxUI.Elements
 
         public static Column Create(ColumnDir dir)
         {
-            FlagsValidater.Validate(dir);
+            if (dir != ColumnDir.X && dir != ColumnDir.Y)
+            {
+                throw new InvalidEnumArgumentException(nameof(dir), (int)dir, typeof(ColumnDir));
+            }
 
             var elem = BoxUISystem.RentOrNull<Column>() ?? new Column();
             elem.dir_ = dir;
