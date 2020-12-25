@@ -30,8 +30,7 @@ namespace CounterExample
             _font = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 70); ;
         }
 
-        public ElementRoot MakeView(State state, Action<
-            Msg> dispatch)
+        public ElementRoot MakeView(State state, Action<Msg> dispatch)
         {
             return Window.Create().SetMargin(LengthScale.RelativeMin, 0.25f).With(
                 Rectangle.Create(color: Colors.Background, zOrder: ZOrders.Background),
