@@ -21,7 +21,7 @@ namespace Altseed2.BoxUI.Sample
         {
             var config = new Configuration();
             config.ConsoleLoggingEnabled = true;
-            config.IsResizable = true;
+
             if (!Engine.Initialize("Altseed2.BoxUI.Test", 800, 600, config))
             {
                 return;

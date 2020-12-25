@@ -81,7 +81,6 @@ namespace Altseed2.BoxUI.Elements
         {
             if (Node.Texture is null) return Vector2FExt.Zero;
 
-
             switch (aspect_)
             {
                 case Aspect.Keep:
@@ -100,6 +99,8 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
+            area = LayoutArea(area);
+
             var pos = area.Position;
             var size = CalcSize(area.Size);
 

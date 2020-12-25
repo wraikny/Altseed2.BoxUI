@@ -38,6 +38,7 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
+            area = LayoutArea(area);
             var size = CalcSize(area.Size);
             var position = area.Position + (area.Size - size) * 0.5f;
             area = new RectF(position, size);

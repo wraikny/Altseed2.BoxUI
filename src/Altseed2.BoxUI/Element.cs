@@ -123,7 +123,7 @@ namespace Altseed2.BoxUI
             previousParentArea = area;
             ResizeRequired = false;
 
-            OnResize(LayoutArea(area));
+            OnResize(area);
         }
 
         /// <summary>

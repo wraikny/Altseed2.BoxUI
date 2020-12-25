@@ -33,6 +33,8 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
+            area = LayoutArea(area);
+
             var count = Children.Count;
             if (count == 0) return;
 

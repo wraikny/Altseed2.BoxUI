@@ -22,6 +22,8 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
+            area = LayoutArea(area);
+
             foreach (var c in Children)
             {
                 c.Resize(area);

@@ -77,6 +77,8 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
+            area = LayoutArea(area);
+
             Node.Position = area.Position;
             Node.RectangleSize = area.Size;
 
