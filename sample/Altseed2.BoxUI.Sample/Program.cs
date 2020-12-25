@@ -32,7 +32,7 @@ namespace Altseed2.BoxUI.Sample
                 new WindowsSample(),
             };
 
-            var cursor = new BoxUIMouseCursor("MenuMouse");
+            var cursor = new BoxUIMouseCursor();
             cursor.AddChildNode(new CircleNode { Radius = 5.0f, Color = new Color(255, 0, 0, 100) });
             Engine.AddNode(cursor);
 

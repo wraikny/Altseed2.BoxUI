@@ -6,7 +6,6 @@ namespace Altseed2.BoxUI
 {
     public interface IBoxUICursor
     {
-        string Id { get; }
         Vector2F Position { get; }
         ButtonState ButtonState { get; }
         Collider Collider { get; }
@@ -16,14 +15,12 @@ namespace Altseed2.BoxUI
     [Serializable]
     public sealed class BoxUIMouseCursor : TransformNode, IBoxUICursor
     {
-        private readonly string id_;
         private readonly MouseButton button_;
         private readonly CircleCollider collider_;
         private ButtonState buttonState_;
 
-        public BoxUIMouseCursor(string id, MouseButton button = MouseButton.ButtonLeft, float radius = 5.0f)
+        public BoxUIMouseCursor(MouseButton button = MouseButton.ButtonLeft, float radius = 5.0f)
         {
-            id_ = id;
             button_ = button;
             collider_ = new CircleCollider();
             collider_.Radius = radius;
@@ -40,7 +37,6 @@ namespace Altseed2.BoxUI
             }
         }
 
-        string IBoxUICursor.Id => id_;
         Vector2F IBoxUICursor.Position => collider_.Position;
         ButtonState IBoxUICursor.ButtonState => buttonState_;
         Collider IBoxUICursor.Collider => collider_;

@@ -21,7 +21,7 @@ namespace Altseed2.BoxUI.Sample
             uiRoot_ = new BoxUIRootNode();
             AddChildNode(uiRoot_);
 
-            var cursor = new BoxUIMouseCursor("Mouse");
+            var cursor = new BoxUIMouseCursor();
             AddChildNode(cursor);
 
             uiRoot_.Cursors.Add(cursor);

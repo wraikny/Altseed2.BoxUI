@@ -33,7 +33,7 @@ namespace Altseed2.BoxUI.Sample
         public WindowsSample()
         {
             rootPool_ = new Stack<BoxUIRootNode>();
-            var cursor = new BoxUIMouseCursor("Mouse");
+            var cursor = new BoxUIMouseCursor();
             AddChildNode(cursor);
             cursor_ = cursor;
         }
