@@ -12,14 +12,12 @@ namespace Altseed2.BoxUI
 
     public static class BoxUISystem
     {
-        private static List<IPoolHandler> handlers_;
+        private static readonly List<IPoolHandler> handlers_ = new List<IPoolHandler>();
 
-        private static Queue<Action> posts_;
+        private static readonly Queue<Action> posts_ = new Queue<Action>();
 
         internal static void Register(IPoolHandler handler)
         {
-            handlers_ ??= new List<IPoolHandler>();
-
             handlers_.Add(handler);
         }
 
@@ -42,20 +40,14 @@ namespace Altseed2.BoxUI
         /// </summary>
         public static void Update()
         {
-            if (posts_ is { })
+            while (posts_.TryDequeue(out var action))
             {
-                while (posts_.TryDequeue(out var action))
-                {
-                    action();
-                }
+                action();
             }
 
-            if (handlers_ is { })
+            foreach (var h in handlers_)
             {
-                foreach(var h in handlers_)
-                {
-                    h.Update();
-                }
+                h.Update();
             }
         }
 
@@ -82,8 +74,6 @@ namespace Altseed2.BoxUI
 #endif
                     h.Terminate();
                 }
-
-                handlers_ = null;
             }
         }
 
@@ -95,7 +85,6 @@ namespace Altseed2.BoxUI
         public static void Post(Action action)
         {
             if (action is null) return;
-            posts_ ??= new Queue<Action>();
             posts_.Enqueue(action);
         }
 

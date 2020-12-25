@@ -11,7 +11,7 @@ namespace Altseed2.BoxUI.Sample
         const int ZOrderButton = 1;
         const int ZOrderText = 2;
 
-        State state_;
+        private readonly State state_;
         private readonly BoxUIRootNode uiRoot_;
 
         public CounterSample()
