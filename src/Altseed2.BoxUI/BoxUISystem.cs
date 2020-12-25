@@ -42,7 +42,7 @@ namespace Altseed2.BoxUI
         /// </summary>
         public static void Update()
         {
-            if (posts_ != null)
+            if (posts_ is { })
             {
                 while (posts_.TryDequeue(out var action))
                 {
@@ -50,7 +50,7 @@ namespace Altseed2.BoxUI
                 }
             }
 
-            if (handlers_ != null)
+            if (handlers_ is { })
             {
                 foreach(var h in handlers_)
                 {
@@ -65,7 +65,7 @@ namespace Altseed2.BoxUI
         /// </summary>
         public static void Terminate()
         {
-            if (posts_ != null)
+            if (posts_ is { })
             {
                 while(posts_.TryDequeue(out var action))
                 {
@@ -73,7 +73,7 @@ namespace Altseed2.BoxUI
                 }
             }
 
-            if (handlers_ != null)
+            if (handlers_ is { })
             {
                 foreach(var h in handlers_)
                 {

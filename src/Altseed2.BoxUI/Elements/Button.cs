@@ -137,7 +137,7 @@ namespace Altseed2.BoxUI.Elements
 
         public Button OnFree(Action<IBoxUICursor> action)
         {
-            if (action != null)
+            if (action is { })
             {
                 onFree_ += action;
             }
@@ -146,7 +146,7 @@ namespace Altseed2.BoxUI.Elements
 
         public Button OnPush(Action<IBoxUICursor> action)
         {
-            if (action != null)
+            if (action is { })
             {
                 onPush_ += action;
             }
@@ -155,7 +155,7 @@ namespace Altseed2.BoxUI.Elements
 
         public Button OnHold(Action<IBoxUICursor> action)
         {
-            if (action != null)
+            if (action is { })
             {
                 onHold_ += action;
             }
@@ -164,7 +164,7 @@ namespace Altseed2.BoxUI.Elements
 
         public Button OnRelease(Action<IBoxUICursor> action)
         {
-            if (action != null)
+            if (action is { })
             {
                 onRelease_ += action;
             }
@@ -173,7 +173,7 @@ namespace Altseed2.BoxUI.Elements
 
         public Button WhileNotCollided(Action action)
         {
-            if (action != null)
+            if (action is { })
             {
                 whileNotCollided_ += action;
             }

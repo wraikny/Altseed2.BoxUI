@@ -71,7 +71,7 @@ namespace Altseed2.BoxUI
                 throw new InvalidOperationException("このBoxUIRootNodeの更新中にElementを更新することはできません。");
             }
 
-            if (elementRoot.Root != null)
+            if (elementRoot.Root is { })
             {
                 throw new InvalidOperationException("追加済みのElementを追加しようとしました。");
             }
@@ -152,11 +152,6 @@ namespace Altseed2.BoxUI
             }
 
             isUpdating_ = false;
-
-            //if (IsAutoTerminated && (element_ != null || handlers_.Count > 0) && this.FindAncestorStatus(RegisteredStatus.WaitingRemoved))
-            //{
-            //    Terminate();
-            //}
         }
 
         protected override void OnRemoved()

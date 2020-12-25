@@ -154,7 +154,7 @@ namespace Altseed2.BoxUI
 
         internal void Added(BoxUIRootNode root)
         {
-            if (Root != null)
+            if (Root is { })
             {
                 throw new InvalidOperationException("すでに追加済みのElementです。");
             }
@@ -188,13 +188,13 @@ namespace Altseed2.BoxUI
         /// <exception cref="InvalidOperationException"></exception>
         public void AddChild(Element child)
         {
-            if (child.Root != null)
+            if (child.Root is { })
             {
                 throw new InvalidOperationException("追加済みのElementを追加しようとしました。");
             }
 
             children_.Add(child);
-            if (Root != null)
+            if (Root is { })
             {
                 child.Added(Root);
                 if (previousParentArea is RectF area)
@@ -206,7 +206,7 @@ namespace Altseed2.BoxUI
 
         internal void Clear()
         {
-            if (Root == null)
+            if (Root is null)
             {
                 throw new InvalidOperationException("このElementはClear済みです。");
             }

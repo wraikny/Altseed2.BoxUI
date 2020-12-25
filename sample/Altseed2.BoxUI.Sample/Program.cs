@@ -73,7 +73,7 @@ namespace Altseed2.BoxUI.Sample
                 column.AddChild(MakeButton(sample.GetType().Name, _ => {
                     if (current != sample)
                     {
-                        if (current != null)
+                        if (current is { })
                         {
                             Engine.RemoveNode(current);
                         }

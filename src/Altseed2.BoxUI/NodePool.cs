@@ -28,14 +28,14 @@ namespace Altseed2.BoxUI
                 throw new ArgumentNullException(nameof(root));
             }
 
-            if (returnedPool_ != null && returnedPool_.TryGetValue(root, out var queue))
+            if (returnedPool_ is { } && returnedPool_.TryGetValue(root, out var queue))
             {
                 if (queue.TryDequeue(out T res))
                 {
                     return res;
                 }
             }
-            else if (sharedPool_ != null && sharedPool_.TryDequeue(out T res))
+            else if (sharedPool_ is { } && sharedPool_.TryDequeue(out T res))
             {
                 root.AddChildNode(res);
                 return res;
