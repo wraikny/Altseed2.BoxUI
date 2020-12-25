@@ -1,5 +1,8 @@
-﻿namespace Altseed2.BoxUI.Elements
+﻿using System;
+
+namespace Altseed2.BoxUI.Elements
 {
+    [Serializable]
     public sealed class Empty : Element
     {
         private Empty() { }
