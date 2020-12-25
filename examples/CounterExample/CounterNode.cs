@@ -20,7 +20,7 @@ namespace CounterExample
             _msgQueue = new Queue<IMsg>();
             _uiRootNode = new BoxUIRootNode();
 
-            var cursor = new BoxUIMouseCursor();
+            var cursor = new BoxUIMouseCursorNode();
 
             _uiRootNode.Cursors.Add(cursor);
             _uiRootNode.SetElement(_view.MakeView(_state, _msgQueue.Enqueue));
