@@ -28,8 +28,8 @@ namespace Altseed2.BoxUI
             set
             {
                 if (marginLeft == value) return;
-                RequireResize();
                 marginLeft = value;
+                RequireResize();
             }
         }
 
@@ -39,8 +39,8 @@ namespace Altseed2.BoxUI
             set
             {
                 if (marginRight == value) return;
-                RequireResize();
                 marginRight = value;
+                RequireResize();
             }
         }
         public (LengthScale, float) MarginTop
@@ -49,8 +49,8 @@ namespace Altseed2.BoxUI
             set
             {
                 if (marginTop == value) return;
-                RequireResize();
                 marginTop = value;
+                RequireResize();
             }
         }
         public (LengthScale, float) MarginBottom
@@ -59,8 +59,8 @@ namespace Altseed2.BoxUI
             set
             {
                 if (marginBottom == value) return;
-                RequireResize();
                 marginBottom = value;
+                RequireResize();
             }
         }
 
@@ -70,8 +70,8 @@ namespace Altseed2.BoxUI
             set
             {
                 if (alignX == value) return;
-                RequireResize();
                 alignX = value;
+                RequireResize();
             }
         }
         public Align AlignY
@@ -80,8 +80,8 @@ namespace Altseed2.BoxUI
             set
             {
                 if (alignY == value) return;
-                RequireResize();
                 alignY = value;
+                RequireResize();
             }
         }
 
@@ -121,7 +121,7 @@ namespace Altseed2.BoxUI
         public void Resize(RectF area)
         {
             previousParentArea = area;
-            ResizeRequired = true;
+            ResizeRequired = false;
 
             OnResize(LayoutArea(area));
         }
@@ -173,6 +173,7 @@ namespace Altseed2.BoxUI
             if (ResizeRequired)
             {
                 ResizeWhenRequired();
+                ResizeRequired = false;
             }
 
             foreach (var c in children_)
