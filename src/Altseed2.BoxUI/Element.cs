@@ -227,7 +227,7 @@ namespace Altseed2.BoxUI
     public abstract class ElementRoot : Element
     {
         internal override sealed void ResizeWhenRequired() => CallSetSize();
-        protected override sealed void OnResize(RectF area) { }
+        protected override sealed void OnResize(RectF area) => CallSetSize();
         abstract protected void SetSize();
 
         internal void CallSetSize()
