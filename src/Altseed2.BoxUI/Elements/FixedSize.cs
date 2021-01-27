@@ -37,11 +37,12 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnResize(RectF area)
         {
-            var a = LayoutArea(new RectF(area.Position, size_));
+            area = LayoutArea(area);
+            area = new RectF(area.Position, size_);
 
             foreach (var c in Children)
             {
-                c.Resize(a);
+                c.Resize(area);
             }
         }
     }
