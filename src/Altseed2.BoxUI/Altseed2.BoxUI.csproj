@@ -20,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="../../lib/Altseed2/Altseed2.dll" />
+    <PackageReference Include="Altseed2" Version="2.0.0" />
   </ItemGroup>
 
 </Project>
