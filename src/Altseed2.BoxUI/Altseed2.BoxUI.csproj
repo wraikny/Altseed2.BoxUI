@@ -3,12 +3,15 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>wraikny</Authors>
-    <Description>Altseed2 Extension to create GUI easily</Description>
+
+    <PackageId>Altseed2.BoxUI</PackageId>
+    <Version>2.0.0</Version>
+    <Description>Altseed2 Extension to layout GUI easily</Description>
     <PackageProjectUrl>https://github.com/wraikny/Altseed2.BoxUI</PackageProjectUrl>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Copyright>Copyright (c) 2020 wraikny</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>Copyright (c) 2021 wraikny</Copyright>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>altseed2</PackageTags>
+    <PackageTags>altseed2,UI</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -20,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Altseed2" Version="2.0.0" />
+    <PackageReference Include="Altseed2" Version="2.0.*" />
   </ItemGroup>
 
 </Project>
