@@ -69,7 +69,7 @@ namespace Altseed2.BoxUI.Elements
 
         protected override void OnUpdate()
         {
-            if (!IsActive) return;
+            if (!IsActive || collider_ is null) return;
 
             if (Root.Cursors.Count > 0 && Root.InheritedTransform != previousTransform_ && PreviousParentArea is RectF area)
             {
