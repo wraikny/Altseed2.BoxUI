@@ -82,11 +82,6 @@ namespace Altseed2.BoxUI.Elements
                         rect.Position = position;
                         rect.Size = size;
                         rect.Rotation = angle;
-                        // 一時的な対応。
-                        // `RectangleCollider` の `GetIsCollidedWith(Collider)` を呼ぶときは `UpdateVertexes()` が呼び出されるけど、
-                        // `RectangleCollider` を引数にとって `GetIsCollidedWith(Collider)` を呼び出すと `UpdateVertexes()` が呼び出されません！
-                        // https://altseed.slack.com/archives/CN48VPHGQ/p1608876955154000
-                        rect.GetIsCollidedWith(null);
                         break;
                     case CircleCollider circle:
                         circle.Position = center;

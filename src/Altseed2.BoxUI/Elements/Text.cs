@@ -15,6 +15,7 @@ namespace Altseed2.BoxUI.Elements
         Material materialImage_;
         string text_;
         Font font_;
+        float fontSize_;
 
         public event Action<TextNode> OnUpdateEvent;
 
@@ -32,7 +33,8 @@ namespace Altseed2.BoxUI.Elements
             Material materialGlyph = null,
             Material materialImage = null,
             string text = null,
-            Font font = null
+            Font font = null,
+            float fontSize = 32
         )
         {
             var elem = BoxUISystem.RentOrNull<Text>() ?? new Text();
@@ -46,6 +48,7 @@ namespace Altseed2.BoxUI.Elements
             elem.materialImage_ = materialImage;
             elem.text_ = text;
             elem.font_ = font;
+            elem.fontSize_ = fontSize;
             return elem;
         }
 
@@ -69,6 +72,7 @@ namespace Altseed2.BoxUI.Elements
             Node.MaterialImage = materialImage_;
             Node.Text = text_;
             Node.Font = font_;
+            Node.FontSize = fontSize_;
 
             materialGlyph_ = null;
             materialImage_ = null;

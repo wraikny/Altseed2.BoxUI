@@ -20,7 +20,7 @@ jobs:
       matrix:
         # os: [ubuntu-latest, windows-latest, macOS-latest]
         os: [ubuntu-latest]
-        dotnet: [ 3.1.201 ]
+        dotnet: [ 5.0.x ]
     runs-on: ${{ matrix.os }}
 
     if: "!contains(github.event.head_commit.message, 'ci:skip')"
@@ -38,11 +38,6 @@ jobs:
     - name: Restore
       run: |
         dotnet tool restore
-
-    - name: Download
-      run: dotnet fake build -t Download
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build
       run: |

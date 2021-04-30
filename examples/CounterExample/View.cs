@@ -27,7 +27,7 @@ namespace CounterExample
 
         public View()
         {
-            _font = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf", 70); ;
+            _font = Font.LoadDynamicFont("TestData/Font/mplus-1m-regular.ttf");
         }
 
         // 最終的な見た目を作る
@@ -57,7 +57,7 @@ namespace CounterExample
         // テキスト作成する
         Text MakeText(string text)
         {
-            return Text.Create(text: text, font: _font, color: Colors.Text, zOrder: ZOrders.Text);
+            return Text.Create(text: text, font: _font, fontSize:70, color: Colors.Text, zOrder: ZOrders.Text);
         }
 
         // ボタンを作成する
