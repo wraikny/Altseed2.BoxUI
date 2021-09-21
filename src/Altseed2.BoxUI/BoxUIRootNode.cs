@@ -80,6 +80,7 @@ namespace Altseed2.BoxUI
             element_ = elementRoot;
             elementRoot.Added(this);
             elementRoot.CallSetSize();
+            FlushQueue();
         }
 
         /// <summary>
