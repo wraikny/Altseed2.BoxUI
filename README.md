@@ -30,8 +30,8 @@ $ dotnet build
 ## Update Nuget Package
 
 ```sh
-$ dotnet pack src/Altseed2.BoxUI -c RELEASE
+$ dotnet pack src/Altseed2.BoxUI -c RELEASE -o .
 ```
 
-Then, drug & drop `src/Release/Altseed2.BoxUI.*.nupkg` to the Nuget website.
+Then, drug & drop `Altseed2.BoxUI.*.nupkg` to the Nuget website.
 
