@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>net5.0; net6.0</TargetFrameworks>
     <Authors>wraikny</Authors>
 
     <PackageId>Altseed2.BoxUI</PackageId>
-    <Version>2.1.1</Version>
+    <Version>2.2.0</Version>
     <Description>Altseed2 Extension to layout GUI easily</Description>
     <PackageProjectUrl>https://github.com/wraikny/Altseed2.BoxUI</PackageProjectUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -23,7 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Altseed2" Version="2.1.*" />
+    <PackageReference Include="Altseed2" Version="2.2.*" />
   </ItemGroup>
 
 </Project>
